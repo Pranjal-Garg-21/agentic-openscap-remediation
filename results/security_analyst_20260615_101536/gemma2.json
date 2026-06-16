@@ -1,0 +1,12 @@
+{
+  "model": "gemma2",
+  "response": "",
+  "elapsed_seconds": 400.1,
+  "error": "Timeout after 400.1s",
+  "role": "Security Analyst",
+  "profile": {
+    "analysis_goal": "Pre-deployment security gate",
+    "access_level": "Can run commands \u2014 active assessment",
+    "severity_focus": "All severities including low"
+  }
+}

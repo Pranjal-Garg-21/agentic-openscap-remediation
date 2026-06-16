@@ -1,0 +1,41 @@
+{
+  "role": "Student / Learner",
+  "profile": {
+    "learning_goal": "Research",
+    "linux_level": "Intermediate",
+    "explanation_depth": "Yes, explain everything"
+  },
+  "timestamp": "20260614_115854",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 129.2,
+      "error": null,
+      "response_length_chars": 2399
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 0,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=300)",
+      "response_length_chars": 0
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 246.7,
+      "error": null,
+      "response_length_chars": 876
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 0,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=300)",
+      "response_length_chars": 0
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 0,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=300)",
+      "response_length_chars": 0
+    }
+  ]
+}

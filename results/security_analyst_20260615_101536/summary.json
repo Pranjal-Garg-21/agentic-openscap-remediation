@@ -1,0 +1,41 @@
+{
+  "role": "Security Analyst",
+  "profile": {
+    "analysis_goal": "Pre-deployment security gate",
+    "access_level": "Can run commands \u2014 active assessment",
+    "severity_focus": "All severities including low"
+  },
+  "timestamp": "20260615_101536",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 228.5,
+      "error": null,
+      "response_length_chars": 5111
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 400.1,
+      "error": "Timeout after 400.1s",
+      "response_length_chars": 0
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 400.1,
+      "error": "Timeout after 400.1s",
+      "response_length_chars": 0
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 400.1,
+      "error": "Timeout after 400.1s",
+      "response_length_chars": 0
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 541.5,
+      "error": "Timeout after 541.5s",
+      "response_length_chars": 0
+    }
+  ]
+}

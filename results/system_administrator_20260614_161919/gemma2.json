@@ -1,0 +1,12 @@
+{
+  "model": "gemma2",
+  "response": "",
+  "elapsed_seconds": 0,
+  "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=300)",
+  "role": "System Administrator",
+  "profile": {
+    "scale": "Small team (<10)",
+    "internet_facing": "Yes",
+    "compliance_docs": "Yes"
+  }
+}
