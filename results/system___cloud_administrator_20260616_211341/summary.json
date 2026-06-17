@@ -1,0 +1,40 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Internal / Workstation (Standard caution. Brief, localized service restarts are acceptable.)",
+    "infrastructure_location": "Local Virtual Machine (Sandboxed environment)"
+  },
+  "timestamp": "20260616_211341",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 87.4,
+      "error": null,
+      "response_length_chars": 3123
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 242.8,
+      "error": null,
+      "response_length_chars": 3066
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 250.4,
+      "error": null,
+      "response_length_chars": 2487
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 225.4,
+      "error": null,
+      "response_length_chars": 4942
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 183.1,
+      "error": null,
+      "response_length_chars": 1467
+    }
+  ]
+}

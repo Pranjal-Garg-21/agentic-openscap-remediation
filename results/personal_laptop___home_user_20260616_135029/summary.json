@@ -1,0 +1,40 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "timestamp": "20260616_135029",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 202.4,
+      "error": null,
+      "response_length_chars": 2799
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 229.4,
+      "error": null,
+      "response_length_chars": 2656
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 217.4,
+      "error": null,
+      "response_length_chars": 1935
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 175.0,
+      "error": null,
+      "response_length_chars": 3474
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 232.0,
+      "error": null,
+      "response_length_chars": 2110
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "timestamp": "20260616_115344",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 133.9,
+      "error": null,
+      "response_length_chars": 3316
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 250.8,
+      "error": null,
+      "response_length_chars": 2018
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 313.9,
+      "error": null,
+      "response_length_chars": 2197
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 251.7,
+      "error": null,
+      "response_length_chars": 4030
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 246.8,
+      "error": null,
+      "response_length_chars": 2254
+    }
+  ]
+}

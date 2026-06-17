@@ -1,0 +1,40 @@
+{
+  "role": "Student / Security Learner",
+  "profile": {
+    "learning_workloads": "Coding & Development (Writing code, running local web servers, or building apps), Security & Hacking (Playing with network scanners, testing vulnerabilities, or CTFs), General Technical Work (Basic scripting, data analysis, and standard terminal usage)",
+    "technical_depth": "Advanced (Just give me the raw commands or config file edits, I know what they do)"
+  },
+  "timestamp": "20260616_154951",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 68.1,
+      "error": null,
+      "response_length_chars": 2313
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 201.5,
+      "error": null,
+      "response_length_chars": 2220
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 322.0,
+      "error": null,
+      "response_length_chars": 2424
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 296.7,
+      "error": null,
+      "response_length_chars": 5614
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 232.7,
+      "error": null,
+      "response_length_chars": 800
+    }
+  ]
+}

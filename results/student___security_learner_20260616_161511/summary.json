@@ -1,0 +1,40 @@
+{
+  "role": "Student / Security Learner",
+  "profile": {
+    "learning_workloads": "General Technical Work (Basic scripting, data analysis, and standard terminal usage)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260616_161511",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 132.4,
+      "error": null,
+      "response_length_chars": 3566
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 291.5,
+      "error": null,
+      "response_length_chars": 3224
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 296.6,
+      "error": null,
+      "response_length_chars": 2173
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 290.8,
+      "error": null,
+      "response_length_chars": 5519
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 260.4,
+      "error": null,
+      "response_length_chars": 847
+    }
+  ]
+}

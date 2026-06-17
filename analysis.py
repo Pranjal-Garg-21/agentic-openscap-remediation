@@ -266,43 +266,26 @@ RULE {i+1}:
   Description: {r['description']}
 """
 
-    prompt = f"""You are a CIS Benchmark security advisor. A specific user needs your help remediating their Ubuntu 24.04 LTS system.
+    prompt = f"""You are an expert cybersecurity analyst evaluating OpenSCAP benchmark failures. 
 
-USER PROFILE AND CONSTRAINTS:
-  Role: {role}
+USER ENVIRONMENT CONSTRAINTS:
+Role: {role}
 {profile_lines}
 
-You are given {len(rules)} FAILED CIS benchmark rules from a real oscap scan.
-
 YOUR TASK:
+Act as a strict binary filter. Read the failed rules below and decide if the user should actually fix them, or ignore them because the fix would break their specific environment constraints or actually not relevant to them according to thier profile summary. 
+Do NOT write remediation commands.
 
-STEP 1 — FILTER:
-Select only rules that are genuinely relevant to this user. 
-CRITICAL: You must obey the constraints in the User Profile. If a rule breaks their workflow (e.g., blocking ports for a developer, or breaking coursework for a student), skip it or provide an alternative.
-
-STEP 2 — For each selected rule, output EXACTLY this format:
-
-# ─────────────────────────────────────────
-# RULE ID:        <exact rule id from input>
-# TITLE:          <exact title from input>
-# SEVERITY:       <severity from input>
-# WHY RELEVANT:   <Explain the specific real-world risk this failure creates FOR THIS EXACT USER PROFILE. Make it specific to their environment, not generic security advice.>
-# WHAT IT CHECKS: <Plain English: what does oscap actually verify on the system for this rule?>
-# REMEDIATION:    <Exact runnable bash commands or config edits for Ubuntu 24.04. MUST adhere to the downtime and environment constraints listed in their profile.>
-# ─────────────────────────────────────────
-
-STEP 3 — After all rules output:
-
-SUMMARY
-  Rules selected: X out of {len(rules)}
-  Skipped rules: <brief reason why you skipped the others>
-  Top 3 critical for this user: <rule IDs ranked by impact for this specific profile>
-  Profile-specific advice: <2-3 sentences of advice that directly addresses this user's context>
+OUTPUT FORMAT:
+For EVERY rule provided, you must output exactly this format:
+RULE ID:  [Insert exact ID]
+DECISION: [KEEP or SKIP]
+REASON:   [1-2 crisp sentences with crystal clear explanation. If KEEP, state the exact risk. If SKIP, state exactly which user constraint it violates.]
 
 RULES TO ANALYSE:
 {rules_block}
 
-Begin:"""
+Begin Analysis:"""
 
     return prompt
 

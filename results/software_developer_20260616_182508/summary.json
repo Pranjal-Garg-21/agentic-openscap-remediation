@@ -1,0 +1,40 @@
+{
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "timestamp": "20260616_182508",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 120.1,
+      "error": null,
+      "response_length_chars": 2995
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 278.7,
+      "error": null,
+      "response_length_chars": 2872
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 300.0,
+      "error": null,
+      "response_length_chars": 2309
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 239.8,
+      "error": null,
+      "response_length_chars": 4029
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 307.8,
+      "error": null,
+      "response_length_chars": 2147
+    }
+  ]
+}
