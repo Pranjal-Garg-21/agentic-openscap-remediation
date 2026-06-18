@@ -25,11 +25,7 @@ import requests
 OLLAMA_HOST = "http://localhost:11434"
 
 MODELS = [
-    "llama3.2",
-    "mistral",
-    "gemma2",
-    "phi3",
-    "deepseek-r1:7b",
+    "granite4.1:8b",  
 ]
 
 SCAN_RESULT_XML = "results.xml"
@@ -337,13 +333,14 @@ def free_ram_between_models(model_name):
 
 def query_ollama(model_name, prompt, timeout=900):
     url = f"{OLLAMA_HOST}/api/generate"
+    # max_tokens = 4096 if "deepseek" in model_name else 3072
     payload = {
         "model": model_name,
         "prompt": prompt,
         "stream": False,
         "keep_alive": 0,       # unload immediately after response
         "options": {
-            "num_predict": 2500 if "deepseek" in model_name else 1200  # cap output length to prevent runaway generation
+            "num_predict": 1200,
         }
     }
 

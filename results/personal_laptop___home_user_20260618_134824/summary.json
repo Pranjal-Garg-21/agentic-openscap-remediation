@@ -1,0 +1,16 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "timestamp": "20260618_134824",
+  "models_run": [
+    {
+      "model": "granite4.1:8b",
+      "elapsed_seconds": 320.5,
+      "error": null,
+      "response_length_chars": 3667
+    }
+  ]
+}

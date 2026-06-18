@@ -1,0 +1,16 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Security & Hacking (Playing with network scanners, testing vulnerabilities, or CTFs)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260618_135932",
+  "models_run": [
+    {
+      "model": "granite4.1:8b",
+      "elapsed_seconds": 173.3,
+      "error": null,
+      "response_length_chars": 2879
+    }
+  ]
+}
