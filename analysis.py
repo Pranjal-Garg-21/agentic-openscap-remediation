@@ -41,7 +41,7 @@ RESULTS_DIR = "results"
 
 ROLES = {
     "1": "Personal Laptop / Home User",
-    "2": "Student / Security Learner",
+    "2": "Student / Security Learner / Researcher" ,
     "3": "Software Developer",
     "4": "System / Cloud Administrator",
 }
@@ -68,7 +68,7 @@ FOLLOWUP_QUESTIONS = {
         },
     ],
 
-    "Student / Security Learner": [
+    "Student / Security Learner / Researcher": [
         {
             "q": "What do you actually use this computer for? (Select ALL that apply)",
             "options": {
@@ -257,35 +257,34 @@ def build_prompt(role, profile, rules):
 
     rules_block = ""
     for i, r in enumerate(rules):
-        rules_block += f"""
-RULE {i+1}:
-  ID:          {r['rule_id']}
-  Title:       {r['title']}
-  Severity:    {r['severity']}
-  Scan Result: {r['result']}
-  Description: {r['description']}
-"""
+        rules_block += (
+            f"RULE {i+1}:\n"
+            f"  ID: {r['rule_id']}\n"
+            f"  Severity: {r['severity']}\n"
+            f"  Description: {r['description']}\n\n"
+        )
 
-    prompt = f"""You are an expert cybersecurity analyst evaluating OpenSCAP benchmark failures. 
+    prompt = f"""You are a cybersecurity analyst. Your ONLY job is to decide if each failed CIS rule is relevant to this user's THREAT MODEL.
 
-USER ENVIRONMENT CONSTRAINTS:
+USER ENVIRONMENT:
 Role: {role}
 {profile_lines}
 
-YOUR TASK:
-Act as a strict binary filter. Read the failed rules below and decide if the user should actually fix them, or ignore them because the fix would break their specific environment constraints or actually not relevant to them according to thier profile summary. 
-Do NOT write remediation commands.
+STRICT FILTERING RULES:
+- KEEP if the rule addresses a real threat given the user's environment above.
+- SKIP if the rule is irrelevant to their environment (e.g. network rule for offline system).
+- IGNORE scan result status (fail/notchecked). Status does NOT affect your decision.
+- IGNORE whether the user can implement it. Capability is NOT a filtering criterion.
+- IGNORE rule complexity. Hard rules are not automatically skipped.
 
-OUTPUT FORMAT:
-For EVERY rule provided, you must output exactly this format:
-RULE ID:  [Insert exact ID]
+OUTPUT FORMAT (repeat exactly for every rule, no extra text):
+RULE ID: [id]
 DECISION: [KEEP or SKIP]
-REASON:   [1-2 crisp sentences with crystal clear explanation. If KEEP, state the exact risk. If SKIP, state exactly which user constraint it violates.]
+REASON: [1 sentence: name the specific threat this addresses OR the specific environment reason it's irrelevant]
 
-RULES TO ANALYSE:
+RULES:
 {rules_block}
-
-Begin Analysis:"""
+Begin:"""
 
     return prompt
 
@@ -344,7 +343,7 @@ def query_ollama(model_name, prompt, timeout=900):
         "stream": False,
         "keep_alive": 0,       # unload immediately after response
         "options": {
-            "num_predict": 1200,   # cap output length to prevent runaway generation
+            "num_predict": 2500 if "deepseek" in model_name else 1200  # cap output length to prevent runaway generation
         }
     }
 

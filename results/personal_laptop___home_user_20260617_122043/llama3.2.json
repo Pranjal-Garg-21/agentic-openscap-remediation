@@ -1,0 +1,11 @@
+{
+  "model": "llama3.2",
+  "response": "RULE 1:\nDECISION: SKIP\nREASON: The rule is related to a system that is not accessible by the user (a server), which does not apply to their environment.\n\nRULE 2:\nDECISION: KEEP\nREASON: The threat of grub2 boot loader being vulnerable to password cracking addresses the user's physical access risk (Just me).\n\nRULE 3:\nDECISION: SKIP\nREASON: The rule is related to a network system that the user does not have physical or regular access to (a networked system), which does not apply to their environment.\n\nRULE 4:\nDECISION: KEEP\nREASON: The threat of journald forwarding data to other services addresses the user's frequent need for aggressive network hardening on public Wi-Fi.\n\nRULE 5:\nDECISION: SKIP\nREASON: The rule is related to a server configuration that the user does not have access to, which does not apply to their environment.\n\nRULE 6:\nDECISION: KEEP\nREASON: The threat of having multiple firewall services active at once addresses the user's frequent need for aggressive network hardening on public Wi-Fi.\n\nRULE 7:\nDECISION: KEEP\nREASON: The threat of a default policy that allows packets by default addresses the user's frequent need for aggressive network hardening on public Wi-Fi.\n\nRULE 8:\nDECISION: SKIP\nREASON: The rule is related to a server configuration that the user does not have access to, which does not apply to their environment.\n\nRULE 9:\nDECISION: KEEP\nREASON: The threat of loopback traffic denial addresses the user's frequent need for aggressive network hardening on public Wi-Fi.\n\nRULE 10:\nDECISION: SKIP\nREASON: The rule is related to a server configuration that the user does not have access to, which does not apply to their environment.",
+  "elapsed_seconds": 79.7,
+  "error": null,
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  }
+}

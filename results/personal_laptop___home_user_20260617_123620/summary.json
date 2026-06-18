@@ -1,0 +1,40 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260617_123620",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 149.3,
+      "error": null,
+      "response_length_chars": 2225
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 139.4,
+      "error": null,
+      "response_length_chars": 1533
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 188.3,
+      "error": null,
+      "response_length_chars": 1815
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 146.6,
+      "error": null,
+      "response_length_chars": 3118
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 253.4,
+      "error": null,
+      "response_length_chars": 2688
+    }
+  ]
+}

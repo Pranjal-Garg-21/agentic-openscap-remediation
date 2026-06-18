@@ -1,0 +1,40 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Security & Hacking (Playing with network scanners, testing vulnerabilities, or CTFs)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260617_112628",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 101.5,
+      "error": null,
+      "response_length_chars": 2784
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 215.2,
+      "error": null,
+      "response_length_chars": 2050
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 275.2,
+      "error": null,
+      "response_length_chars": 2037
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 96.0,
+      "error": null,
+      "response_length_chars": 536
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 319.9,
+      "error": null,
+      "response_length_chars": 1550
+    }
+  ]
+}

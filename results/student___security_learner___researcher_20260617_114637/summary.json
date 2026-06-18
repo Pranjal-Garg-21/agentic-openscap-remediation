@@ -1,0 +1,40 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Coding & Development (Writing code, running local web servers, or building apps)",
+    "technical_depth": "Advanced (Just give me the raw commands or config file edits, I know what they do)"
+  },
+  "timestamp": "20260617_114637",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 103.5,
+      "error": null,
+      "response_length_chars": 2604
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 214.7,
+      "error": null,
+      "response_length_chars": 1737
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 278.8,
+      "error": null,
+      "response_length_chars": 2139
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 176.2,
+      "error": null,
+      "response_length_chars": 2669
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 225.8,
+      "error": null,
+      "response_length_chars": 1090
+    }
+  ]
+}

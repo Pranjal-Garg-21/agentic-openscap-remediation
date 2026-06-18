@@ -1,0 +1,40 @@
+{
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Web / Full-Stack (MERN, React Native, Node.js - needs local port access)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "timestamp": "20260617_161736",
+  "models_run": [
+    {
+      "model": "llama3.2",
+      "elapsed_seconds": 69.4,
+      "error": null,
+      "response_length_chars": 2519
+    },
+    {
+      "model": "mistral",
+      "elapsed_seconds": 168.4,
+      "error": null,
+      "response_length_chars": 2182
+    },
+    {
+      "model": "gemma2",
+      "elapsed_seconds": 196.8,
+      "error": null,
+      "response_length_chars": 2052
+    },
+    {
+      "model": "phi3",
+      "elapsed_seconds": 132.4,
+      "error": null,
+      "response_length_chars": 2912
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "elapsed_seconds": 233.6,
+      "error": null,
+      "response_length_chars": 1458
+    }
+  ]
+}
