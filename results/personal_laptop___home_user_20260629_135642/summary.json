@@ -1,0 +1,33 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260629_135642",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 10,
+      "skip_count": 10,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 14.8,
+      "error": null
+    },
+    {
+      "model": "microsoft/phi-4-mini-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 65.6,
+      "error": null
+    }
+  ]
+}

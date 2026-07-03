@@ -1,0 +1,23 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Internal / Workstation (Standard caution. Brief, localized service restarts are acceptable.)",
+    "infrastructure_location": "Local Virtual Machine (Sandboxed environment)"
+  },
+  "timestamp": "20260630_211720",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 8,
+      "skip_count": 7,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 21.0,
+      "error": null
+    }
+  ]
+}

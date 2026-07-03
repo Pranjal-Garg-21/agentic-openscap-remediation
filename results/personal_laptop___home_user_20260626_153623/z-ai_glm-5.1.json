@@ -1,0 +1,153 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1\nDECISION: KEEP\nREASON: File integrity monitoring is relevant for a personal laptop frequently on untrusted networks, as it helps detect malicious modifications or malware that might occur during or after network exposure.\n\nRULE 2\nDECISION: KEEP\nREASON: Periodic file integrity checks are necessary to ensure the AIDE database built in RULE 1 is actually used to detect compromises, which is relevant for a machine exposed to public Wi-Fi threats.\n\nRULE 3\nDECISION: SKIP\nREASON: Placing /tmp on a separate partition primarily mitigates local denial-of-service via disk exhaustion. Given the low risk of physical tampering and single-user role, this strict partitioning is irrelevant to the threat model of public network exposure.\n\nRULE 4\nDECISION: SKIP\nREASON: Boot loader password protection mitigates physical attack vectors (e.g., altering boot parameters to gain local root access). The user's threat model explicitly states low risk of physical tampering, making this irrelevant.\n\nRULE 5\nDECISION: SKIP\nREASON: Offloading system logs to a remote server is a centralized network defense measure. For a standalone personal laptop, there is no remote log server to offload to, making this rule irrelevant to the threat model.",
+      "elapsed_seconds": 4.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Compressing logs prevents disk exhaustion which could cause system instability or loss of audit data, relevant for a personal laptop.\nRULE 2, SKIP, Disabling forwarding to syslog reduces redundancy and is a server-centric optimization; not a threat mitigation for a home user.\nRULE 3, KEEP, Forwarding logs to rsyslog provides redundancy and ensures logs are preserved if journald volatile storage is lost, aiding post-incident forensics on a frequently exposed laptop.\nRULE 4, KEEP, Persisting logs to disk ensures audit trails survive reboots, critical for tracking potential compromises on a machine frequently on public Wi-Fi.\nRULE 5, KEEP, Disabling the remote log reception socket prevents the laptop from acting as a log server, reducing the attack surface on untrusted public networks.",
+      "elapsed_seconds": 7.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1, SKIP, Rule requires offloading logs to a remote server, which is not applicable for a personal laptop without a centralized log server.\nRULE 2, SKIP, Rule requires configuring a URL for remote log upload, which is not applicable for a personal laptop without a centralized log server.\nRULE 3, KEEP, Running exactly one firewall service is critical for consistent packet filtering, especially given the high risk of public Wi-Fi networks.\nRULE 4, KEEP, Enabling a firewall service like nftables is essential for network hardening and protecting the system on untrusted public Wi-Fi networks.\nRULE 5, SKIP, Restricting crontab permissions primarily mitigates local privilege escalation or tampering, which is low risk given the single-user physical access environment.",
+      "elapsed_seconds": 3.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 1.6,
+      "error": "HTTP Error: 503 - {\"message\":\"ResourceExhausted: All workers are busy, please retry later\",\"type\":\"Service Unavailable",
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 17.1,
+  "error": null
+}

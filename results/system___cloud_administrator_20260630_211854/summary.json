@@ -1,0 +1,23 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Ephemeral (Don't give me live bash commands. Just give me the config/Dockerfile fixes.)",
+    "infrastructure_location": "Internal Corporate Network (Behind a perimeter firewall)"
+  },
+  "timestamp": "20260630_211854",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 3,
+      "total_batches_available": 4,
+      "kept_count": 10,
+      "skip_count": 5,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 28.1,
+      "error": null
+    }
+  ]
+}

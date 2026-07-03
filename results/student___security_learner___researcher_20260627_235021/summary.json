@@ -1,0 +1,93 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Security & Hacking (Playing with network scanners, testing vulnerabilities, or CTFs)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260627_235021",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 5,
+      "skip_count": 0,
+      "unparsed_count": 15,
+      "total_elapsed_seconds": 19.0,
+      "error": null
+    },
+    {
+      "model": "deepseek-ai/deepseek-v4-pro",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 3059.1,
+      "error": "HTTP Error: 429 - {\"status\":429,\"title\":\"Too Many Requests\"}"
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 12,
+      "skip_count": 3,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 40.5,
+      "error": null
+    },
+    {
+      "model": "z-ai/glm-5.1",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 21.4,
+      "error": null
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 1,
+      "skip_count": 0,
+      "unparsed_count": 19,
+      "total_elapsed_seconds": 468.4,
+      "error": null
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 1,
+      "skip_count": 0,
+      "unparsed_count": 19,
+      "total_elapsed_seconds": 201.7,
+      "error": null
+    },
+    {
+      "model": "meta/llama-3.3-70b-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 54.7,
+      "error": null
+    },
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512microsoft/phi-4-mini-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 0.7,
+      "error": "HTTP Error: 404 - 404 page not found\n"
+    }
+  ]
+}

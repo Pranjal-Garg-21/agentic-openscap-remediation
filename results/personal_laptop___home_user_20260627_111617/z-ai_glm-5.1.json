@@ -1,0 +1,190 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents disk exhaustion from log accumulation, which is a valid availability concern for a personal laptop. -",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures logs are preserved across reboots, which is necessary for post-incident forensics if a family member or malware alters or accesses the system. -",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling inbound network log reception reduces the system's attack surface, preventing unauthorized remote connections even on a trusted home network.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy protocol with known security vulnerabilities; removing it reduces attack surface even on a trusted home network. -",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is an obsolete NIS server package with severe security flaws; removing it eliminates unnecessary high-severity risks. -",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service mitigates potential exploitation, which is relevant for basic system hardening.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents disk exhaustion from log accumulation, which is a valid availability concern for a personal laptop. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "Irrelevant for a home user; forwarding logs to syslog is a local administrative preference, not a security boundary against family members or typical home network threats. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "Irrelevant for a home user; configuring centralized or legacy syslog forwarding does not address threats in a personal laptop environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures logs are preserved across reboots, which is necessary for post-incident forensics if a family member or malware alters or accesses the system. -"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling inbound network log reception reduces the system's attack surface, preventing unauthorized remote connections even on a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy protocol with known security vulnerabilities; removing it reduces attack surface even on a trusted home network. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "SKIP",
+      "reason": "rpcbind is typically required for NFS and other RPC services; irrelevant for a personal laptop on a trusted home network not acting as an RPC server. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "SKIP",
+      "reason": "Disabling rpcbind is unnecessary as the personal laptop does not use RPC services in a trusted home network environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is an obsolete NIS server package with severe security flaws; removing it eliminates unnecessary high-severity risks. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service mitigates potential exploitation, which is relevant for basic system hardening."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1\nDecision: KEEP\nReason: File integrity monitoring is relevant for detecting unauthorized changes by other individuals with physical access (family/roommates).\n\nRULE 2\nDecision: KEEP\nReason: Automating AIDE scans ensures continuous file integrity monitoring, which is necessary to detect changes made by other users with physical access.\n\nRULE 3\nDecision: SKIP\nReason: Separate /tmp partition prevents disk exhaustion attacks in multi-user/server environments; irrelevant for a personal laptop with standard user isolation needs.\n\nRULE 4\nDecision: KEEP\nReason: Boot loader password is critical to prevent users with physical access from modifying boot parameters or dropping to a root shell.\n\nRULE 5\nDecision: SKIP\nReason: Offloading system journals to a remote server is for networked enterprise systems; irrelevant for a personal laptop on a trusted home network.",
+      "elapsed_seconds": 4.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\n  DECISION: KEEP\n  REASON: Prevents disk exhaustion from log accumulation, which is a valid availability concern for a personal laptop.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\n  DECISION: SKIP\n  REASON: Irrelevant for a home user; forwarding logs to syslog is a local administrative preference, not a security boundary against family members or typical home network threats.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\n  DECISION: SKIP\n  REASON: Irrelevant for a home user; configuring centralized or legacy syslog forwarding does not address threats in a personal laptop environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_storage\n  DECISION: KEEP\n  REASON: Ensures logs are preserved across reboots, which is necessary for post-incident forensics if a family member or malware alters or accesses the system.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\n  DECISION: KEEP\n  REASON: Disabling inbound network log reception reduces the system's attack surface, preventing unauthorized remote connections even on a trusted home network.",
+      "elapsed_seconds": 2.7,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1, SKIP, Requires offloading logs to a remote server, which is irrelevant for a personal laptop on a trusted home network.\nRULE 2, SKIP, Requires configuring a remote URL for log offloading, which is irrelevant for a personal laptop on a trusted home network.\nRULE 3, KEEP, Ensures consistent and conflict-free firewall operation, which is relevant for a personal laptop needing standard network protection.\nRULE 4, KEEP, Ensures a firewall is active at boot, providing standard network protection relevant to the user's environment.\nRULE 5, KEEP, Restricting crontab permissions mitigates the moderate risk of local privilege escalation or tampering by shared family/roommates.",
+      "elapsed_seconds": 1.8,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n  DECISION: KEEP\n  REASON: NIS is a legacy protocol with known security vulnerabilities; removing it reduces attack surface even on a trusted home network.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\n  DECISION: SKIP\n  REASON: rpcbind is typically required for NFS and other RPC services; irrelevant for a personal laptop on a trusted home network not acting as an RPC server.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\n  DECISION: SKIP\n  REASON: Disabling rpcbind is unnecessary as the personal laptop does not use RPC services in a trusted home network environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\n  DECISION: KEEP\n  REASON: ypserv is an obsolete NIS server package with severe security flaws; removing it eliminates unnecessary high-severity risks.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\n  DECISION: KEEP\n  REASON: Disabling the insecure ypserv service mitigates potential exploitation, which is relevant for basic system hardening.",
+      "elapsed_seconds": 4.5,
+      "error": null,
+      "kept_count_after_batch": 6
+    }
+  ],
+  "total_elapsed_seconds": 13.2,
+  "error": null
+}

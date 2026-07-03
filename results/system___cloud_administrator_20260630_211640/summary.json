@@ -1,0 +1,23 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "timestamp": "20260630_211640",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 3,
+      "total_batches_available": 4,
+      "kept_count": 10,
+      "skip_count": 5,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 21.7,
+      "error": null
+    }
+  ]
+}

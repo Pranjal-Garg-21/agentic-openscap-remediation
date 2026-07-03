@@ -1,0 +1,208 @@
+{
+  "model": "google/gemma-4-31b-it",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Systems / Low-Level (C/C++, Linux kernels - needs deep system execution rights)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system denial-of-service via disk exhaustion, critical for a developer running local servers/APIs.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces the attack surface and prevents potential log leakage/privilege escalation via syslog.",
+      "title": "Ensure journald ForwardToSyslog is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Essential for forensic analysis and debugging of low-level system/kernel crashes after reboot.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling an unnecessary remote log receiving socket reduces the external attack surface.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "User runs local servers/APIs with network exposure; removing unnecessary legacy network services like NIS reduces the attack surface.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; rpcbind is a common vector for RPC-based attacks if not explicitly required for NFS/RPC services.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling the rpcbind service mitigates risks associated with unauthorized RPC service mapping.",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; ypserv is a legacy service that increases the system's vulnerability to network-based exploits.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling ypserv prevents the system from acting as a NIS client/server, reducing the network attack surface.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system denial-of-service via disk exhaustion, critical for a developer running local servers/APIs."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces the attack surface and prevents potential log leakage/privilege escalation via syslog."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "User is a developer on a local workstation, not a centralized enterprise logging environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Essential for forensic analysis and debugging of low-level system/kernel crashes after reboot."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling an unnecessary remote log receiving socket reduces the external attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "User runs local servers/APIs with network exposure; removing unnecessary legacy network services like NIS reduces the attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; rpcbind is a common vector for RPC-based attacks if not explicitly required for NFS/RPC services."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling the rpcbind service mitigates risks associated with unauthorized RPC service mapping."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; ypserv is a legacy service that increases the system's vulnerability to network-based exploits."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "User has network exposure; disabling ypserv prevents the system from acting as a NIS client/server, reducing the network attack surface."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1: xccdf_org.ssgproject.content_rule_aide_aide_build_database\nDECISION: KEEP\nREASON: User performs low-level systems/kernel development; file integrity monitoring is critical to detect unauthorized changes to system binaries and kernel modules.\n\nRULE 2: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\nDECISION: KEEP\nREASON: Complements Rule 1; automated integrity checks are necessary for a system exposed to external network connections via local servers/APIs.\n\nRULE 3: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: Prevents temporary file exhaustion from crashing the root filesystem, which is a risk when running local servers/APIs.\n\nRULE 4: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: KEEP\nREASON: Protects against physical access attacks and unauthorized boot-parameter modification on a laptop (IdeaPad).\n\nRULE 5: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: KEEP\nREASON: User runs network-exposed services; offloading logs is essential for forensic analysis if the local system is compromised.",
+      "elapsed_seconds": 9.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Prevents system denial-of-service via disk exhaustion, critical for a developer running local servers/APIs.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\nDECISION: KEEP\nREASON: Reduces the attack surface and prevents potential log leakage/privilege escalation via syslog.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: SKIP\nREASON: User is a developer on a local workstation, not a centralized enterprise logging environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Essential for forensic analysis and debugging of low-level system/kernel crashes after reboot.\n\nRULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\nDECISION: KEEP\nREASON: User has network exposure; disabling an unnecessary remote log receiving socket reduces the external attack surface.",
+      "elapsed_seconds": 13.1,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1: SKIP - User is a developer on a laptop; centralized rsyslog offloading via TLS is typically an enterprise infrastructure requirement, not a local dev threat model.\nRULE 2: SKIP - User is a developer on a laptop; centralized rsyslog offloading is typically an enterprise infrastructure requirement, not a local dev threat model.\nRULE 3: KEEP - User runs local servers/APIs with external network exposure, making consistent packet filtering critical to prevent unauthorized access.\nRULE 4: KEEP - User runs local servers/APIs with external network exposure; ensuring a firewall service (nftables) is enabled is essential for securing those open ports.\nRULE 5: KEEP - User performs low-level systems development with deep execution rights; protecting crontab permissions is necessary to prevent local privilege escalation.",
+      "elapsed_seconds": 6.7,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: User runs local servers/APIs with network exposure; removing unnecessary legacy network services like NIS reduces the attack surface.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\nDECISION: KEEP\nREASON: User has network exposure; rpcbind is a common vector for RPC-based attacks if not explicitly required for NFS/RPC services.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\nDECISION: KEEP\nREASON: User has network exposure; disabling the rpcbind service mitigates risks associated with unauthorized RPC service mapping.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: User has network exposure; ypserv is a legacy service that increases the system's vulnerability to network-based exploits.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\nDECISION: KEEP\nREASON: User has network exposure; disabling ypserv prevents the system from acting as a NIS client/server, reducing the network attack surface.",
+      "elapsed_seconds": 9.4,
+      "error": null,
+      "kept_count_after_batch": 9
+    }
+  ],
+  "total_elapsed_seconds": 38.6,
+  "error": null
+}

@@ -1,0 +1,93 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260626_123703",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 25.4,
+      "error": null
+    },
+    {
+      "model": "deepseek-ai/deepseek-v4-pro",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 139.7,
+      "error": null
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 8,
+      "skip_count": 2,
+      "unparsed_count": 10,
+      "total_elapsed_seconds": 963.5,
+      "error": null
+    },
+    {
+      "model": "z-ai/glm-5.1",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 5,
+      "unparsed_count": 15,
+      "total_elapsed_seconds": 152.1,
+      "error": null
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 4,
+      "skip_count": 0,
+      "unparsed_count": 16,
+      "total_elapsed_seconds": 210.9,
+      "error": null
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 2,
+      "skip_count": 0,
+      "unparsed_count": 18,
+      "total_elapsed_seconds": 249.4,
+      "error": null
+    },
+    {
+      "model": "meta/llama-3.3-70b-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 1003.3,
+      "error": null
+    },
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512microsoft/phi-4-mini-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 0.9,
+      "error": "HTTP Error: 404 - 404 page not found\n"
+    }
+  ]
+}

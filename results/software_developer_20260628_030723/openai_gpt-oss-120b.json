@@ -1,0 +1,153 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_aide_build_database  \n  Decision: KEEP  \n  Reason: Provides host\u2011integrity verification, useful for detecting tampering on a developer workstation that runs exposed services.\n\n- ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer  \n  Decision: KEEP  \n  Reason: Automates regular AIDE scans, ensuring continuous integrity monitoring aligned with the user\u2019s threat model.\n\n- ID: xccdf_org.ssgproject.content_rule_partition_for_tmp  \n  Decision: SKIP  \n  Reason: Separate /tmp partition offers limited protection for the described development environment and does not address the primary network\u2011exposed threats.\n\n- ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password  \n  Decision: KEEP  \n  Reason: Protects the boot loader against unauthorized physical access, a realistic risk for a laptop that could be stolen or tampered with.\n\n- ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled  \n  Decision: KEEP  \n  Reason: Enables remote log offloading, aiding detection and response for services that are reachable over the network.",
+      "elapsed_seconds": 4.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_journald_compress | DECISION: KEEP | REASON: Prevents disk\u2011fill denial\u2011of\u2011service and preserves log availability for forensic analysis, relevant to a development workstation that may generate sizable logs.  \n- ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog | DECISION: KEEP | REASON: Stops automatic forwarding of logs to external syslog services, reducing accidental exposure of sensitive development logs over the network.  \n- ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog | DECISION: SKIP | REASON: Enabling forwarding to rsyslog is unnecessary for a local developer machine and would increase the attack surface without providing a clear security benefit.  \n- ID: xccdf_org.ssgproject.content_rule_journald_storage | DECISION: KEEP | REASON: Ensures logs survive reboots, which is essential for incident detection and post\u2011mortem analysis in a threat\u2011exposed development environment.  \n- ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled | DECISION: KEEP | REASON: Disables the socket that would accept remote journal messages, eliminating an unnecessary network listener that could be abused on a host running exposed services.",
+      "elapsed_seconds": 6.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "- **ID:** xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls  \n  **Decision:** KEEP  \n  **Reason:** The user\u2019s environment is network\u2011exposed; securing remote log transmission with TLS mitigates interception of potentially sensitive development logs.\n\n- **ID:** xccdf_org.ssgproject.content_rule_systemd_journal_upload_url  \n  **Decision:** KEEP  \n  **Reason:** Configuring a trusted upload URL for systemd\u2011journal is relevant when logs are sent over the network, which aligns with the user\u2019s exposed local services.\n\n- **ID:** xccdf_org.ssgproject.content_rule_firewall_single_service_active  \n  **Decision:** KEEP  \n  **Reason:** Ensuring exactly one firewall service runs prevents rule conflicts and guarantees packet filtering for the host that is reachable by teammates and external tools.\n\n- **ID:** xccdf_org.ssgproject.content_rule_service_nftables_enabled  \n  **Decision:** SKIP  \n  **Reason:** The rule forces the nftables service to be enabled; the user may already rely on another firewall (e.g., ufw) and enabling nftables could cause conflicts rather than address a specific threat.\n\n- **ID:** xccdf_org.ssgproject.content_rule_file_permissions_crontab  \n  **Decision:** KEEP  \n  **Reason:** Proper permissions on /etc/crontab prevent unauthorized modification of scheduled tasks, a relevant control against privilege\u2011escalation in a development workstation.",
+      "elapsed_seconds": 5.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed | DECISION: KEEP | REASON: NIS (Yellowpages) is unnecessary for a developer workstation and poses an avoidable network exposure.  \n- RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed | DECISION: KEEP | REASON: rpcbind is not required for typical containerized development; removing it eliminates an unnecessary RPC attack surface.  \n- RULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled | DECISION: KEEP | REASON: Disabling rpcbind further reduces exposure to RPC\u2011based attacks on a system that does not run NFS or other RPC services.  \n- RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed | DECISION: KEEP | REASON: ypserv provides NIS server functionality, which is irrelevant to the developer\u2019s environment and adds unnecessary risk.  \n- RULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled | DECISION: KEEP | REASON: Disabling ypserv eliminates a potential entry point for NIS\u2011related exploits on a workstation that does not need it.",
+      "elapsed_seconds": 3.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 19.9,
+  "error": null
+}

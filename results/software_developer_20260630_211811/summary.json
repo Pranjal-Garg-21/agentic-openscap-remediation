@@ -1,0 +1,23 @@
+{
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Systems / Low-Level (C/C++, Linux kernels - needs deep system execution rights)",
+    "network_exposure": "No, it's strictly offline compiling and local-only testing"
+  },
+  "timestamp": "20260630_211811",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 6,
+      "skip_count": 9,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 36.0,
+      "error": null
+    }
+  ]
+}

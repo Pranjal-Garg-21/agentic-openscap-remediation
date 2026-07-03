@@ -1,0 +1,202 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "General Technical Work (Basic scripting, data analysis, and standard terminal usage)",
+    "technical_depth": "Advanced (Just give me the raw commands or config file edits, I know what they do)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing large journal files prevents disk exhaustion on a personal Ubuntu laptop, a realistic local threat. -",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Disabling forwarding keeps logs confined to journald, reducing exposure of potentially sensitive data on a learner\u2019s workstation. -",
+      "title": "Ensure journald ForwardToSyslog is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Configuring journald to forward to rsyslog may be needed for centralized log handling; relevance remains for a security\u2011focused user. -",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensuring persistent journal storage preserves logs across reboots, useful for forensic analysis on the user\u2019s device. -",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the journal\u2011remote socket prevents unwanted remote log ingestion, mitigating a plausible attack vector even on a non\u2011server laptop.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensuring exactly one firewall service is active prevents conflicts and maintains a baseline network protection relevant to any user system. -",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling the nftables service provides a functional firewall; relevant for maintaining packet filtering on the host. -",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Correct permissions on /etc/crontab prevent unauthorized modification of scheduled tasks, a valid security concern for the user's environment.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing large journal files prevents disk exhaustion on a personal Ubuntu laptop, a realistic local threat. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Disabling forwarding keeps logs confined to journald, reducing exposure of potentially sensitive data on a learner\u2019s workstation. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Configuring journald to forward to rsyslog may be needed for centralized log handling; relevance remains for a security\u2011focused user. -"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensuring persistent journal storage preserves logs across reboots, useful for forensic analysis on the user\u2019s device. -"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the journal\u2011remote socket prevents unwanted remote log ingestion, mitigating a plausible attack vector even on a non\u2011server laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "Configures TLS for systemd\u2011journal\u2011upload to a remote log server, which is unnecessary for a personal learning laptop that does not offload logs. -"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "Sets the upload URL for remote journal collection; not applicable to a standalone workstation used for learning. -"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensuring exactly one firewall service is active prevents conflicts and maintains a baseline network protection relevant to any user system. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling the nftables service provides a functional firewall; relevant for maintaining packet filtering on the host. -"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Correct permissions on /etc/crontab prevent unauthorized modification of scheduled tasks, a valid security concern for the user's environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_aide_build_database | Decision: KEEP | Reason: Provides local file integrity verification, directly relevant to protecting a personal workstation against tampering.  \n- ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer | Decision: KEEP | Reason: Automates regular AIDE scans, ensuring continuous integrity monitoring on the user's laptop.  \n- ID: xccdf_org.ssgproject.content_rule_partition_for_tmp | Decision: KEEP | Reason: Isolating /tmp reduces risk of privilege\u2011escalation or DoS attacks via world\u2011writable temporary files, a valid concern for a locally used system.  \n- ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password | Decision: KEEP | Reason: Protects boot\u2011loader settings from unauthorized physical access, pertinent to a portable laptop.  \n- ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled | Decision: SKIP | Reason: Requires a remote log collector; the user\u2019s environment does not indicate such infrastructure, making the rule irrelevant.",
+      "elapsed_seconds": 3.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_journald_compress  \n  DECISION: KEEP  \n  REASON: Compressing large journal files prevents disk exhaustion on a personal Ubuntu laptop, a realistic local threat.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog  \n  DECISION: KEEP  \n  REASON: Disabling forwarding keeps logs confined to journald, reducing exposure of potentially sensitive data on a learner\u2019s workstation.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog  \n  DECISION: KEEP  \n  REASON: Configuring journald to forward to rsyslog may be needed for centralized log handling; relevance remains for a security\u2011focused user.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_journald_storage  \n  DECISION: KEEP  \n  REASON: Ensuring persistent journal storage preserves logs across reboots, useful for forensic analysis on the user\u2019s device.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled  \n  DECISION: KEEP  \n  REASON: Disabling the journal\u2011remote socket prevents unwanted remote log ingestion, mitigating a plausible attack vector even on a non\u2011server laptop.",
+      "elapsed_seconds": 4.7,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls  \n  DECISION: SKIP  \n  REASON: Configures TLS for systemd\u2011journal\u2011upload to a remote log server, which is unnecessary for a personal learning laptop that does not offload logs.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url  \n  DECISION: SKIP  \n  REASON: Sets the upload URL for remote journal collection; not applicable to a standalone workstation used for learning.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active  \n  DECISION: KEEP  \n  REASON: Ensuring exactly one firewall service is active prevents conflicts and maintains a baseline network protection relevant to any user system.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled  \n  DECISION: KEEP  \n  REASON: Enabling the nftables service provides a functional firewall; relevant for maintaining packet filtering on the host.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab  \n  DECISION: KEEP  \n  REASON: Correct permissions on /etc/crontab prevent unauthorized modification of scheduled tasks, a valid security concern for the user's environment.",
+      "elapsed_seconds": 3.9,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_package_nis_removed | Decision: KEEP | Reason: Removing NIS (Yellow Pages) eliminates an unnecessary network authentication service on a personal learning laptop.  \n- ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed | Decision: KEEP | Reason: rpcbind is only needed for services like NFS; removing it reduces attack surface on a typical workstation.  \n- ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled | Decision: KEEP | Reason: Disabling rpcbind (if present) prevents unwanted RPC port mapping on a system that does not act as an RPC server.  \n- ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed | Decision: KEEP | Reason: ypserv provides NIS server functionality, which is unnecessary for a student\u2019s personal machine and poses a security risk if left installed.  \n- ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled | Decision: KEEP | Reason: Disabling ypserv ensures the system cannot be used as a NIS client/server, aligning with the minimal\u2011exposure threat model.",
+      "elapsed_seconds": 3.0,
+      "error": null,
+      "kept_count_after_batch": 8
+    }
+  ],
+  "total_elapsed_seconds": 15.1,
+  "error": null
+}

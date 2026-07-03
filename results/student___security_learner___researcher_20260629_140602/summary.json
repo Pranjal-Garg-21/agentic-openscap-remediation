@@ -1,0 +1,23 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Coding & Development (Writing code, running local web servers, or building apps)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260629_140602",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 0.9,
+      "error": "HTTP Error: 429 - {\"status\":429,\"title\":\"Too Many Requests\"}"
+    }
+  ]
+}

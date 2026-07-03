@@ -1,0 +1,153 @@
+{
+  "model": "deepseek-ai/deepseek-v4-pro",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1\n  DECISION: KEEP\n  REASON: AIDE provides file integrity monitoring, which is relevant for a personal laptop shared with family/roommates and used on public Wi-Fi to detect unauthorized file changes.\n\nRULE 2\n  DECISION: KEEP\n  REASON: Automated periodic integrity checks ensure ongoing detection of tampering, which is important in a shared physical access environment and when connecting to untrusted networks.\n\nRULE 3\n  DECISION: KEEP\n  REASON: A separate /tmp partition with mount restrictions (like noexec) helps contain exploits that may write temporary files, relevant for a system on public networks where local privilege escalation risks exist.\n\nRULE 4\n  DECISION: KEEP\n  REASON: Setting a UEFI/GRUB2 password prevents unauthorized boot-time modifications or single-user mode access, which is critical when physical access is shared with roommates or in public spaces.\n\nRULE 5\n  DECISION: SKIP\n  REASON: This rule requires offloading logs to a remote centralized server, which is not applicable to a standalone personal laptop that does not operate in a managed networked system environment.",
+      "elapsed_seconds": 32.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1:\n  ID: xccdf_org.ssgproject.content_rule_journald_compress\n  DECISION: KEEP\n  REASON: Disk space management is relevant for a personal laptop with limited storage, preventing denial of service due to full disk.\n\nRULE 2:\n  ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\n  DECISION: SKIP\n  REASON: This rule conflicts with RULE 3 and is a duplicate/alternative configuration choice; the decision to forward or not is a single architectural choice, not two separate threats.\n\nRULE 3:\n  ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\n  DECISION: KEEP\n  REASON: Forwarding logs to rsyslog enables persistent, centralized local logging which aids in incident detection and forensics on a shared laptop frequently on hostile networks.\n\nRULE 4:\n  ID: xccdf_org.ssgproject.content_rule_journald_storage\n  DECISION: KEEP\n  REASON: Persistent log storage is critical for post-incident forensics on a laptop exposed to public Wi-Fi threats; volatile logs would be lost on reboot, hiding attacker traces.\n\nRULE 5:\n  ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\n  DECISION: KEEP\n  REASON: A personal laptop on public networks must not run a log-receiving server; disabling the remote socket reduces attack surface from network-based attacks targeting the journal listener.",
+      "elapsed_seconds": 14.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1\n  ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\n  DECISION: SKIP\n  REASON: This rule configures TLS parameters for a journal upload server. A personal laptop in a home/cafe environment acts as a client, not a log aggregation server. Running a journal upload server is not applicable to this role.\n\nRULE 2\n  ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\n  DECISION: SKIP\n  REASON: This rule configures the URL for a journal upload client to offload logs to a remote server. A personal laptop used on public Wi-Fi has no central log server to offload to, making this enterprise logging practice irrelevant to the user's environment.\n\nRULE 3\n  ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\n  DECISION: KEEP\n  REASON: The user is frequently on public campus or cafe Wi-Fi, requiring aggressive network hardening. Ensuring exactly one firewall service is active prevents rule conflicts and security gaps, directly protecting the system on hostile networks.\n\nRULE 4\n  ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\n  DECISION: KEEP\n  REASON: The user requires aggressive network hardening for public Wi-Fi. Ensuring the nftables firewall service is enabled at boot guarantees the firewall ruleset is loaded and active at all times, protecting the system from network-based threats.\n\nRULE 5\n  ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\n  DECISION: KEEP\n  REASON: The system is shared with family or roommates, posing a moderate risk of local unauthorized access. Restricting permissions on /etc/crontab to 0600 prevents non-privileged users from reading or modifying scheduled tasks, which could be exploited for persistence or privilege escalation.",
+      "elapsed_seconds": 49.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE 1\nID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: NIS is a legacy network service not needed on a personal laptop. Removing it reduces attack surface, especially relevant when using public Wi-Fi.\n\nRULE 2\nID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\nDECISION: KEEP\nREASON: rpcbind is used for NFS and other RPC services, which are unnecessary on a personal laptop. Removing it reduces network attack surface on hostile networks like public Wi-Fi.\n\nRULE 3\nID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\nDECISION: KEEP\nREASON: Disabling the rpcbind service prevents RPC port mapping, reducing exposure to network attacks on public Wi-Fi. Redundant with package removal but addresses the same threat.\n\nRULE 4\nID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: ypserv is the NIS server component. A personal laptop should not run this service; removing it eliminates a high-severity network exposure risk on public networks.\n\nRULE 5\nID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\nDECISION: KEEP\nREASON: Disabling the ypserv service prevents the system from acting as an NIS server, mitigating network-based attacks. Relevant for a laptop on public Wi-Fi.",
+      "elapsed_seconds": 34.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 130.2,
+  "error": null
+}

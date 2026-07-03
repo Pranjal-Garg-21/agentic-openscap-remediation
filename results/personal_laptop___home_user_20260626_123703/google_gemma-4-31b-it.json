@@ -1,0 +1,202 @@
+{
+  "model": "google/gemma-4-31b-it",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system instability or denial of service caused by disk exhaustion on a personal laptop.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Essential for troubleshooting and security auditing on a personal machine to ensure logs survive a reboot.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Reduces attack surface by disabling the ability for the laptop to act as a remote log server.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy protocol with known security vulnerabilities; unnecessary for a personal laptop.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind increases the attack surface via RPC services; unnecessary for a home user not running NFS servers.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the service reduces the network attack surface for a personal device.",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is used for NIS domains and is irrelevant and insecure for a personal laptop environment.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the NIS server service prevents unauthorized network access via legacy protocols.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system instability or denial of service caused by disk exhaustion on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "Irrelevant for a home user; forwarding logs to local syslog does not introduce a significant threat in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "Remote log export is unnecessary for a personal laptop used in a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Essential for troubleshooting and security auditing on a personal machine to ensure logs survive a reboot."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Reduces attack surface by disabling the ability for the laptop to act as a remote log server."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy protocol with known security vulnerabilities; unnecessary for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind increases the attack surface via RPC services; unnecessary for a home user not running NFS servers."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the service reduces the network attack surface for a personal device."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is used for NIS domains and is irrelevant and insecure for a personal laptop environment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the NIS server service prevents unauthorized network access via legacy protocols."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1: xccdf_org.ssgproject.content_rule_aide_build_database\nDECISION: KEEP\nREASON: File integrity monitoring is relevant for detecting unauthorized system changes or malware on a personal laptop.\n\nRULE 2: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\nDECISION: KEEP\nREASON: Automated integrity checks ensure consistent detection of system modifications over time.\n\nRULE 3: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: Prevents temporary file accumulation from causing a Denial of Service (DoS) by filling the root partition.\n\nRULE 4: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: SKIP\nREASON: User specified low risk of physical tampering and physical access is limited to themselves.\n\nRULE 5: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: SKIP\nREASON: User is a home user on a personal laptop; remote centralized log offloading is irrelevant for this environment.",
+      "elapsed_seconds": 36.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Prevents system instability or denial of service caused by disk exhaustion on a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\nDECISION: SKIP\nREASON: Irrelevant for a home user; forwarding logs to local syslog does not introduce a significant threat in this environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: SKIP\nREASON: Remote log export is unnecessary for a personal laptop used in a trusted home network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Essential for troubleshooting and security auditing on a personal machine to ensure logs survive a reboot.\n\nRULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\nDECISION: KEEP\nREASON: Reduces attack surface by disabling the ability for the laptop to act as a remote log server.",
+      "elapsed_seconds": 42.2,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1: SKIP - User is a home user on a personal laptop; remote centralized log offloading via TLS is irrelevant for this threat model.\nRULE 2: SKIP - User is a home user on a personal laptop; remote centralized log offloading is irrelevant for this threat model.\nRULE 3: KEEP - Ensuring a consistent and active firewall is critical for any networked system, including home laptops, to prevent unauthorized access.\nRULE 4: SKIP - Redundant if Rule 3 is kept; the user only needs one active firewall (e.g., UFW), not specifically nftables.\nRULE 5: KEEP - Proper permissions on system configuration files like crontab prevent local privilege escalation and unauthorized task scheduling.",
+      "elapsed_seconds": 663.4,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: NIS is a legacy protocol with known security vulnerabilities; unnecessary for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\nDECISION: KEEP\nREASON: rpcbind increases the attack surface via RPC services; unnecessary for a home user not running NFS servers.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\nDECISION: KEEP\nREASON: Disabling the service reduces the network attack surface for a personal device.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: ypserv is used for NIS domains and is irrelevant and insecure for a personal laptop environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\nDECISION: KEEP\nREASON: Disabling the NIS server service prevents unauthorized network access via legacy protocols.",
+      "elapsed_seconds": 221.1,
+      "error": null,
+      "kept_count_after_batch": 8
+    }
+  ],
+  "total_elapsed_seconds": 963.5,
+  "error": null
+}

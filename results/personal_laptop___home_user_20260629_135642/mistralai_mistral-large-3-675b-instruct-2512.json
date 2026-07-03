@@ -1,0 +1,214 @@
+{
+  "model": "mistralai/mistral-large-3-675b-instruct-2512",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring (AIDE) is relevant for detecting unauthorized changes to critical files, even in a low-risk home environment. -",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Periodic file integrity checks are relevant for maintaining security posture, even in a trusted home network. -",
+      "title": "Configure Systemd Timer Execution of AIDE",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Protecting bootloader settings with a password mitigates unauthorized physical access risks, even in a low-risk environment. -",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents disk exhaustion on a personal laptop where log retention is important.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures logs persist across reboots on a personal laptop where log retention is important.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Prevents unintended remote log reception on a trusted home network where no log server is needed.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensures consistent firewall configuration, preventing rule conflicts or security gaps. Applies to all networked systems.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized modification of scheduled tasks, reducing privilege escalation risk. Applies to all Linux systems.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "RPC services like rpcbind are unnecessary on a personal laptop and pose a potential attack surface for remote exploits, even on trusted networks. -",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused RPC services reduces attack surface. Relevant even on trusted networks due to potential misconfigurations or zero-day exploits. -",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring (AIDE) is relevant for detecting unauthorized changes to critical files, even in a low-risk home environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Periodic file integrity checks are relevant for maintaining security posture, even in a trusted home network. -"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "SKIP",
+      "reason": "Separate /tmp partition is a hardening measure for multi-user or high-risk environments; low relevance for a single-user home laptop. -"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Protecting bootloader settings with a password mitigates unauthorized physical access risks, even in a low-risk environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "SKIP",
+      "reason": "Centralized log forwarding is unnecessary for a standalone home laptop with no requirement for remote log monitoring."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents disk exhaustion on a personal laptop where log retention is important."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "User environment does not use syslog; rule is irrelevant."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "User environment does not use rsyslog; rule is irrelevant."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures logs persist across reboots on a personal laptop where log retention is important."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Prevents unintended remote log reception on a trusted home network where no log server is needed."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "User environment is standalone personal laptop with no requirement for real-time remote log offloading. Rule is irrelevant to threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "User environment does not require remote log aggregation. Rule is irrelevant to threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensures consistent firewall configuration, preventing rule conflicts or security gaps. Applies to all networked systems."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "SKIP",
+      "reason": "User environment does not specify nftables as the chosen firewall. Rule is conditional on firewall selection and not universally applicable."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized modification of scheduled tasks, reducing privilege escalation risk. Applies to all Linux systems."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "SKIP",
+      "reason": "NIS (Yellowpages) is not used in this environment. No threat model relevance for a personal laptop on trusted networks. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "RPC services like rpcbind are unnecessary on a personal laptop and pose a potential attack surface for remote exploits, even on trusted networks. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused RPC services reduces attack surface. Relevant even on trusted networks due to potential misconfigurations or zero-day exploits. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "SKIP",
+      "reason": "ypserv is part of NIS/YP, which is not used in this environment. No threat model relevance. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "SKIP",
+      "reason": "ypserv service is unrelated to this user's environment. No NIS/YP infrastructure present."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "```\n- RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\n  DECISION: KEEP\n  REASON: File integrity monitoring (AIDE) is relevant for detecting unauthorized changes to critical files, even in a low-risk home environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\n  DECISION: KEEP\n  REASON: Periodic file integrity checks are relevant for maintaining security posture, even in a trusted home network.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\n  DECISION: SKIP\n  REASON: Separate /tmp partition is a hardening measure for multi-user or high-risk environments; low relevance for a single-user home laptop.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\n  DECISION: KEEP\n  REASON: Protecting bootloader settings with a password mitigates unauthorized physical access risks, even in a low-risk environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\n  DECISION: SKIP\n  REASON: Centralized log forwarding is unnecessary for a standalone home laptop with no requirement for remote log monitoring.\n```",
+      "elapsed_seconds": 4.2,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "```\nRULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Prevents disk exhaustion on a personal laptop where log retention is important.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\nDECISION: SKIP\nREASON: User environment does not use syslog; rule is irrelevant.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: SKIP\nREASON: User environment does not use rsyslog; rule is irrelevant.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Ensures logs persist across reboots on a personal laptop where log retention is important.\n\nRULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\nDECISION: KEEP\nREASON: Prevents unintended remote log reception on a trusted home network where no log server is needed.\n```",
+      "elapsed_seconds": 3.1,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "```\nRULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: SKIP\nREASON: User environment is standalone personal laptop with no requirement for real-time remote log offloading. Rule is irrelevant to threat model.\n\nRULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\nDECISION: SKIP\nREASON: User environment does not require remote log aggregation. Rule is irrelevant to threat model.\n\nRULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\nDECISION: KEEP\nREASON: Ensures consistent firewall configuration, preventing rule conflicts or security gaps. Applies to all networked systems.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\nDECISION: SKIP\nREASON: User environment does not specify nftables as the chosen firewall. Rule is conditional on firewall selection and not universally applicable.\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON: Prevents unauthorized modification of scheduled tasks, reducing privilege escalation risk. Applies to all Linux systems.\n```",
+      "elapsed_seconds": 3.2,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "```\n- RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n  DECISION: SKIP\n  REASON: NIS (Yellowpages) is not used in this environment. No threat model relevance for a personal laptop on trusted networks.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\n  DECISION: KEEP\n  REASON: RPC services like rpcbind are unnecessary on a personal laptop and pose a potential attack surface for remote exploits, even on trusted networks.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\n  DECISION: KEEP\n  REASON: Disabling unused RPC services reduces attack surface. Relevant even on trusted networks due to potential misconfigurations or zero-day exploits.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\n  DECISION: SKIP\n  REASON: ypserv is part of NIS/YP, which is not used in this environment. No threat model relevance.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\n  DECISION: SKIP\n  REASON: ypserv service is unrelated to this user's environment. No NIS/YP infrastructure present.\n```",
+      "elapsed_seconds": 4.3,
+      "error": null,
+      "kept_count_after_batch": 10
+    }
+  ],
+  "total_elapsed_seconds": 14.8,
+  "error": null
+}

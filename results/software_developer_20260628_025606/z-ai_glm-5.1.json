@@ -1,0 +1,184 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Systems / Low-Level (C/C++, Linux kernels - needs deep system execution rights)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS contains legacy insecure protocols. Removing it mitigates the risk of credential exposure and unauthorized access, which is critical since the host has network exposure. 2.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind is historically vulnerable to attacks and unnecessary for a software developer. Removing it reduces the attack surface on a network-exposed host. 3.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rpcbind service mitigates network-based RPC attacks if the package cannot be removed, relevant due to the host's network exposure. 4.",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv (NIS server) is highly insecure and unnecessary for a developer. Removing it prevents acting as an NIS server, which would severely expose the network-exposed system. 5.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service prevents the system from exposing NIS server functionality over the network, relevant for a network-exposed host.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS contains legacy insecure protocols. Removing it mitigates the risk of credential exposure and unauthorized access, which is critical since the host has network exposure. 2."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind is historically vulnerable to attacks and unnecessary for a software developer. Removing it reduces the attack surface on a network-exposed host. 3."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rpcbind service mitigates network-based RPC attacks if the package cannot be removed, relevant due to the host's network exposure. 4."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv (NIS server) is highly insecure and unnecessary for a developer. Removing it prevents acting as an NIS server, which would severely expose the network-exposed system. 5."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service prevents the system from exposing NIS server functionality over the network, relevant for a network-exposed host."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1, KEEP, File integrity monitoring is relevant for a developer running local servers/APIs exposed to the network, as it detects unauthorized modifications to system binaries or configurations.\nRULE 2, KEEP, Periodic file integrity checks are relevant to detect persistence mechanisms or compromises on a network-exposed host.\nRULE 3, SKIP, Placing /tmp on a separate partition mitigates resource exhaustion attacks, but is a physical installation/LVM configuration concern rather than a direct threat model mitigation for a network-exposed developer workstation.\nRULE 4, KEEP, Boot loader password protection prevents local physical attackers from altering boot parameters to escalate privileges, which is a relevant threat for a network-exposed developer machine.\nRULE 5, SKIP, The systemd-journal-upload service is for offloading logs to a remote centralized server, which is an enterprise/centralized logging concern, not a direct threat mitigation for a standalone developer workstation.",
+      "elapsed_seconds": 2.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Prevents disk exhaustion from large log files, which is a real threat for a developer running local network-exposed servers that generate significant logs.\nRULE 2, SKIP, Conflicts with Rule 3; disabling syslog forwarding is a preference, not a direct threat mitigation for this specific environment.\nRULE 3, KEEP, Forwarding logs to rsyslog ensures centralized and persistent logging, aiding in intrusion detection and forensic analysis for a network-exposed host.\nRULE 4, KEEP, Persisting logs to disk prevents loss of critical forensic data upon reboot, essential for investigating potential breaches on a network-exposed system.\nRULE 5, KEEP, Disabling the remote log reception socket reduces the attack surface by preventing the network-exposed host from acting as an unauthorized log server.",
+      "elapsed_seconds": 5.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 0.9,
+      "error": "HTTP Error: 500 - {\"message\":\"Failed to generate completions: instance_id=7587895774557014553 not found for endpoint d",
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "1. RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n   DECISION: KEEP\n   REASON: NIS contains legacy insecure protocols. Removing it mitigates the risk of credential exposure and unauthorized access, which is critical since the host has network exposure.\n\n2. RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\n   DECISION: KEEP\n   REASON: rpcbind is historically vulnerable to attacks and unnecessary for a software developer. Removing it reduces the attack surface on a network-exposed host.\n\n3. RULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\n   DECISION: KEEP\n   REASON: Disabling the rpcbind service mitigates network-based RPC attacks if the package cannot be removed, relevant due to the host's network exposure.\n\n4. RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\n   DECISION: KEEP\n   REASON: ypserv (NIS server) is highly insecure and unnecessary for a developer. Removing it prevents acting as an NIS server, which would severely expose the network-exposed system.\n\n5. RULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\n   DECISION: KEEP\n   REASON: Disabling the insecure ypserv service prevents the system from exposing NIS server functionality over the network, relevant for a network-exposed host.",
+      "elapsed_seconds": 11.2,
+      "error": null,
+      "kept_count_after_batch": 5
+    }
+  ],
+  "total_elapsed_seconds": 20.1,
+  "error": null
+}

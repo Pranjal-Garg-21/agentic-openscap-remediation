@@ -1,0 +1,172 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Ephemeral (Don't give me live bash commands. Just give me the config/Dockerfile fixes.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is critical for a highly exposed public cloud host to detect unauthorized modifications or compromises. -",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are necessary on an internet-facing system to ensure timely detection of compromises. -",
+      "title": "Configure Systemd Timer Execution of AIDE",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Offloading logs is essential for an ephemeral, internet-facing system to ensure audit data persistence and prevent attackers from easily destroying evidence.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is critical for a highly exposed public cloud host to detect unauthorized modifications or compromises. -"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are necessary on an internet-facing system to ensure timely detection of compromises. -"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "SKIP",
+      "reason": "Separating /tmp is primarily for preventing disk exhaustion and restricting nodev/nosuid mount options, which is less critical for an ephemeral cloud instance compared to a persistent server. -"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "SKIP",
+      "reason": "Bootloader password protection mitigates local physical access threats, which is irrelevant for a public cloud virtual instance. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Offloading logs is essential for an ephemeral, internet-facing system to ensure audit data persistence and prevent attackers from easily destroying evidence."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\n  DECISION: KEEP\n  REASON: File integrity monitoring is critical for a highly exposed public cloud host to detect unauthorized modifications or compromises.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\n  DECISION: KEEP\n  REASON: Automated periodic integrity checks are necessary on an internet-facing system to ensure timely detection of compromises.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\n  DECISION: SKIP\n  REASON: Separating /tmp is primarily for preventing disk exhaustion and restricting nodev/nosuid mount options, which is less critical for an ephemeral cloud instance compared to a persistent server.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\n  DECISION: SKIP\n  REASON: Bootloader password protection mitigates local physical access threats, which is irrelevant for a public cloud virtual instance.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\n  DECISION: KEEP\n  REASON: Offloading logs is essential for an ephemeral, internet-facing system to ensure audit data persistence and prevent attackers from easily destroying evidence.",
+      "elapsed_seconds": 79.4,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Prevents disk exhaustion from log files on an internet-exposed host, which could lead to denial of service or system instability.\nRULE 2, SKIP, Disabling forwarding to syslog reduces log centralization capabilities, which is counterproductive to threat detection in a highly exposed cloud environment.\nRULE 3, KEEP, Forwarding logs to rsyslog enables centralized logging, which is critical for monitoring and investigating threats on an internet-exposed system.\nRULE 4, KEEP, Persisting logs to disk ensures audit trails survive reboots, which is essential for post-incident forensics on a highly exposed cloud host.\nRULE 5, KEEP, Disabling the remote log reception socket reduces the attack surface by preventing the internet-facing host from acting as a log server and processing incoming network data.",
+      "elapsed_seconds": 73.7,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 344.0,
+      "error": "HTTP Error: 500 - {\"message\":\"Failed to generate completions: instance_id=7587895774557014555 not found for endpoint d",
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 33.2,
+      "error": "HTTP Error: 500 - {\"message\":\"Failed to generate completions: instance_id=7587895774557014551 not found for endpoint d",
+      "kept_count_after_batch": 3
+    }
+  ],
+  "total_elapsed_seconds": 530.3,
+  "error": null
+}

@@ -1,0 +1,180 @@
+{
+  "model": "google/gemma-4-31b-it",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Internal / Workstation (Standard caution. Brief, localized service restarts are acceptable.)",
+    "infrastructure_location": "Internal Corporate Network (Behind a perimeter firewall)"
+  },
+  "batches_used": 3,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system instability or denial of service caused by disk exhaustion on a workstation.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces attack surface by limiting the propagation of sensitive log data between local services.",
+      "title": "Ensure journald ForwardToSyslog is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Essential for a Cloud/System Administrator to ensure logs are centralized for auditing and forensics.",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures audit trails persist across reboots, which is critical for troubleshooting and security analysis.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Prevents the workstation from acting as an unauthorized log server, reducing the network attack surface.",
+      "title": "Disable systemd-journal-remote Socket",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "As a System/Cloud Administrator on a corporate network, centralized logging is critical for audit trails and threat detection.",
+      "title": "Configure systemd-journal-upload TLS parameters: ServerKeyFile, ServerCertificateFile and TrustedCertificateFile",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "Necessary for the configuration of remote log offloading required for administrative oversight in a corporate environment.",
+      "title": "Configure systemd-journal-upload URL",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Essential to prevent security gaps and rule conflicts on a workstation connected to an internal corporate network.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Host-based firewalling is a standard security requirement for administrators to limit lateral movement within a corporate network.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Improper permissions on crontab can lead to privilege escalation, a high-risk threat for a system administrator account.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system instability or denial of service caused by disk exhaustion on a workstation."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces attack surface by limiting the propagation of sensitive log data between local services."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Essential for a Cloud/System Administrator to ensure logs are centralized for auditing and forensics."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures audit trails persist across reboots, which is critical for troubleshooting and security analysis."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "KEEP",
+      "reason": "Prevents the workstation from acting as an unauthorized log server, reducing the network attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "As a System/Cloud Administrator on a corporate network, centralized logging is critical for audit trails and threat detection."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "Necessary for the configuration of remote log offloading required for administrative oversight in a corporate environment."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Essential to prevent security gaps and rule conflicts on a workstation connected to an internal corporate network."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Host-based firewalling is a standard security requirement for administrators to limit lateral movement within a corporate network."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Improper permissions on crontab can lead to privilege escalation, a high-risk threat for a system administrator account."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1: xccdf_org.ssgproject.content_rule_aide_build_database | KEEP | File integrity monitoring is critical for a System/Cloud Administrator to detect unauthorized system modifications.\nRULE 2: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer | KEEP | Automated integrity checks are necessary to ensure timely detection of compromises on a corporate workstation.\nRULE 3: xccdf_org.ssgproject.content_rule_partition_for_tmp | KEEP | Separate /tmp partitions prevent denial-of-service attacks via disk exhaustion and allow for stricter mount options.\nRULE 4: xccdf_org.ssgproject.content_rule_grub2_uefi_password | KEEP | Physical/boot-level access control is required to prevent unauthorized kernel parameter changes or booting into single-user mode.\nRULE 5: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled | KEEP | Centralized logging is essential for audit trails and security monitoring within an internal corporate network.",
+      "elapsed_seconds": 15.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Prevents system instability or denial of service caused by disk exhaustion on a workstation.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\nDECISION: KEEP\nREASON: Reduces attack surface by limiting the propagation of sensitive log data between local services.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: KEEP\nREASON: Essential for a Cloud/System Administrator to ensure logs are centralized for auditing and forensics.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Ensures audit trails persist across reboots, which is critical for troubleshooting and security analysis.\n\nRULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\nDECISION: KEEP\nREASON: Prevents the workstation from acting as an unauthorized log server, reducing the network attack surface.",
+      "elapsed_seconds": 11.5,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: KEEP\nREASON: As a System/Cloud Administrator on a corporate network, centralized logging is critical for audit trails and threat detection.\n\nRULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\nDECISION: KEEP\nREASON: Necessary for the configuration of remote log offloading required for administrative oversight in a corporate environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\nDECISION: KEEP\nREASON: Essential to prevent security gaps and rule conflicts on a workstation connected to an internal corporate network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\nDECISION: KEEP\nREASON: Host-based firewalling is a standard security requirement for administrators to limit lateral movement within a corporate network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON: Improper permissions on crontab can lead to privilege escalation, a high-risk threat for a system administrator account.",
+      "elapsed_seconds": 8.8,
+      "error": null,
+      "kept_count_after_batch": 10
+    }
+  ],
+  "total_elapsed_seconds": 36.0,
+  "error": null
+}

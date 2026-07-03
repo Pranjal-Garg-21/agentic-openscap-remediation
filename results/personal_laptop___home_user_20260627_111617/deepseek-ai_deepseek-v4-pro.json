@@ -1,0 +1,153 @@
+{
+  "model": "deepseek-ai/deepseek-v4-pro",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1:\n  ID: xccdf_org.ssgproject.content_rule_aide_build_database\n  DECISION: KEEP\n  REASON: File integrity monitoring (AIDE) is relevant for a personal laptop shared with family/roommates to detect unauthorized file modifications by other local users.\n\nRULE 2:\n  ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\n  DECISION: KEEP\n  REASON: Automated periodic integrity scans ensure ongoing detection of tampering, which is appropriate for a shared physical environment with moderate risk.\n\nRULE 3:\n  ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\n  DECISION: KEEP\n  REASON: Isolating /tmp on a separate partition prevents users from filling the root filesystem and allows mount options like noexec, which is relevant for a multi-user shared laptop.\n\nRULE 4:\n  ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\n  DECISION: KEEP\n  REASON: Physical access by roommates/family creates risk of boot-time attacks; a UEFI/GRUB password prevents unauthorized kernel parameter modification or single-user mode access.\n\nRULE 5:\n  ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\n  DECISION: SKIP\n  REASON: This rule is for centralized log offloading to a remote server, which is unnecessary for a standalone personal laptop on a trusted home network with no remote log collection infrastructure.",
+      "elapsed_seconds": 15.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1:\n  ID: xccdf_org.ssgproject.content_rule_journald_compress\n  DECISION: KEEP\n  REASON: Prevents disk space exhaustion from large logs, which is a real threat for a personal laptop with limited storage.\n\nRULE 2:\n  ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\n  DECISION: SKIP\n  REASON: This rule conflicts with RULE 3 and is typically for systems that do not need syslog; a home user may benefit from syslog forwarding for persistent logging, and disabling it does not address a specific threat in this environment.\n\nRULE 3:\n  ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\n  DECISION: KEEP\n  REASON: Forwarding to rsyslog ensures logs are persisted and available for troubleshooting or security review, which is relevant for a shared home laptop where log loss could hide malicious activity.\n\nRULE 4:\n  ID: xccdf_org.ssgproject.content_rule_journald_storage\n  DECISION: KEEP\n  REASON: Persistent log storage is critical for post-incident analysis on a shared laptop; volatile-only logs would be lost on reboot, allowing malicious actions to go undetected.\n\nRULE 5:\n  ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\n  DECISION: KEEP\n  REASON: Disabling the remote journal receiver reduces the attack surface on a client laptop that should not act as a log server, especially in a shared home environment where unauthorized network services could be exploited.",
+      "elapsed_seconds": 17.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1:\n  ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\n  DECISION: SKIP\n  REASON: This rule configures TLS for centralized log offloading to a remote server. The user is a home user on a personal laptop with only trusted home networks and no mention of a centralized log server. Offloading logs is irrelevant to this standalone environment.\n\nRULE 2:\n  ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\n  DECISION: SKIP\n  REASON: This rule configures the URL for centralized log offloading. The user is a home user on a standalone personal laptop with no centralized logging infrastructure. This is irrelevant to their environment.\n\nRULE 3:\n  ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\n  DECISION: KEEP\n  REASON: The user connects to trusted home/private networks and shares physical access with family/roommates. A single, active, and non-conflicting firewall is essential for basic host-based protection against potential lateral movement from other devices on the home network or local users.\n\nRULE 4:\n  ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\n  DECISION: KEEP\n  REASON: This rule ensures the nftables firewall service is enabled at boot. Given the user's shared home network and physical access risk, a persistent firewall is a fundamental defense to protect the system from network-based threats and local lateral movement.\n\nRULE 5:\n  ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\n  DECISION: KEEP\n  REASON: This rule restricts read access to /etc/crontab to root only. On a system with shared physical access (family/roommates), this prevents other local users from viewing scheduled jobs, which could reveal sensitive information or aid in local privilege escalation or persistence planning.",
+      "elapsed_seconds": 17.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "xccdf_org.ssgproject.content_rule_package_nis_removed, KEEP, NIS is a legacy network authentication service not needed on a personal laptop on a trusted home network; removing it reduces attack surface.\nxccdf_org.ssgproject.content_rule_package_rpcbind_removed, KEEP, RPC port mapping is unnecessary for a personal laptop not acting as an NFS server; removing it reduces network attack surface.\nxccdf_org.ssgproject.content_rule_service_rpcbind_disabled, KEEP, The rpcbind service is unnecessary for a personal laptop on a home network; disabling it prevents unauthorized RPC service registration.\nxccdf_org.ssgproject.content_rule_package_ypserv_removed, KEEP, The NIS server package is not required for a personal laptop and its presence increases risk from network-based attacks.\nxccdf_org.ssgproject.content_rule_service_ypserv_disabled, KEEP, The ypserv service is not needed on a personal laptop and disabling it prevents the system from acting as an NIS client or server.",
+      "elapsed_seconds": 20.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 71.0,
+  "error": null
+}

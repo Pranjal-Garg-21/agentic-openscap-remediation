@@ -1,0 +1,23 @@
+{
+  "role": "Student / Security Learner / Researcher",
+  "profile": {
+    "learning_workloads": "Security & Hacking (Playing with network scanners, testing vulnerabilities, or CTFs)",
+    "technical_depth": "Beginner (Explain exactly what the commands do before I run them)"
+  },
+  "timestamp": "20260630_211953",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 3,
+      "skip_count": 2,
+      "unparsed_count": 15,
+      "total_elapsed_seconds": 4.5,
+      "error": null
+    }
+  ]
+}

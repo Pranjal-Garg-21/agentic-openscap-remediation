@@ -1,0 +1,153 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Web / Full-Stack (MERN, React Native, Node.js - needs local port access)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_aide_build_database | Decision: KEEP | Reason: Integrity monitoring of system files (AIDE) is relevant for detecting tampering on a developer workstation.  \n- ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer | Decision: KEEP | Reason: Scheduling regular AIDE scans aligns with the need to maintain system integrity on an exposed development machine.  \n- ID: xccdf_org.ssgproject.content_rule_partition_for_tmp | Decision: KEEP | Reason: Isolating /tmp on its own partition mitigates certain local\u2011file attacks, which is applicable to a Linux laptop used for development.  \n- ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password | Decision: KEEP | Reason: Protecting the boot loader with a password defends against unauthorized boot\u2011time changes, a realistic threat for a personal laptop.  \n- ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled | Decision: SKIP | Reason: Enabling remote journal upload is not required for a typical developer workstation and may expose logs unnecessarily.",
+      "elapsed_seconds": 3.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "- **ID:** xccdf_org.ssgproject.content_rule_journald_compress  \n  **DECISION:** KEEP  \n  **REASON:** Prevents disk exhaustion from large log files, preserving availability of local development servers.\n\n- **ID:** xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog  \n  **DECISION:** KEEP  \n  **REASON:** Stops automatic forwarding of logs to syslog, reducing unnecessary exposure of potentially sensitive development logs.\n\n- **ID:** xccdf_org.ssgproject.content_rule_journald_forward_to_syslog  \n  **DECISION:** SKIP  \n  **REASON:** Enabling forwarding to rsyslog is not required for a developer\u2019s local environment and could increase log leakage risk.\n\n- **ID:** xccdf_org.ssgproject.content_rule_journald_storage  \n  **DECISION:** KEEP  \n  **REASON:** Ensures logs persist across reboots, aiding forensic analysis and continuous monitoring of locally exposed services.\n\n- **ID:** xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled  \n  **DECISION:** KEEP  \n  **REASON:** Disables receipt of remote journal messages, eliminating an unnecessary network attack surface for a workstation running local APIs.",
+      "elapsed_seconds": 4.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls \u2013 SKIP \u2013 The rule concerns TLS settings for systemd\u2011journal\u2011upload, a service most developers do not use; it does not affect the developer\u2019s local server exposure or typical threat vectors.\n\n- ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url \u2013 SKIP \u2013 Similar to the previous rule, it configures the upload URL for systemd\u2011journal\u2011upload, which is irrelevant to a workstation that does not forward logs over the network.\n\n- ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active \u2013 KEEP \u2013 Ensuring exactly one firewall (ufw/iptables/nftables) is active is directly relevant to a system that runs exposed local services and must protect inbound traffic.\n\n- ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled \u2013 KEEP \u2013 Enabling the nftables service provides a concrete packet\u2011filtering mechanism; a firewall is essential for a developer\u2019s machine that hosts network\u2011accessible APIs.\n\n- ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab \u2013 KEEP \u2013 Proper permissions on /etc/crontab prevent unauthorized modification of scheduled tasks, mitigating privilege\u2011escalation risks that are pertinent to any user environment.",
+      "elapsed_seconds": 4.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_package_nis_removed | DECISION: KEEP | REASON: NIS (Yellowpages) is unnecessary for a developer workstation and could expose legacy network services.  \n- ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed | DECISION: KEEP | REASON: rpcbind is not required for typical web development; removing it reduces attack surface on a network\u2011exposed host.  \n- ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled | DECISION: KEEP | REASON: Disabling rpcbind eliminates an unnecessary RPC mapping service that could be abused by remote attackers.  \n- ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed | DECISION: KEEP | REASON: ypserv provides NIS server functionality, irrelevant to the developer\u2019s environment and a potential security risk.  \n- ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled | DECISION: KEEP | REASON: Disabling ypserv prevents the system from acting as an NIS client/server, removing an unnecessary network service.",
+      "elapsed_seconds": 3.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 16.3,
+  "error": null
+}

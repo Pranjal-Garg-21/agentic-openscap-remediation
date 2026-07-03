@@ -1,0 +1,93 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Ephemeral (Don't give me live bash commands. Just give me the config/Dockerfile fixes.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "timestamp": "20260629_012211",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 19.4,
+      "error": null
+    },
+    {
+      "model": "deepseek-ai/deepseek-v4-pro",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 32.8,
+      "error": null
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 6,
+      "skip_count": 0,
+      "unparsed_count": 14,
+      "total_elapsed_seconds": 165.5,
+      "error": null
+    },
+    {
+      "model": "z-ai/glm-5.1",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 3,
+      "skip_count": 2,
+      "unparsed_count": 15,
+      "total_elapsed_seconds": 530.3,
+      "error": null
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 136.1,
+      "error": null
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 5,
+      "skip_count": 0,
+      "unparsed_count": 15,
+      "total_elapsed_seconds": 213.2,
+      "error": null
+    },
+    {
+      "model": "meta/llama-3.3-70b-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 35.9,
+      "error": null
+    },
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512microsoft/phi-4-mini-instruct",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 20,
+      "total_elapsed_seconds": 0.8,
+      "error": "HTTP Error: 404 - 404 page not found\n"
+    }
+  ]
+}

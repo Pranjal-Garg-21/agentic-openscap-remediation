@@ -1,0 +1,172 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is critical for a highly exposed public cloud production system to detect unauthorized changes or compromises. -",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are essential for a highly exposed public cloud system to ensure timely detection of persistent threats. -",
+      "title": "Configure Systemd Timer Execution of AIDE",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Centralized log offloading is critical for a production, internet-exposed cloud system to ensure log integrity and availability in case of a breach or system failure.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is critical for a highly exposed public cloud production system to detect unauthorized changes or compromises. -"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are essential for a highly exposed public cloud system to ensure timely detection of persistent threats. -"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "SKIP",
+      "reason": "Separate partitioning for /tmp is a mitigation for resource exhaustion and specific mount options, which is less critical compared to direct threat mitigations for an internet-exposed cloud VM. -"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "SKIP",
+      "reason": "Boot loader password protection defends against local physical access attacks, which is not a relevant threat vector for a public cloud virtual machine. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Centralized log offloading is critical for a production, internet-exposed cloud system to ensure log integrity and availability in case of a breach or system failure."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\n  DECISION: KEEP\n  REASON: File integrity monitoring is critical for a highly exposed public cloud production system to detect unauthorized changes or compromises.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\n  DECISION: KEEP\n  REASON: Automated periodic integrity checks are essential for a highly exposed public cloud system to ensure timely detection of persistent threats.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\n  DECISION: SKIP\n  REASON: Separate partitioning for /tmp is a mitigation for resource exhaustion and specific mount options, which is less critical compared to direct threat mitigations for an internet-exposed cloud VM.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\n  DECISION: SKIP\n  REASON: Boot loader password protection defends against local physical access attacks, which is not a relevant threat vector for a public cloud virtual machine.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\n  DECISION: KEEP\n  REASON: Centralized log offloading is critical for a production, internet-exposed cloud system to ensure log integrity and availability in case of a breach or system failure.",
+      "elapsed_seconds": 2.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, SKIP, Disk space exhaustion is an availability concern, not a direct security threat to a public cloud host.\nRULE 2, SKIP, Disabling syslog forwarding does not mitigate a direct security threat in this threat model.\nRULE 3, KEEP, Forwarding logs to a remote centralized collector prevents local attackers from destroying evidence and ensures persistence of forensic data.\nRULE 4, KEEP, Persisting logs to disk prevents loss of critical forensic data upon reboot, which is essential for investigating breaches on internet-exposed hosts.\nRULE 5, KEEP, Disabling the remote log reception socket reduces the attack surface by preventing unauthorized remote connections and potential exploitation on an internet-facing host.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1, SKIP, Rule configures TLS for remote journal upload. While log centralization is beneficial, the description focuses on standalone weekly offloading or general rsyslog forwarding, which is not a direct mitigation for internet-facing cloud threat models compared to access/firewall controls.\nRULE 2, SKIP, Rule configures the URL for remote journal upload. Similar to Rule 1, this addresses log forwarding infrastructure rather than directly mitigating threats from internet scanning or cloud exposure.\nRULE 3, KEEP, System is in a public cloud and highly exposed to internet scanning; ensuring exactly one active firewall service prevents rule conflicts and security gaps that could expose the host.\nRULE 4, KEEP, System is in a public cloud and highly exposed to internet scanning; enabling a firewall service (nftables) is critical for loading rulesets and filtering network traffic at boot.\nRULE 5, KEEP, Restricting crontab permissions prevents unauthorized modification of scheduled tasks, mitigating local privilege escalation and persistence threats relevant to a critical production system.",
+      "elapsed_seconds": 2.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Legacy NIS/Yellow Pages components pose a security risk and are highly inappropriate for internet-exposed public cloud infrastructure.\nRULE 2, KEEP, rpcbind introduces significant attack surface for RPC-based vulnerabilities; unnecessary for standard cloud instances exposed to the internet.\nRULE 3, KEEP, Disabling the rpcbind service reduces the attack surface from RPC port mapping, which is critical for internet-facing cloud systems.\nRULE 4, KEEP, The ypserv NIS server package is severely insecure and legacy, posing a high risk to any internet-exposed production environment.\nRULE 5, KEEP, Disabling the insecure ypserv service mitigates the risk of legacy NIS exploitation on a highly exposed public cloud host.",
+      "elapsed_seconds": 1.8,
+      "error": null,
+      "kept_count_after_batch": 3
+    }
+  ],
+  "total_elapsed_seconds": 14.3,
+  "error": null
+}

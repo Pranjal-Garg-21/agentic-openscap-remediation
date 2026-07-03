@@ -1,0 +1,190 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Internal Corporate Network (Behind a perimeter firewall)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is a critical defense against unauthorized modifications, especially for a production system on an internal corporate network. -",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are necessary to ensure timely detection of compromises on a critical production system. -",
+      "title": "Configure Systemd Timer Execution of AIDE",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Boot loader password protection prevents local physical attackers from altering boot parameters or dropping to a root shell, a valid threat vector even on internal networks. -",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Running multiple active firewalls can cause rule conflicts and security gaps, while zero active firewalls leaves the system vulnerable. Even behind a perimeter firewall, host-level firewall consistency is a real threat mitigation to prevent lateral movement and internal threats.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Ensuring a host-based firewall is enabled at boot is a valid security control. Even on an internal corporate network behind a perimeter firewall, host firewalls are critical for defense-in-depth and mitigating lateral movement threats from other compromised internal hosts.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Restricting permissions on /etc/crontab prevents unauthorized modification of scheduled tasks. This addresses a real threat of privilege escalation or persistence by internal actors or malware that may reach the system despite the perimeter firewall.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "File integrity monitoring is a critical defense against unauthorized modifications, especially for a production system on an internal corporate network. -"
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "KEEP",
+      "reason": "Automated periodic integrity checks are necessary to ensure timely detection of compromises on a critical production system. -"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "SKIP",
+      "reason": "Separating /tmp is primarily for disk exhaustion containment and mount option enforcement (like noexec), which is less critical given the existing perimeter firewall and internal network placement. -"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Boot loader password protection prevents local physical attackers from altering boot parameters or dropping to a root shell, a valid threat vector even on internal networks. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "SKIP",
+      "reason": "The rule explicitly requires offloading logs for networked systems. The host is on an internal corporate network behind a firewall, and there is no indication of a configured remote log aggregation server in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "Rule mandates offloading logs to a remote server. While logging is important, the specific threat of losing standalone logs or requiring real-time networked offloading is mitigated by the system being on an internal corporate network behind a perimeter firewall, making strict remote journal upload TLS configuration less critical to the immediate threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "Rule mandates configuring a URL for remote log offloading. Similar to the TLS rule, the requirement for real-time networked offloading is less relevant given the system resides on an internal corporate network behind a perimeter firewall, reducing the immediate threat of local log tampering without remote transfer."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Running multiple active firewalls can cause rule conflicts and security gaps, while zero active firewalls leaves the system vulnerable. Even behind a perimeter firewall, host-level firewall consistency is a real threat mitigation to prevent lateral movement and internal threats."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Ensuring a host-based firewall is enabled at boot is a valid security control. Even on an internal corporate network behind a perimeter firewall, host firewalls are critical for defense-in-depth and mitigating lateral movement threats from other compromised internal hosts."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Restricting permissions on /etc/crontab prevents unauthorized modification of scheduled tasks. This addresses a real threat of privilege escalation or persistence by internal actors or malware that may reach the system despite the perimeter firewall."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\n  DECISION: KEEP\n  REASON: File integrity monitoring is a critical defense against unauthorized modifications, especially for a production system on an internal corporate network.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer\n  DECISION: KEEP\n  REASON: Automated periodic integrity checks are necessary to ensure timely detection of compromises on a critical production system.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\n  DECISION: SKIP\n  REASON: Separating /tmp is primarily for disk exhaustion containment and mount option enforcement (like noexec), which is less critical given the existing perimeter firewall and internal network placement.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\n  DECISION: KEEP\n  REASON: Boot loader password protection prevents local physical attackers from altering boot parameters or dropping to a root shell, a valid threat vector even on internal networks.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\n  DECISION: SKIP\n  REASON: The rule explicitly requires offloading logs for networked systems. The host is on an internal corporate network behind a firewall, and there is no indication of a configured remote log aggregation server in this environment.",
+      "elapsed_seconds": 3.3,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, SKIP, Log compression is a resource management feature, not a security control addressing a specific threat.\nRULE 2, SKIP, Disabling syslog forwarding is an operational preference; does not mitigate a direct security threat.\nRULE 3, KEEP, Forwarding logs to a remote/central syslog server mitigates the threat of local log tampering or loss during a compromise.\nRULE 4, KEEP, Persisting logs to disk mitigates the threat of losing critical forensic evidence upon system reboot or crash.\nRULE 5, KEEP, Disabling the remote log reception socket mitigates the threat of unauthorized log injection or exposure of internal services on the corporate network.",
+      "elapsed_seconds": 9.2,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: SKIP\nREASON: Rule mandates offloading logs to a remote server. While logging is important, the specific threat of losing standalone logs or requiring real-time networked offloading is mitigated by the system being on an internal corporate network behind a perimeter firewall, making strict remote journal upload TLS configuration less critical to the immediate threat model.\n\nRULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\nDECISION: SKIP\nREASON: Rule mandates configuring a URL for remote log offloading. Similar to the TLS rule, the requirement for real-time networked offloading is less relevant given the system resides on an internal corporate network behind a perimeter firewall, reducing the immediate threat of local log tampering without remote transfer.\n\nRULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\nDECISION: KEEP\nREASON: Running multiple active firewalls can cause rule conflicts and security gaps, while zero active firewalls leaves the system vulnerable. Even behind a perimeter firewall, host-level firewall consistency is a real threat mitigation to prevent lateral movement and internal threats.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\nDECISION: KEEP\nREASON: Ensuring a host-based firewall is enabled at boot is a valid security control. Even on an internal corporate network behind a perimeter firewall, host firewalls are critical for defense-in-depth and mitigating lateral movement threats from other compromised internal hosts.\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON: Restricting permissions on /etc/crontab prevents unauthorized modification of scheduled tasks. This addresses a real threat of privilege escalation or persistence by internal actors or malware that may reach the system despite the perimeter firewall.",
+      "elapsed_seconds": 18.2,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, NIS relies on insecure protocols and is a known attack vector; removing it mitigates credential interception and legacy service exploitation even on internal networks.\nRULE 2, KEEP, rpcbind introduces network attack surface and is frequently targeted in RPC vulnerabilities; it should be removed if RPC services like NFS are not required.\nRULE 3, KEEP, Disabling the rpcbind service mitigates the risk of RPC-based attacks and port mapping exploitation if RPC is not explicitly needed.\nRULE 4, KEEP, ypserv is an obsolete NIS server component with severe security flaws; removing it eliminates a high-risk attack vector.\nRULE 5, KEEP, Disabling the ypserv service prevents the system from running the insecure NIS daemon, mitigating legacy authentication and authorization threats.",
+      "elapsed_seconds": 3.9,
+      "error": null,
+      "kept_count_after_batch": 6
+    }
+  ],
+  "total_elapsed_seconds": 34.6,
+  "error": null
+}

@@ -1,0 +1,23 @@
+{
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "timestamp": "20260630_180816",
+  "total_rules_available": 20,
+  "batch_size": 5,
+  "keep_target": 10,
+  "models_run": [
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 4,
+      "total_batches_available": 4,
+      "kept_count": 7,
+      "skip_count": 3,
+      "unparsed_count": 10,
+      "total_elapsed_seconds": 12.4,
+      "error": null
+    }
+  ]
+}

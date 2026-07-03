@@ -1,0 +1,202 @@
+{
+  "model": "google/gemma-4-31b-it",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "No, it's strictly offline compiling and local-only testing"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system disk exhaustion, which is relevant for any host system regardless of network status.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces the attack surface by limiting the propagation of sensitive log data between local services.",
+      "title": "Ensure journald ForwardToSyslog is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures log persistence for debugging and forensic analysis on the local host.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Reducing attack surface by removing unnecessary legacy network services (NIS) is relevant regardless of current network exposure.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "Removing unnecessary RPC services that open ports reduces the local attack surface for containerized environments.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused RPC services prevents potential local privilege escalation or lateral movement within the host.",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Removing unnecessary legacy network services (NIS/ypserv) reduces the system's attack surface.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused NIS services is a standard security hardening practice to minimize potential vulnerabilities.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Prevents system disk exhaustion, which is relevant for any host system regardless of network status."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Reduces the attack surface by limiting the propagation of sensitive log data between local services."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "Rule focuses on remote export of logs; user environment is strictly offline."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensures log persistence for debugging and forensic analysis on the local host."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "SKIP",
+      "reason": "Rule addresses receiving logs from remote hosts; user environment is strictly offline."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Reducing attack surface by removing unnecessary legacy network services (NIS) is relevant regardless of current network exposure."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "Removing unnecessary RPC services that open ports reduces the local attack surface for containerized environments."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused RPC services prevents potential local privilege escalation or lateral movement within the host."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Removing unnecessary legacy network services (NIS/ypserv) reduces the system's attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling unused NIS services is a standard security hardening practice to minimize potential vulnerabilities."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1: xccdf_org.ssgproject.content_rule_aide_build_database\nDECISION: KEEP\nREASON: File integrity monitoring is relevant for a developer machine to detect unauthorized changes to system binaries or source code, regardless of network status.\n\nRULE 2: xccdf_org.ssgproject.content_rule_aide_periodic_periodic_checking_systemd_timer\nDECISION: KEEP\nREASON: Periodic integrity checks ensure that unauthorized modifications are detected in a timely manner on the local host.\n\nRULE 3: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: Separate /tmp partitions prevent denial-of-service (DoS) via disk exhaustion and allow for stricter mount options (e.g., noexec), which is relevant for local containerized app testing.\n\nRULE 4: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: KEEP\nREASON: Physical access is a primary threat vector for offline systems; protecting the boot loader prevents unauthorized kernel parameter modification or root access via boot menu.\n\nRULE 5: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: SKIP\nREASON: The user's environment is strictly offline and local-only; offloading logs to a remote network server is irrelevant.",
+      "elapsed_seconds": 11.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Prevents system disk exhaustion, which is relevant for any host system regardless of network status.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog\nDECISION: KEEP\nREASON: Reduces the attack surface by limiting the propagation of sensitive log data between local services.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: SKIP\nREASON: Rule focuses on remote export of logs; user environment is strictly offline.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Ensures log persistence for debugging and forensic analysis on the local host.\n\nRULE ID: xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled\nDECISION: SKIP\nREASON: Rule addresses receiving logs from remote hosts; user environment is strictly offline.",
+      "elapsed_seconds": 13.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE 1: SKIP - User environment is strictly offline; networked log offloading via TLS is irrelevant.\nRULE 2: SKIP - User environment is strictly offline; networked log offloading via URL is irrelevant.\nRULE 3: KEEP - User relies on containerized apps (Docker/Podman) which utilize virtual networking and manipulate firewall rules; consistent packet filtering is required to prevent conflicts.\nRULE 4: KEEP - User relies on containerized apps (Docker/Podman) which depend on the underlying kernel firewall (nftables/iptables) for container network isolation and routing.\nRULE 5: KEEP - Local privilege escalation via crontab permissions is a threat regardless of network status.",
+      "elapsed_seconds": 7.0,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: Reducing attack surface by removing unnecessary legacy network services (NIS) is relevant regardless of current network exposure.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\nDECISION: KEEP\nREASON: Removing unnecessary RPC services that open ports reduces the local attack surface for containerized environments.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\nDECISION: KEEP\nREASON: Disabling unused RPC services prevents potential local privilege escalation or lateral movement within the host.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: Removing unnecessary legacy network services (NIS/ypserv) reduces the system's attack surface.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\nDECISION: KEEP\nREASON: Disabling unused NIS services is a standard security hardening practice to minimize potential vulnerabilities.",
+      "elapsed_seconds": 14.8,
+      "error": null,
+      "kept_count_after_batch": 8
+    }
+  ],
+  "total_elapsed_seconds": 46.6,
+  "error": null
+}

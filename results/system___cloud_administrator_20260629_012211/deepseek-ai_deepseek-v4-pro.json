@@ -1,0 +1,153 @@
+{
+  "model": "deepseek-ai/deepseek-v4-pro",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Ephemeral (Don't give me live bash commands. Just give me the config/Dockerfile fixes.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1:\n  DECISION: KEEP\n  REASON: File integrity monitoring (AIDE) is critical for a public cloud host to detect unauthorized changes from potential compromises.\n\nRULE 2:\n  DECISION: KEEP\n  REASON: Automated periodic integrity scans are necessary in a highly exposed cloud environment to ensure timely detection of intrusions.\n\nRULE 3:\n  DECISION: KEEP\n  REASON: Isolating /tmp with noexec/nosuid mitigates common cloud attack vectors like downloading and executing malicious binaries in a world-writable directory.\n\nRULE 4:\n  DECISION: KEEP\n  REASON: Setting a UEFI bootloader password prevents attackers with cloud console access from booting into single-user mode or modifying kernel parameters to bypass security controls.\n\nRULE 5:\n  DECISION: KEEP\n  REASON: Centralized log offloading is essential for public cloud systems to preserve forensic evidence in case the host is compromised or ephemerally terminated.",
+      "elapsed_seconds": 9.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "xccdf_org.ssgproject.content_rule_journald_compress, KEEP, Disk space exhaustion is a real threat for cloud VMs; compressing large logs mitigates denial-of-service via disk fill.\nxccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog, SKIP, This conflicts with centralized logging best practices for a cloud administrator and does not address a specific threat; forwarding to syslog is often required.\nxccdf_org.ssgproject.content_rule_journald_forward_to_syslog, KEEP, Forwarding logs to rsyslog enables centralized collection/export, which is critical for incident response and threat detection in public cloud environments.\nxccdf_org.ssgproject.content_rule_journald_storage, KEEP, Volatile log storage leads to loss of forensic evidence on reboot; persistent storage is essential for investigating compromises on cloud instances.\nxccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled, KEEP, An internet-exposed cloud host should not run a log receiver service; disabling the socket reduces attack surface from remote log injection or exploitation.",
+      "elapsed_seconds": 5.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls, KEEP, Public cloud systems are highly exposed; encrypting log uploads with TLS protects sensitive data in transit from interception.\nxccdf_org.ssgproject.content_rule_systemd_journal_upload_url, KEEP, Centralized log offloading is critical for incident response in cloud environments where ephemeral instances may be lost.\nxccdf_org.ssgproject.content_rule_firewall_single_service_active, KEEP, A public cloud host is directly exposed to internet scanning; conflicting firewalls can create security gaps that allow unauthorized access.\nxccdf_org.ssgproject.content_rule_service_nftables_enabled, KEEP, Ensuring a firewall service starts at boot is essential for a cloud host to maintain protection across reboots against constant internet threats.\nxccdf_org.ssgproject.content_rule_file_permissions_crontab, KEEP, Restricting crontab permissions prevents unprivileged users from reading or modifying scheduled tasks, which could be exploited for persistence or privilege escalation on a cloud server.",
+      "elapsed_seconds": 9.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE 1:\n  ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n  DECISION: KEEP\n  REASON: NIS is an outdated, insecure directory service. A cloud-hosted Ubuntu system is highly exposed and should not have this package installed to reduce attack surface.\n\nRULE 2:\n  ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\n  DECISION: KEEP\n  REASON: rpcbind is associated with NFS and other RPC services. On a public cloud system, unnecessary RPC services increase exposure to port mapping attacks and should be removed.\n\nRULE 3:\n  ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\n  DECISION: KEEP\n  REASON: If the rpcbind package is present, the service must be disabled to prevent it from listening on the network, mitigating RPC-based reconnaissance and attacks on an internet-exposed host.\n\nRULE 4:\n  ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\n  DECISION: KEEP\n  REASON: ypserv is the NIS server component. Its presence on a cloud server is a critical security risk due to NIS's known vulnerabilities and the system's high exposure.\n\nRULE 5:\n  ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\n  DECISION: KEEP\n  REASON: If the ypserv package exists, the service must be disabled to eliminate the risk of running an insecure NIS server on a publicly accessible cloud instance.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 32.8,
+  "error": null
+}

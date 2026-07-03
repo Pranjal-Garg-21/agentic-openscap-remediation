@@ -1,0 +1,202 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Shared with family or roommates (Moderate risk, needs basic user isolation)",
+    "network_environment": "Frequently on public campus or cafe Wi-Fi (Needs aggressive network hardening)"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Critical for a system frequently on public Wi-Fi; ensures consistent and conflict-free network packet filtering to prevent unauthorized access. -",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enables a firewall service at boot, which is necessary for aggressive network hardening on public campus or cafe Wi-Fi. -",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Restricting crontab permissions provides basic user isolation and prevents privilege escalation or tampering by family/roommates with physical access.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy, insecure protocol. Removing it reduces the attack surface, which is critical for a personal laptop frequently on public Wi-Fi. -",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind exposes RPC services and is unnecessary for a personal laptop. Removing it provides aggressive network hardening against unauthorized RPC requests on public Wi-Fi. -",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rpcbind service reduces network attack surface on public Wi-Fi if the package cannot be fully removed, aligning with aggressive network hardening. -",
+      "title": "Disable rpcbind Service",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is an insecure legacy NIS server component. A personal laptop has no need to act as an NIS server, and removing it eliminates a high-severity unnecessary network service. -",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service prevents the laptop from acting as an NIS server, reducing network exposure on public Wi-Fi if the package is installed.",
+      "title": "Disable ypserv Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "Rule mandates offloading logs to a remote server, which is irrelevant for a personal laptop/home user environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "Rule mandates offloading logs to a remote server, which is irrelevant for a personal laptop/home user environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Critical for a system frequently on public Wi-Fi; ensures consistent and conflict-free network packet filtering to prevent unauthorized access. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enables a firewall service at boot, which is necessary for aggressive network hardening on public campus or cafe Wi-Fi. -"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Restricting crontab permissions provides basic user isolation and prevents privilege escalation or tampering by family/roommates with physical access."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "NIS is a legacy, insecure protocol. Removing it reduces the attack surface, which is critical for a personal laptop frequently on public Wi-Fi. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind exposes RPC services and is unnecessary for a personal laptop. Removing it provides aggressive network hardening against unauthorized RPC requests on public Wi-Fi. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rpcbind service reduces network attack surface on public Wi-Fi if the package cannot be fully removed, aligning with aggressive network hardening. -"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv is an insecure legacy NIS server component. A personal laptop has no need to act as an NIS server, and removing it eliminates a high-severity unnecessary network service. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the insecure ypserv service prevents the laptop from acting as an NIS server, reducing network exposure on public Wi-Fi if the package is installed."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "1. KEEP, Addresses threat of unauthorized physical access or malware modifying critical system binaries/configs, relevant given shared physical access and public network risks.\n2. KEEP, Ensures continuous automated integrity checking to detect unauthorized changes, relevant for detecting compromises from shared access or public Wi-Fi.\n3. SKIP, Separate /tmp partition prevents disk exhaustion attacks but is an administrative/storage control, not a direct mitigation for shared physical access or public Wi-Fi threats.\n4. KEEP, Prevents unauthorized modification of boot parameters (e.g., single-user mode) by family/roommates with physical access.\n5. SKIP, Offloading logs to a remote server is for centralized enterprise logging; irrelevant for a personal laptop without a network log aggregation server.",
+      "elapsed_seconds": 2.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Compressing logs prevents disk exhaustion which is relevant for a personal laptop to maintain system stability and availability.\nRULE 2, SKIP, Disabling syslog forwarding is a server-centric optimization; a personal laptop does not require strict journald isolation from local syslog.\nRULE 3, SKIP, Forwarding logs to rsyslog is primarily for centralized logging infrastructure; irrelevant for a standalone personal laptop.\nRULE 4, KEEP, Persisting logs to disk ensures forensic data and error histories survive reboots, which is important for troubleshooting and security on a personal laptop.\nRULE 5, KEEP, Disabling the remote log receiving socket reduces the network attack surface, which is critical for a laptop frequently on public Wi-Fi.",
+      "elapsed_seconds": 3.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\n  DECISION: SKIP\n  REASON: Rule mandates offloading logs to a remote server, which is irrelevant for a personal laptop/home user environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\n  DECISION: SKIP\n  REASON: Rule mandates offloading logs to a remote server, which is irrelevant for a personal laptop/home user environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\n  DECISION: KEEP\n  REASON: Critical for a system frequently on public Wi-Fi; ensures consistent and conflict-free network packet filtering to prevent unauthorized access.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\n  DECISION: KEEP\n  REASON: Enables a firewall service at boot, which is necessary for aggressive network hardening on public campus or cafe Wi-Fi.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\n  DECISION: KEEP\n  REASON: Restricting crontab permissions provides basic user isolation and prevents privilege escalation or tampering by family/roommates with physical access.",
+      "elapsed_seconds": 2.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n  DECISION: KEEP\n  REASON: NIS is a legacy, insecure protocol. Removing it reduces the attack surface, which is critical for a personal laptop frequently on public Wi-Fi.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\n  DECISION: KEEP\n  REASON: rpcbind exposes RPC services and is unnecessary for a personal laptop. Removing it provides aggressive network hardening against unauthorized RPC requests on public Wi-Fi.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_rpcbind_disabled\n  DECISION: KEEP\n  REASON: Disabling the rpcbind service reduces network attack surface on public Wi-Fi if the package cannot be fully removed, aligning with aggressive network hardening.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\n  DECISION: KEEP\n  REASON: ypserv is an insecure legacy NIS server component. A personal laptop has no need to act as an NIS server, and removing it eliminates a high-severity unnecessary network service.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_ypserv_disabled\n  DECISION: KEEP\n  REASON: Disabling the insecure ypserv service prevents the laptop from acting as an NIS server, reducing network exposure on public Wi-Fi if the package is installed.",
+      "elapsed_seconds": 9.8,
+      "error": null,
+      "kept_count_after_batch": 8
+    }
+  ],
+  "total_elapsed_seconds": 17.4,
+  "error": null
+}

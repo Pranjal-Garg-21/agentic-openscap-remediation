@@ -25,15 +25,16 @@ NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
 # Exact model strings straight from the NVIDIA NIM catalog pages
 MODELS = [
-    # "microsoft/phi-4-mini-instruct",
+    
     # "openai/gpt-oss-120b",
     # "deepseek-ai/deepseek-v4-pro",
     # "google/gemma-4-31b-it",
     # "z-ai/glm-5.1",
-    "qwen/qwen3.5-397b-a17b",
-    "moonshotai/kimi-k2.6",
+    # "qwen/qwen3.5-397b-a17b",
+    # "moonshotai/kimi-k2.6",
     # "meta/llama-3.3-70b-instruct",
-    # "mistralai/mistral-large-3-675b-instruct-2512"
+    "mistralai/mistral-large-3-675b-instruct-2512",
+# "microsoft/phi-4-mini-instruct",
 ]
 
 SCAN_RESULT_XML = "agent-test.xml"
@@ -293,7 +294,7 @@ def build_prompt(role, profile, rules):
             f"  Description: {r['description']}\n\n"
         )
 
-    prompt = f"""[SYSTEM INSTRUCTION: YOU ARE A PARSING MACHINE. DO NOT BE CONVERSATIONAL. DO NOT PROVIDE ANY INTRODUCTORY OR CONCLUDING TEXT. PROVIDE ONLY THE EXACT RULE-BY-RULE OUTPUT BLOCKS REQUESTED BELOW. FAILURE TO FOLLOW THIS FORMAT WILL RESULT IN DATA LOSS.]
+    prompt = f"""[SYSTEM INSTRUCTION: YOU ARE A PARSING MACHINE. DO NOT BE CONVERSATIONAL. DO NOT PROVIDE ANY INTRODUCTORY OR CONCLUDING TEXT. PROVIDE ONLY THE EXACT RULE-BY-RULE OUTPUT BLOCKS REQUESTED BELOW. ]
     You are a cybersecurity analyst. Your ONLY job is to decide if each failed CIS rule is relevant to this user's THREAT MODEL.
 
 HOST SYSTEM:
@@ -310,13 +311,8 @@ STRICT FILTERING RULES:
 - IGNORE whether the user can implement it. Capability is NOT a filtering criterion.
 - IGNORE rule complexity. Hard rules are not automatically skipped.
 - Use the rule's full description below (not just the title) to judge what the rule actually does before deciding.
-
-OUTPUT FORMAT (repeat exactly for every rule, no extra text):
-You MUST strictly follow this exact format without any markdown, asterisks, or bold text:
-
-RULE ID: xccdf_org.ssgproject.content_rule_example_name
-DECISION: KEEP
-REASON: This addresses a real threat because...
+Your response shhould include rule id, decision (KEEP or SKIP), and a brief reason for your decision.
+If possible keep the output format as a structured list of RULE ID, DECISION, and REASON for each rule.
 
 RULES:
 {rules_block}
@@ -348,12 +344,17 @@ def parse_model_decisions(response_text):
     
     # 2. Use a "loose" regex that finds any pattern looking like RULE ID: xxxx
     # and captures text until the next RULE ID
-    pattern = re.compile(r"RULE\s*ID:\s*(\S+).*?DECISION:\s*(KEEP|SKIP).*?REASON:\s*(.+?)(?=RULE\s*ID:|\Z)", re.IGNORECASE | re.DOTALL)
+    pattern = re.compile(
+        r"(?:RULE|Rule|rule)\s*(?:ID|id)?[:\-\s]+(?P<rule_id>\S+)\s*"
+        r"(?:DECISION|Decision|decision)[:\-\s]+(?P<decision>KEEP|SKIP)\s*"
+        r"(?:REASON|Reason|reason)[:\-\s]+(?P<reason>.+?)(?=RULE\s*ID:|\Z)",
+        re.IGNORECASE | re.DOTALL
+    )
     
     for match in pattern.finditer(text):
-        rid = match.group(1).strip()
-        decision = match.group(2).strip().upper()
-        reason = re.sub(r"\s+", " ", match.group(3)).strip()
+        rid = match.group("rule_id").strip()
+        decision = match.group("decision").strip().upper()
+        reason = re.sub(r"\s+", " ", match.group("reason")).strip()
         decisions[rid] = {"decision": decision, "reason": reason}
         
     return decisions

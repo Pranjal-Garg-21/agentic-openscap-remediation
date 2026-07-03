@@ -1,0 +1,172 @@
+{
+  "model": "z-ai/glm-5.1",
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "batches_used": 4,
+  "total_batches_available": 4,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "The user runs local servers/APIs with network exposure. Having zero or multiple active firewalls can lead to conflicts, misconfigurations, or no filtering, directly threatening the security of their exposed services. -",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "The user has network exposure (running local servers/APIs). Ensuring a firewall service like nftables is enabled is critical to protect the exposed network services from unauthorized access. -",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Improper permissions on /etc/crontab can allow unauthorized privilege escalation or persistence mechanisms. This is a standard local threat applicable to any active host, including a developer workstation.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "The user is a software developer running a local workstation, not a centralized log server. Configuring TLS for systemd-journal-upload is intended for enterprise log aggregation, not a direct threat to this specific environment. -"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "Similar to the previous rule, configuring a remote upload URL for systemd journals is an enterprise log aggregation requirement, irrelevant to the threat model of a local developer workstation. -"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "The user runs local servers/APIs with network exposure. Having zero or multiple active firewalls can lead to conflicts, misconfigurations, or no filtering, directly threatening the security of their exposed services. -"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "The user has network exposure (running local servers/APIs). Ensuring a firewall service like nftables is enabled is critical to protect the exposed network services from unauthorized access. -"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Improper permissions on /etc/crontab can allow unauthorized privilege escalation or persistence mechanisms. This is a standard local threat applicable to any active host, including a developer workstation."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_ypserv_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database",
+        "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE 1\nDECISION: KEEP\nREASON: File integrity monitoring is relevant for a developer running local servers/APIs that are exposed to the network, as it detects unauthorized modifications to system files or configurations.\n\nRULE 2\nDECISION: KEEP\nREASON: Periodic execution of file integrity checks ensures continuous monitoring, which is necessary to detect compromises on a network-exposed host.\n\nRULE 3\nDECISION: SKIP\nREASON: Placing /tmp on a separate partition primarily mitigates local denial-of-service via disk exhaustion; it does not address the primary network threat model of a developer hosting exposed services.\n\nRULE 4\nDECISION: KEEP\nREASON: Boot loader password protection prevents local attackers from modifying boot parameters to gain root access, which could be used to compromise the network-exposed services or containerized environments.\n\nRULE 5\nDECISION: KEEP\nREASON: Offloading system logs to a remote server protects log integrity and ensures availability of forensic data if the network-exposed host is compromised.",
+      "elapsed_seconds": 2.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress",
+        "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+        "xccdf_org.ssgproject.content_rule_journald_storage",
+        "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled"
+      ],
+      "raw_response": "RULE 1, KEEP, Disk exhaustion from uncompressed logs is a real threat for a developer running containerized apps and network-exposed services, which can generate substantial log data.\nRULE 2, SKIP, Disabling syslog forwarding does not address a direct threat in this local developer environment and contradicts Rule 3 which provides the option to enable it for centralized logging.\nRULE 3, KEEP, Forwarding logs to rsyslog aids in persistence and centralization, addressing the threat of local log tampering or loss on a network-exposed developer system.\nRULE 4, KEEP, Persisting logs to disk prevents loss of critical forensic data upon reboot, addressing a real threat for a system running network-exposed services that could be targeted.\nRULE 5, KEEP, Disabling the remote log receiving socket mitigates the threat of unauthorized remote log injection or attack surface exposure on a network-exposed system.",
+      "elapsed_seconds": 2.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\n  DECISION: SKIP\n  REASON: The user is a software developer running a local workstation, not a centralized log server. Configuring TLS for systemd-journal-upload is intended for enterprise log aggregation, not a direct threat to this specific environment.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\n  DECISION: SKIP\n  REASON: Similar to the previous rule, configuring a remote upload URL for systemd journals is an enterprise log aggregation requirement, irrelevant to the threat model of a local developer workstation.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\n  DECISION: KEEP\n  REASON: The user runs local servers/APIs with network exposure. Having zero or multiple active firewalls can lead to conflicts, misconfigurations, or no filtering, directly threatening the security of their exposed services.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\n  DECISION: KEEP\n  REASON: The user has network exposure (running local servers/APIs). Ensuring a firewall service like nftables is enabled is critical to protect the exposed network services from unauthorized access.\n\n- RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\n  DECISION: KEEP\n  REASON: Improper permissions on /etc/crontab can allow unauthorized privilege escalation or persistence mechanisms. This is a standard local threat applicable to any active host, including a developer workstation.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed",
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+        "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+        "xccdf_org.ssgproject.content_rule_service_ypserv_disabled"
+      ],
+      "raw_response": "RULE 1, SKIP, NIS/Yellowpages is a legacy directory service protocol irrelevant to a modern containerized development environment and poses no specific threat to this threat model.\nRULE 2, SKIP, RPC services (like NFS) are not utilized in a containerized Docker/Podman dev stack, making the rpcbind port mapper unnecessary and not a relevant threat vector.\nRULE 3, SKIP, Disabling the rpcbind service is irrelevant as RPC is not used in this containerized development environment, eliminating the threat of unwanted RPC port mapping.\nRULE 4, SKIP, The ypserv package provides an NIS server, which is a legacy authentication service completely irrelevant to a modern developer workstation and its threat model.\nRULE 5, SKIP, The ypserv service is for legacy NIS client authentication, which is not used in this environment and poses no relevant threat to the developer's threat model.",
+      "elapsed_seconds": 2.1,
+      "error": null,
+      "kept_count_after_batch": 3
+    }
+  ],
+  "total_elapsed_seconds": 15.0,
+  "error": null
+}
