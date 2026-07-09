@@ -257,7 +257,7 @@ def parse_scan_xml(path):
             continue
         title = None
         desc = None
-        fix = None
+        fixes = {}  # system -> text, since each Rule can carry sh/ansible/puppet/etc.
         severity = elem.get("severity", "")
         for child in elem:
             ctag = strip_ns(child.tag)
@@ -265,14 +265,30 @@ def parse_scan_xml(path):
                 title = clean_text(child)
             elif ctag == "description" and desc is None:
                 desc = clean_text(child)
-            elif ctag == "fixtext" and fix is None:
-                fix = clean_text(child)
-            elif ctag == "fix" and fix is None:
-                fix = clean_text(child)
+            elif ctag == "fixtext":
+                fixes.setdefault("fixtext", clean_text(child))
+            elif ctag == "fix":
+                system = child.get("system", "")
+                fixes[system] = clean_text(child)
+
+        # Prefer the bash fix (this is what gets bash -c'd), then fixtext,
+        # then anything else available (ansible/puppet/blueprint) as reference
+        # text only -- some rules genuinely have no automated fix at all.
+        fix_text = (
+            fixes.get("urn:xccdf:fix:script:sh")
+            or fixes.get("fixtext")
+            or next(iter(fixes.values()), "")
+        )
+        fix_system = "sh" if "urn:xccdf:fix:script:sh" in fixes else (
+            "fixtext" if "fixtext" in fixes else
+            ("other" if fixes else "none")
+        )
+
         rules[rid] = {
             "title": title or rid,
             "description": (desc or "")[:1200],
-            "fix": fix or "",
+            "fix": fix_text,
+            "fix_system": fix_system,
             "severity": severity,
         }
 
@@ -311,7 +327,10 @@ Rule ID: {rule_id}
 Title: {rule_info['title']}
 Severity: {rule_info['severity']}
 Description: {rule_info['description']}
-Reference fix text from the scan content: {rule_info['fix'] or '(none provided — write the standard remediation for this rule id)'}
+Reference fix from the scan content (format: {rule_info.get('fix_system', 'none')}): {rule_info['fix'] or '(none provided — no automated fix exists for this rule, write the standard remediation yourself)'}
+
+If the reference fix above is bash ("sh"), adapt it directly. If it's Ansible/Puppet/blueprint
+or missing, translate the intent into a plain bash script yourself.
 
 {style_note}
 Output ONLY the script/config, no prose, no markdown fences, no explanation.

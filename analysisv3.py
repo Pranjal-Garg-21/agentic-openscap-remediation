@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """
-CIS Benchmark Role-Aware Cloud Multi-Model Analysis Pipeline v4.0
-==================================================================
+CIS Benchmark Role-Aware Cloud Multi-Model Analysis Pipeline v5.0 (v3 script)
+==============================================================================
 Evaluates frontier-grade models on NVIDIA NIM cloud infrastructure.
 Handles context-heavy OpenSCAP descriptions with zero local hardware load.
+
+This variant restricts analysis to a fixed TARGET_RULE_IDS list (40 rules)
+instead of every failed rule in the scan, and runs them in 2 batches of 20
+with no early-stop KEEP target — every rule gets a KEEP/SKIP verdict.
 """
 
 import json
@@ -19,8 +23,8 @@ import requests
 # CONFIG
 # ─────────────────────────────────────────────
 
-# Paste your key generated from build.nvidia.com here
-NVIDIA_API_KEY = "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"
+# Set this in your shell instead of hardcoding it: export NVIDIA_API_KEY="nvapi-..."
+NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY", "nvapi-YOUR-API-KEY-HERE")
 NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
 # Exact model strings straight from the NVIDIA NIM catalog pages
@@ -43,9 +47,74 @@ RESULTS_DIR = "results"
 # Max chars for rule descriptions to optimize cloud payload context footprint
 DESCRIPTION_MAX_CHARS = 1200
 
-# Batching logic
-BATCH_SIZE = 5
-KEEP_TARGET = 10
+# Batching logic — 40 target rules / 20 per batch = 2 rounds
+BATCH_SIZE = 20
+
+# KEEP_TARGET is the early-stop threshold used in v2 (stop once N rules are
+# KEPT). Set to None here so every rule in TARGET_RULE_IDS gets a verdict
+# across both batches instead of stopping early.
+KEEP_TARGET = None
+
+# ─────────────────────────────────────────────
+# TARGET RULE IDS — restrict analysis to just these 40 rules
+# ─────────────────────────────────────────────
+TARGET_RULE_IDS = [
+    # === PAM / Password Policy (8 rules) ===
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled",
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time",
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",  # Fixed upstream name
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit",
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit",
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",  # Replaced with modern Ubuntu variant
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",  # Corrected to specific Ubuntu identifier
+
+    # === Kernel Parameters / Sysctl (8 rules) ===
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward",
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
+
+    # === System Settings (6 rules) ===
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",  # Modern kernel core dump block variant
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps",  # Active Ubuntu user space core dump block
+    "xccdf_org.ssgproject.content_rule_accounts_tmout",
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc",
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",  # Modern Ubuntu log file rule mapping
+
+    # === AppArmor (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed",  # Fixed dash mismatch
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode",
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor",
+
+    # === Unnecessary Packages (5 rules) ===
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed",
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed",
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed",
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled",
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed",  # Fixed dash mismatch
+
+    # === Cron / File Permissions (4 rules) ===
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow",
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d",
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily",
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
+
+    # === Filesystem Modules (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled",
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
+
+    # === /dev/shm Mount Options (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+]
 
 # ─────────────────────────────────────────────
 # HOST SYSTEM INFO
@@ -168,6 +237,15 @@ def clean_description_text(elem):
     return raw
 
 def parse_scan_results(xml_path):
+    """
+    Builds the rule list for this run from TARGET_RULE_IDS.
+
+    Unlike v2 (which only pulled rules with result == 'fail'), this pulls
+    every rule in TARGET_RULE_IDS regardless of its pass/fail/notselected
+    status in the scan — the 20 failing rules already analyzed are not
+    touched here at all. We just need title/description/severity for the
+    LLM KEEP/SKIP judgment call, not the scan verdict.
+    """
     if not os.path.exists(xml_path):
         print(f"[ERROR] Scan file not found: {xml_path}")
         sys.exit(1)
@@ -194,33 +272,50 @@ def parse_scan_results(xml_path):
                 if rid and d is not None:
                     desc_map[rid] = clean_description_text(d)
 
-    rules = []
+    target_set = set(TARGET_RULE_IDS)
+    result_map = {}   # rule_id -> (result, severity)
     for ns in namespaces:
         try:
             results = root.findall(".//xccdf:rule-result", ns)
-            if not results:
-                continue
             for r in results:
                 rule_id = r.get("idref", "unknown")
+                if rule_id not in target_set:
+                    continue
                 result_val = r.findtext("xccdf:result", default="unknown", namespaces=ns)
                 severity = r.get("severity", "medium")
-                title = title_map.get(rule_id, rule_id.split("_")[-1].replace("-", " ").title())
-                desc = desc_map.get(rule_id, "No description available.")
-
-                if result_val == "fail":
-                    rules.append({
-                        "rule_id": rule_id,
-                        "title": title,
-                        "severity": severity,
-                        "result": result_val,
-                        "description": desc[:DESCRIPTION_MAX_CHARS],
-                    })
-            if rules:
+                result_map[rule_id] = (result_val, severity)
+            if result_map:
                 break
         except Exception:
             continue
 
-    print(f"[INFO] Found {len(rules)} FAILED rules (notchecked excluded).")
+    rules = []
+    missing = []
+    for rid in TARGET_RULE_IDS:
+        title = title_map.get(rid, rid.replace("xccdf_org.ssgproject.content_rule_", "").replace("_", " ").title())
+        desc = desc_map.get(rid, "No description available.")
+        result_val, severity = result_map.get(rid, ("unknown", "medium"))
+
+        if rid not in title_map and rid not in result_map:
+            missing.append(rid)
+            continue
+
+        rules.append({
+            "rule_id": rid,
+            "title": title,
+            "severity": severity,
+            "result": result_val,
+            "description": desc[:DESCRIPTION_MAX_CHARS],
+        })
+
+    print(f"[INFO] Pulled {len(rules)}/{len(TARGET_RULE_IDS)} target rules from scan XML "
+          f"(pass/fail status ignored).")
+    if missing:
+        print(f"[WARN] {len(missing)} target rule(s) not found in this scan file at all "
+              f"(no Rule definition, can't build a prompt for them):")
+        for m in sorted(missing):
+            print(f"    - {m}")
+
     return rules
 
 def batch_rules(rules, batch_size=5):
@@ -435,7 +530,7 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
     batches_used = 0
 
     for batch_num, batch in enumerate(batches, start=1):
-        if len(kept_rules) >= KEEP_TARGET:
+        if KEEP_TARGET is not None and len(kept_rules) >= KEEP_TARGET:
             break
 
         batches_used = batch_num
@@ -489,7 +584,7 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
             "kept_count_after_batch": len(kept_rules),
         })
 
-        if len(kept_rules) >= KEEP_TARGET:
+        if KEEP_TARGET is not None and len(kept_rules) >= KEEP_TARGET:
             print(f"  [INFO] Reached {KEEP_TARGET} KEEPs. Stopping early.")
             break
 
@@ -566,7 +661,8 @@ def save_results(results, role, profile, total_rules_available):
         for k, v in profile.items():
             f.write(f"- {k}: {v}\n")
         f.write(f"\n**Total failed rules available:** {total_rules_available}\n")
-        f.write(f"**Batch size:** {BATCH_SIZE} | **KEEP target:** {KEEP_TARGET}\n")
+        keep_target_label = KEEP_TARGET if KEEP_TARGET is not None else "None (full analysis, no early stop)"
+        f.write(f"**Batch size:** {BATCH_SIZE} | **KEEP target:** {keep_target_label}\n")
         f.write(f"\n**Timestamp:** {timestamp}\n\n---\n\n")
 
         for r in results:
@@ -576,7 +672,8 @@ def save_results(results, role, profile, total_rules_available):
             f.write(f"## Model: `{r['model']}`\n\n")
             f.write(f"**Batches used:** {r['batches_used']}/{r['total_batches_available']} | ")
             f.write(f"**Total time:** {r['total_elapsed_seconds']}s\n\n")
-            f.write(f"**KEEP: {n_keep}/{KEEP_TARGET}** target | SKIP: {n_skip} | Unparsed: {n_unparsed}\n\n")
+            keep_denom = KEEP_TARGET if KEEP_TARGET is not None else len(r["all_decisions"]) or n_keep
+            f.write(f"**KEEP: {n_keep}/{keep_denom}** | SKIP: {n_skip} | Unparsed: {n_unparsed}\n\n")
 
             if r["error"]:
                 f.write(f"**ERROR:** {r['error']}\n\n")
@@ -652,7 +749,8 @@ def main():
     print(f"{'='*60}")
     for r in results:
         status = f"{r['total_elapsed_seconds']}s" if not r["error"] else "ERROR"
-        print(f"  {r['model']:<46} {status:<10} KEEP {len(r['kept_rules'])}/{KEEP_TARGET}  "
+        keep_denom = KEEP_TARGET if KEEP_TARGET is not None else len(r["all_decisions"])
+        print(f"  {r['model']:<46} {status:<10} KEEP {len(r['kept_rules'])}/{keep_denom}  "
               f"(batches {r['batches_used']}/{r['total_batches_available']})")
 
     print(f"\n[✓] Done. Check terminal output above or open {run_dir}/comparison.md for deep dive.\n")
