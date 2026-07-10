@@ -1,0 +1,476 @@
+{
+  "model": "z-ai/glm-5.2",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 8,
+  "total_batches_available": 8,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Mitigates brute-force attacks against user accounts.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enables the module required to mitigate brute-force attacks against user accounts.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Prevents permanent lockout and denial of service to the user after failed authentication attempts.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length to mitigate brute-force and dictionary attacks.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Increases password complexity to mitigate brute-force and dictionary attacks.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing minimum digit characters in passwords mitigates the risk of brute-force or dictionary attacks against user accounts, which is a relevant threat even for a personal laptop on a trusted network.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Avoiding the insecure MD5 hash algorithm in favor of stronger hashing mechanisms like yescrypt or SHA512 protects password history files, reducing the risk of credential exposure if the endpoint is compromised.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Preventing logins with empty passwords is a critical authentication control that mitigates unauthorized access, which is applicable regardless of the network environment.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the sending of ICMP redirects prevents the host from being used in man-in-the-middle attacks on the local network, which is a valid defense even on trusted home networks.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the acceptance of ICMP redirects protects the host from man-in-the-middle attacks and routing table poisoning, which is a relevant network security control for any connected system.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering protects against spoofed traffic. It is a standard, low-overhead kernel hardening measure applicable to any networked Linux system, including personal laptops.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "TCP syncookies protect against Denial of Service (DoS) attacks. It is a standard kernel hardening parameter applicable to any networked Linux system.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding prevents the laptop from being used to route traffic between networks, reducing the attack surface. This is a standard hardening best practice for end-user devices.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling Address Space Layout Randomization (ASLR) is a critical mitigation against memory corruption exploits. It is highly relevant to all Linux systems regardless of the network environment.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs prevents sensitive memory contents from being written to disk, which is a valid defense-in-depth measure for a personal laptop.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for all users prevents sensitive application memory from being written to disk, which is a valid defense-in-depth measure for a personal laptop.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "Setting an interactive session timeout mitigates the risk of an unauthorized user accessing an unattended, unlocked terminal on the laptop.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Enforcing a strict default umask ensures that newly created files do not have overly permissive read/write permissions, which is a valid security practice for a personal laptop.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "Prevents persistent root access if a user session is left unattended or compromised, which is a valid threat even for a personal laptop.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Maintaining an audit trail of privileged commands aids in detecting unauthorized changes or malware activity on the system.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "AppArmor provides Mandatory Access Control which is essential for limiting the impact of application compromises on a personal laptop.",
+      "title": "Ensure AppArmor Utils is installed",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "Ensures applications are actively confined by MAC policies, mitigating the risk of exploited vulnerabilities in standard user applications.",
+      "title": "All AppArmor Profiles are in enforce or complain mode",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensures the AppArmor MAC framework is actively loaded at boot time, which is applicable to the Ubuntu host system and necessary for the AppArmor profiles to function.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "The FTP client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server.",
+      "title": "Remove ftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The telnet client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server.",
+      "title": "Remove telnet Clients",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rsyncd network service prevents the laptop from inadvertently exposing files over the network, which is a valid security measure even in a trusted home network environment.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling uncommon filesystems like hfs reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling uncommon filesystems like jffs2 reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Preventing the creation of device files in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Preventing the execution of binaries from world-writable temporary storage mitigates local privilege escalation and malware execution risks, which is a valid threat for a personal laptop.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Preventing the execution of setuid programs in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Mitigates brute-force attacks against user accounts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enables the module required to mitigate brute-force attacks against user accounts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Prevents permanent lockout and denial of service to the user after failed authentication attempts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length to mitigate brute-force and dictionary attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Increases password complexity to mitigate brute-force and dictionary attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing minimum digit characters in passwords mitigates the risk of brute-force or dictionary attacks against user accounts, which is a relevant threat even for a personal laptop on a trusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Avoiding the insecure MD5 hash algorithm in favor of stronger hashing mechanisms like yescrypt or SHA512 protects password history files, reducing the risk of credential exposure if the endpoint is compromised."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Preventing logins with empty passwords is a critical authentication control that mitigates unauthorized access, which is applicable regardless of the network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the sending of ICMP redirects prevents the host from being used in man-in-the-middle attacks on the local network, which is a valid defense even on trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the acceptance of ICMP redirects protects the host from man-in-the-middle attacks and routing table poisoning, which is a relevant network security control for any connected system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "SKIP",
+      "reason": "Logging Martian packets is primarily for network diagnostics and intrusion detection on complex or hostile networks. It is unnecessary for a personal laptop on a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering protects against spoofed traffic. It is a standard, low-overhead kernel hardening measure applicable to any networked Linux system, including personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "TCP syncookies protect against Denial of Service (DoS) attacks. It is a standard kernel hardening parameter applicable to any networked Linux system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding prevents the laptop from being used to route traffic between networks, reducing the attack surface. This is a standard hardening best practice for end-user devices."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling Address Space Layout Randomization (ASLR) is a critical mitigation against memory corruption exploits. It is highly relevant to all Linux systems regardless of the network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "SKIP",
+      "reason": "IPv6 forwarding is only necessary for routers. This rule is irrelevant for a personal laptop on a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs prevents sensitive memory contents from being written to disk, which is a valid defense-in-depth measure for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for all users prevents sensitive application memory from being written to disk, which is a valid defense-in-depth measure for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "Setting an interactive session timeout mitigates the risk of an unauthorized user accessing an unattended, unlocked terminal on the laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Enforcing a strict default umask ensures that newly created files do not have overly permissive read/write permissions, which is a valid security practice for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "Prevents persistent root access if a user session is left unattended or compromised, which is a valid threat even for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Maintaining an audit trail of privileged commands aids in detecting unauthorized changes or malware activity on the system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "AppArmor provides Mandatory Access Control which is essential for limiting the impact of application compromises on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "Ensures applications are actively confined by MAC policies, mitigating the risk of exploited vulnerabilities in standard user applications."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensures the AppArmor MAC framework is actively loaded at boot time, which is applicable to the Ubuntu host system and necessary for the AppArmor profiles to function."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "The FTP client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The telnet client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "SKIP",
+      "reason": "The rsync package is a standard utility for local file synchronization and backups. Removing it is unnecessary for a home user, as the threat model involves the rsyncd network service, not the local utility itself."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rsyncd network service prevents the laptop from inadvertently exposing files over the network, which is a valid security measure even in a trusted home network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "SKIP",
+      "reason": "LDAP clients are used for enterprise directory services and authentication. A personal laptop on a home network does not interact with LDAP infrastructure, making this rule irrelevant to the user's threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling uncommon filesystems like hfs reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling uncommon filesystems like jffs2 reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Preventing the creation of device files in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Preventing the execution of binaries from world-writable temporary storage mitigates local privilege escalation and malware execution risks, which is a valid threat for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Preventing the execution of setuid programs in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: KEEP\nREASON: Mitigates brute-force attacks against user accounts.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: KEEP\nREASON: Enables the module required to mitigate brute-force attacks against user accounts.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON: Prevents permanent lockout and denial of service to the user after failed authentication attempts.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON: Enforces a minimum password length to mitigate brute-force and dictionary attacks.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: KEEP\nREASON: Increases password complexity to mitigate brute-force and dictionary attacks.",
+      "elapsed_seconds": 491.6,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: KEEP\nREASON: Enforcing minimum digit characters in passwords mitigates the risk of brute-force or dictionary attacks against user accounts, which is a relevant threat even for a personal laptop on a trusted network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: KEEP\nREASON: Avoiding the insecure MD5 hash algorithm in favor of stronger hashing mechanisms like yescrypt or SHA512 protects password history files, reducing the risk of credential exposure if the endpoint is compromised.\n\nRULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: Preventing logins with empty passwords is a critical authentication control that mitigates unauthorized access, which is applicable regardless of the network environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: KEEP\nREASON: Disabling the sending of ICMP redirects prevents the host from being used in man-in-the-middle attacks on the local network, which is a valid defense even on trusted home networks.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: KEEP\nREASON: Disabling the acceptance of ICMP redirects protects the host from man-in-the-middle attacks and routing table poisoning, which is a relevant network security control for any connected system.",
+      "elapsed_seconds": 205.4,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward",
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: SKIP\nREASON: Logging Martian packets is primarily for network diagnostics and intrusion detection on complex or hostile networks. It is unnecessary for a personal laptop on a trusted home network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: Reverse path filtering protects against spoofed traffic. It is a standard, low-overhead kernel hardening measure applicable to any networked Linux system, including personal laptops.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: TCP syncookies protect against Denial of Service (DoS) attacks. It is a standard kernel hardening parameter applicable to any networked Linux system.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: KEEP\nREASON: Disabling IP forwarding prevents the laptop from being used to route traffic between networks, reducing the attack surface. This is a standard hardening best practice for end-user devices.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: Enabling Address Space Layout Randomization (ASLR) is a critical mitigation against memory corruption exploits. It is highly relevant to all Linux systems regardless of the network environment.",
+      "elapsed_seconds": 247.0,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps",
+        "xccdf_org.ssgproject.content_rule_accounts_tmout",
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: SKIP\nREASON: IPv6 forwarding is only necessary for routers. This rule is irrelevant for a personal laptop on a trusted home network.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: KEEP\nREASON: Disabling core dumps for SUID programs prevents sensitive memory contents from being written to disk, which is a valid defense-in-depth measure for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: KEEP\nREASON: Disabling core dumps for all users prevents sensitive application memory from being written to disk, which is a valid defense-in-depth measure for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON: Setting an interactive session timeout mitigates the risk of an unauthorized user accessing an unattended, unlocked terminal on the laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: KEEP\nREASON: Enforcing a strict default umask ensures that newly created files do not have overly permissive read/write permissions, which is a valid security practice for a personal laptop.",
+      "elapsed_seconds": 261.3,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed",
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode",
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: KEEP\nREASON: Prevents persistent root access if a user session is left unattended or compromised, which is a valid threat even for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: KEEP\nREASON: Maintaining an audit trail of privileged commands aids in detecting unauthorized changes or malware activity on the system.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed\nDECISION: KEEP\nREASON: AppArmor provides Mandatory Access Control which is essential for limiting the impact of application compromises on a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode\nDECISION: KEEP\nREASON: Ensures applications are actively confined by MAC policies, mitigating the risk of exploited vulnerabilities in standard user applications.\n\nRULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: KEEP\nREASON: Ensures the AppArmor MAC framework is actively loaded at boot time, which is applicable to the Ubuntu host system and necessary for the AppArmor profiles to function.",
+      "elapsed_seconds": 258.6,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed",
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed",
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed",
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled",
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed\nDECISION: KEEP\nREASON: The FTP client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: KEEP\nREASON: The telnet client transmits data, including credentials, in plaintext. Removing it mitigates the risk of accidental credential exposure if the user connects to an untrusted or misconfigured server.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed\nDECISION: SKIP\nREASON: The rsync package is a standard utility for local file synchronization and backups. Removing it is unnecessary for a home user, as the threat model involves the rsyncd network service, not the local utility itself.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: KEEP\nREASON: Disabling the rsyncd network service prevents the laptop from inadvertently exposing files over the network, which is a valid security measure even in a trusted home network environment.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: SKIP\nREASON: LDAP clients are used for enterprise directory services and authentication. A personal laptop on a home network does not interact with LDAP infrastructure, making this rule irrelevant to the user's threat model.",
+      "elapsed_seconds": 288.0,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily",
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE 1\nDECISION: KEEP\nREASON: Restricting permissions on /etc/cron.allow prevents unauthorized users from modifying cron access, protecting against local privilege escalation or persistence mechanisms.\n\nRULE 2\nDECISION: KEEP\nREASON: Restricting permissions on /etc/cron.d prevents unauthorized users from reading or modifying scheduled tasks, mitigating local privilege escalation risks.\n\nRULE 3\nDECISION: KEEP\nREASON: Restricting permissions on /etc/cron.daily prevents unauthorized users from reading or modifying scheduled tasks, mitigating local privilege escalation risks.\n\nRULE 4\nDECISION: KEEP\nREASON: Ensuring /etc/cron.allow is owned by root prevents non-root users from modifying cron access controls, mitigating local privilege escalation risks.\n\nRULE 5\nDECISION: KEEP\nREASON: Disabling the cramfs kernel module reduces the system's attack surface by preventing the mounting of an uncommon and unnecessary filesystem, which could otherwise be used to exploit vulnerabilities or hide malicious files.",
+      "elapsed_seconds": 540.4,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: KEEP\nREASON: Disabling uncommon filesystems like hfs reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: KEEP\nREASON: Disabling uncommon filesystems like jffs2 reduces the kernel attack surface, which is relevant for preventing potential exploits even on a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: KEEP\nREASON: Preventing the creation of device files in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: KEEP\nREASON: Preventing the execution of binaries from world-writable temporary storage mitigates local privilege escalation and malware execution risks, which is a valid threat for a personal laptop.\n\nRULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: KEEP\nREASON: Preventing the execution of setuid programs in world-writable temporary storage mitigates local privilege escalation risks, which is a valid threat for a personal laptop.",
+      "elapsed_seconds": 251.7,
+      "error": null,
+      "kept_count_after_batch": 31
+    }
+  ],
+  "total_elapsed_seconds": 2544.0,
+  "error": null
+}

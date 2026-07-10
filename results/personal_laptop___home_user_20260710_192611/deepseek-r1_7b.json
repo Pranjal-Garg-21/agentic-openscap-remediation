@@ -1,0 +1,1116 @@
+{
+  "model": "deepseek-r1:7b",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 64,
+  "total_batches_available": 64,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the security risk of /tmp being exposed and is applicable given the system's architecture using LVM.",
+      "title": "Ensure /tmp Located On Separate Partition",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Ensures that even if a sudo log file is misconfigured, it defaults to a standard location (/var/log/sudo.log), aiding in auditing and security monitoring for potential vulnerabilities or misconfigurations.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Disabling sudo !authenticate protects against privilege escalation, aligning with system security best practices.",
+      "title": "Ensure Users Re-Authenticate for Privilege Escalation - sudo !authenticate",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "The rule enhances password security by enforcing the use of use_authtok for pam_unix authtoks during password changes, providing robust protection against account compromise without unnecessary complexity.",
+      "title": "Require use_authtok for pam_unix.so",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule addresses real security risks by locking accounts after failed password attempts, which is relevant. It's implementable with basic technical knowledge and doesn't excessively hinder usability.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "The system running Ubuntu 24.04 LTS is vulnerable to bypassing password protections if pam_faillock is not enabled, which could allow attackers to compromise accounts without proper authentication. Given the user's limited capabilities but high trust in network and physical access, ensuring this security measure is critical for protection against common attack vectors like brute force attempts.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Configuring pam_faillock.so lockout time is essential for preventing unauthorized access and is applicable to the system's environment.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "The rule ensures PAM enforces password requirements with a minimum digit and letter requirement, aligning with secure practices. My system uses Ubuntu 24.04 LTS, which supports these policies without high risk of tampering or compromise, making it appropriate to keep the rule in place.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a critical security concern by enabling perfect forward secrecy (PFS) in SSH, which protects against key compromise attacks. This is essential for maintaining session security, especially with long-lived keys or potential server key exposure. The reasoning behind keeping the rule is that using PFS prevents an attacker from decrypting past sessions if they later compromise a server's private key. While it may complicate configuration slightly, this trade-off ensures enhanced security, making it worth implementing on an Ubuntu system.",
+      "title": "Set PAM''s Password Hashing Algorithm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized access by ensuring accounts with empty passwords are not logged in automatically, which directly addresses a real security risk and is applicable to the current system environment.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "Ensures system security by controlling file modifications upon login, addressing a real risk of unauthorized access.",
+      "title": "Ensure the Default Umask is Set Correctly in login.defs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensures AppArmor is enabled for enhanced security against potential malware threats in the GRUB bootloader configuration.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Even with low physical and network risks, secure UEFI boot passwords are critical for system integrity, especially given the rule's importance in protecting against potential vulnerabilities.",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Ensures logs from journald are forwarded to rsyslog for monitoring and incident response, aiding in timely issue detection.",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "It addresses potential network security concerns related to rsyslog configuration, which could lead to unintended vulnerabilities in environments that use trusted networks.",
+      "title": "Configure systemd-journal-upload URL",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "The rule enables logging of \"Martian packets\" on all IPv4 interfaces, which could allow unauthorized packet interception or tampering. Given low physical security and trusted networks, this represents a potential risk to network confidentiality.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse Path Filtering (RPF) is enabled through sysctl to mitigate DDoS risks by filtering traffic via local networks, which aligns with the system's security posture.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the send_redirects kernel parameter mitigates a real, potential security risk related to ICMP redirects that could enable network spoofing or route hijacking.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the risk of unauthorized kernel parameter configuration, which is critical given the system's root access due to PREEMPT_DYNAMIC.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensures only one firewall service is active, preventing potential security risks like misconfigured packet filtering.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling jffs2 prevents potential risks related to encrypted partition tables and associated vulnerabilities, aligning with the system's low physical risk and trusted network environment.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Prevents device files from being created in /dev/shm, enhancing security by blocking unauthorized attempts to persist on this directory.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Although your environment is secure, adding noexec to /dev/shm prevents potential malicious use of the writable directory, serving as a proactive security measure.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps can prevent potential data exposure from system crashes, aligning with real security risks.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "Improper group ownership on /etc/gshadow- can allow attackers to gain unauthorized access if misused after being granted access due to incorrect permissions.",
+      "title": "Verify Group Who Owns Backup gshadow File",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures proper permissions for cron files to prevent unauthorized access of cron-based services, aligning with system security best practices.",
+      "title": "Verify Group Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the real security risk of untrusted cron jobs running with sufficient privileges by verifying the correct permissions on /etc/cron.d, which is relevant to my system. While my setup doesn't require these specific permissions, adhering to best practices ensures cron scripts are executed safely.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a relevant security concern by enforcing proper file permissions on cron.daily, which is crucial for preventing unintended access and ensuring command execution requires sudo.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a potential security risk by verifying file permissions on /etc/crontab, which could allow unauthorized access or script execution if compromised. Although the system has physical and network security measures, there's still an actual risk that needs addressing.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "vsftpd is outdated and potentially risky; the rule offers a straightforward fix to remove it.",
+      "title": "Uninstall vsftpd Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a low-risk FTP vulnerability in a trusted home network setup and physical access restrictions.",
+      "title": "Remove ftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Removing ypserv is determined to have no real risk on the current Ubuntu 24.04 system, as it's likely unnecessary or deprecated without causing vulnerabilities.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "Low risk of attack vector with controlled environment; enhancing security by removing telnet clients is appropriate.",
+      "title": "Remove telnet Clients",
+      "severity": "low"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "SKIP",
+      "reason": "The rule does not apply to my specific system due to the non-root storage location and system configuration on Ubuntu 24.04 LTS with x86_64 architecture, where no known issues exist or likely impact me personally."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the security risk of /tmp being exposed and is applicable given the system's architecture using LVM."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Ensures that even if a sudo log file is misconfigured, it defaults to a standard location (/var/log/sudo.log), aiding in auditing and security monitoring for potential vulnerabilities or misconfigurations."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Disabling sudo !authenticate protects against privilege escalation, aligning with system security best practices."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "SKIP",
+      "reason": "The rule does not apply to my system as there's no known risk associated with using sudo under these conditions."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "The rule enhances password security by enforcing the use of use_authtok for pam_unix authtoks during password changes, providing robust protection against account compromise without unnecessary complexity."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule addresses real security risks by locking accounts after failed password attempts, which is relevant. It's implementable with basic technical knowledge and doesn't excessively hinder usability."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "The system running Ubuntu 24.04 LTS is vulnerable to bypassing password protections if pam_faillock is not enabled, which could allow attackers to compromise accounts without proper authentication. Given the user's limited capabilities but high trust in network and physical access, ensuring this security measure is critical for protection against common attack vectors like brute force attempts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Configuring pam_faillock.so lockout time is essential for preventing unauthorized access and is applicable to the system's environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "The rule ensures PAM enforces password requirements with a minimum digit and letter requirement, aligning with secure practices. My system uses Ubuntu 24.04 LTS, which supports these policies without high risk of tampering or compromise, making it appropriate to keep the rule in place."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "SKIP",
+      "reason": "The system's security posture does not require enforcing minimum password lengths, as it is unlikely to be compromised by such measures given the current setup and no significant threat from physical or network risks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "SKIP",
+      "reason": "The system has low risk of threats related to weak passwords, as it's a personal device with limited physical and network risks. Enforcing uppercase password requirements isn't necessary for this environment without addressing actual vulnerabilities or real-world risks."
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a critical security concern by enabling perfect forward secrecy (PFS) in SSH, which protects against key compromise attacks. This is essential for maintaining session security, especially with long-lived keys or potential server key exposure. The reasoning behind keeping the rule is that using PFS prevents an attacker from decrypting past sessions if they later compromise a server's private key. While it may complicate configuration slightly, this trade-off ensures enhanced security, making it worth implementing on an Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "SKIP",
+      "reason": "While \"remember\" in pam_unix stores password history, modern security practices and user configurations minimize its risk on this Ubuntu setup."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized access by ensuring accounts with empty passwords are not logged in automatically, which directly addresses a real security risk and is applicable to the current system environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "SKIP",
+      "reason": "The rule is technically correct but impractical for a personal laptop setup where enforcing it across all users would be too restrictive and unnecessary."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "Ensures system security by controlling file modifications upon login, addressing a real risk of unauthorized access."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensures AppArmor is enabled for enhanced security against potential malware threats in the GRUB bootloader configuration."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Even with low physical and network risks, secure UEFI boot passwords are critical for system integrity, especially given the rule's importance in protecting against potential vulnerabilities."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "SKIP",
+      "reason": "The service is unnecessary for a stable production environment and could cause resource usage or security risks."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "SKIP",
+      "reason": "The rule addresses an informational concern (efficient log storage) without posing a security risk to the system or user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Ensures logs from journald are forwarded to rsyslog for monitoring and incident response, aiding in timely issue detection."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "SKIP",
+      "reason": "The system's environment and configuration inherently handle journald logs being stored on persistent disk, reducing the risk of data loss upon reboot."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "No real risk due to trusted network environment; rule may be unnecessary unless affecting another user on the same network."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "It addresses potential network security concerns related to rsyslog configuration, which could lead to unintended vulnerabilities in environments that use trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "SKIP",
+      "reason": "The rule addresses preventing potential vulnerabilities by disabling IPv6 forwarding but is unnecessary in a trusted home network environment where no external threats likely exist."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "SKIP",
+      "reason": "There is no clear threat or vulnerability in the given environment that justifies disabling accept redirect for all IPv4 interfaces."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "The rule enables logging of \"Martian packets\" on all IPv4 interfaces, which could allow unauthorized packet interception or tampering. Given low physical security and trusted networks, this represents a potential risk to network confidentiality."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse Path Filtering (RPF) is enabled through sysctl to mitigate DDoS risks by filtering traffic via local networks, which aligns with the system's security posture."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "SKIP",
+      "reason": "Enabling TCP Syncookies isn't necessary for security on this system with trusted networks and doesn't introduce any risks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling the send_redirects kernel parameter mitigates a real, potential security risk related to ICMP redirects that could enable network spoofing or route hijacking."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the risk of unauthorized kernel parameter configuration, which is critical given the system's root access due to PREEMPT_DYNAMIC."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "SKIP",
+      "reason": "N/A, as nftables don\u2019t inherently introduce significant risks in a trusted environment."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Ensures only one firewall service is active, preventing potential security risks like misconfigured packet filtering."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "Improper group ownership on /etc/gshadow- can allow attackers to gain unauthorized access if misused after being granted access due to incorrect permissions."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "SKIP",
+      "reason": "Preventing the use of cramfs could mitigate potential risks related to unencrypted or improperly configured encrypted filesystems."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "SKIP",
+      "reason": "HFS is deprecated in modern Linux distributions like Ubuntu 24.04, which uses ext4 by default, making this rule unnecessary and non-vital for the user's system setup."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "SKIP",
+      "reason": "Disabling hfsplus may cause compatibility issues with legitimate applications in an already supported environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling jffs2 prevents potential risks related to encrypted partition tables and associated vulnerabilities, aligning with the system's low physical risk and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Prevents device files from being created in /dev/shm, enhancing security by blocking unauthorized attempts to persist on this directory."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Although your environment is secure, adding noexec to /dev/shm prevents potential malicious use of the writable directory, serving as a proactive security measure."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "SKIP",
+      "reason": "While adding the nosuid option can enhance security by preventing setuid programs, it may be overkill for a personal system running on a stable and regularly patched OS with trusted internal environments. The potential risks do not outweigh the inconvenience or complexity of implementing this rule in this context. The evaluation concludes that the rule should be skipped as there are no real, relevant, or mitigated risks to address under the given threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps can prevent potential data exposure from system crashes, aligning with real security risks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "SKIP",
+      "reason": "Disabling core dumps could expose kernel privileges and memory contents; despite easy implementation via sysctl, the risk of unintended exposure necessitates closer monitoring."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures proper permissions for cron files to prevent unauthorized access of cron-based services, aligning with system security best practices."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "SKIP",
+      "reason": "The rule is unlikely to introduce a meaningful security risk for this system, as cron allow files are typically not used and the probability of such a file existing is low."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "SKIP",
+      "reason": "The file /etc/cron.allow is unlikely to exist or require such permissions on this system, with no high-risk theoretical threat."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "The rule addresses the real security risk of untrusted cron jobs running with sufficient privileges by verifying the correct permissions on /etc/cron.d, which is relevant to my system. While my setup doesn't require these specific permissions, adhering to best practices ensures cron scripts are executed safely."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a relevant security concern by enforcing proper file permissions on cron.daily, which is crucial for preventing unintended access and ensuring command execution requires sudo."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a potential security risk by verifying file permissions on /etc/crontab, which could allow unauthorized access or script execution if compromised. Although the system has physical and network security measures, there's still an actual risk that needs addressing."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "SKIP",
+      "reason": "The rule to uninstall the 'nis' package addresses the support for Yellowpages, which may not be relevant if the user's current setup does not require it. Given that the network environment is trusted and they are using a standard firewall, removing unnecessary packages like 'nis' might not directly impact their system unless specifically needed elsewhere in their configuration. Conclusion: Skip this rule as it doesn't pose an immediate security risk based on the provided threat model and user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "vsftpd is outdated and potentially risky; the rule offers a straightforward fix to remove it."
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "SKIP",
+      "reason": "The rule instructs using 'systemctl' to disable the vsftpd service, which is non-standard and likely incorrect. Analysis: - Rule 1 ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled - Decision: SKIP - Reason: The use of \"systemctl\" command is unusual for system-wide management."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a low-risk FTP vulnerability in a trusted home network setup and physical access restrictions."
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "SKIP",
+      "reason": "The TNFTPS package is a well-maintained enhanced FTP client with no known major vulnerabilities, so no real threat exists to justify removing it."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "SKIP",
+      "reason": "The rule is outdated as SGLI is supported in Ubuntu 24.04 and the package isn't necessary for security."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "SKIP",
+      "reason": "No real risk in a controlled home network with limited physical access; not critical for modern IPC systems."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Removing ypserv is determined to have no real risk on the current Ubuntu 24.04 system, as it's likely unnecessary or deprecated without causing vulnerabilities."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "Low risk of attack vector with controlled environment; enhancing security by removing telnet clients is appropriate."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "SKIP",
+      "reason": "Removing rsync does not pose a real security risk to this system. The command is unnecessary for normal operation, and there are no risks associated with removing it since the user has trusted home networks and low physical access risk."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "SKIP",
+      "reason": "Disabling rsyncd may not be necessary for a personal system and could have unintended consequences without providing significant security benefits."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\nDECISION: SKIP\nREASON: The rule does not apply to my specific system due to the non-root storage location and system configuration on Ubuntu 24.04 LTS with x86_64 architecture, where no known issues exist or likely impact me personally.",
+      "elapsed_seconds": 54.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_partition_for_tmp  \n**DECISION:** KEEP  \n**REASON:** The rule addresses the security risk of /tmp being exposed and is applicable given the system's architecture using LVM.",
+      "elapsed_seconds": 31.7,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "\n\n**RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile**\n\n**DECISION:** KEEP  \n**REASON:** Ensures that even if a sudo log file is misconfigured, it defaults to a standard location (/var/log/sudo.log), aiding in auditing and security monitoring for potential vulnerabilities or misconfigurations.",
+      "elapsed_seconds": 62.0,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate\nDECISION: KEEP\nREASON: Disabling sudo !authenticate protects against privilege escalation, aligning with system security best practices.",
+      "elapsed_seconds": 34.9,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_sudo_require_reauthentication  \n**DECISION:** SKIP  \n**REASON:** The rule does not apply to my system as there's no known risk associated with using sudo under these conditions.",
+      "elapsed_seconds": 37.0,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok  \n**DECISION:** KEEP  \n**REASON:** The rule enhances password security by enforcing the use of `use_authtok` for pam_unix authtoks during password changes, providing robust protection against account compromise without unnecessary complexity.",
+      "elapsed_seconds": 54.9,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny  \n**DECISION:** KEEP  \n**REASON:** The rule addresses real security risks by locking accounts after failed password attempts, which is relevant. It's implementable with basic technical knowledge and doesn't excessively hinder usability.",
+      "elapsed_seconds": 67.5,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled  \n**DECISION:** KEEP  \n**REASON:** The system running Ubuntu 24.04 LTS is vulnerable to bypassing password protections if pam_faillock is not enabled, which could allow attackers to compromise accounts without proper authentication. Given the user's limited capabilities but high trust in network and physical access, ensuring this security measure is critical for protection against common attack vectors like brute force attempts.",
+      "elapsed_seconds": 72.8,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time  \n**DECISION:** KEEP  \n**REASON:** Configuring pam_faillock.so lockout time is essential for preventing unauthorized access and is applicable to the system's environment.",
+      "elapsed_seconds": 46.4,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit  \nDECISION: KEEP  \nREASON: The rule ensures PAM enforces password requirements with a minimum digit and letter requirement, aligning with secure practices. My system uses Ubuntu 24.04 LTS, which supports these policies without high risk of tampering or compromise, making it appropriate to keep the rule in place.",
+      "elapsed_seconds": 35.5,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "\n\nThe system is secure enough that enforcing longer passwords isn't necessary without causing unnecessary complexity or inconvenience. \n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: SKIP\nREASON: The system's security posture does not require enforcing minimum password lengths, as it is unlikely to be compromised by such measures given the current setup and no significant threat from physical or network risks.",
+      "elapsed_seconds": 39.0,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit  \nDECISION: SKIP  \nREASON: The system has low risk of threats related to weak passwords, as it's a personal device with limited physical and network risks. Enforcing uppercase password requirements isn't necessary for this environment without addressing actual vulnerabilities or real-world risks.",
+      "elapsed_seconds": 36.2,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth  \n**DECISION:** KEEP  \n**REASON:** The rule addresses a critical security concern by enabling perfect forward secrecy (PFS) in SSH, which protects against key compromise attacks. This is essential for maintaining session security, especially with long-lived keys or potential server key exposure.\n\nThe reasoning behind keeping the rule is that using PFS prevents an attacker from decrypting past sessions if they later compromise a server's private key. While it may complicate configuration slightly, this trade-off ensures enhanced security, making it worth implementing on an Ubuntu system.",
+      "elapsed_seconds": 46.6,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: SKIP\nREASON: While \"remember\" in pam_unix stores password history, modern security practices and user configurations minimize its risk on this Ubuntu setup.",
+      "elapsed_seconds": 38.2,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "\n\nThe rule addresses real risks related to secure authentication practices and is relevant to the user's system configuration. Therefore, it should be kept.\n\nRULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: Prevents unauthorized access by ensuring accounts with empty passwords are not logged in automatically, which directly addresses a real security risk and is applicable to the current system environment.",
+      "elapsed_seconds": 36.5,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "\n\n**RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc**\n\n**DECISION:** SKIP\n\n**REASON:** The rule is technically correct but impractical for a personal laptop setup where enforcing it across all users would be too restrictive and unnecessary.",
+      "elapsed_seconds": 38.7,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs  \n**DECISION:** KEEP  \n**REASON:** Ensures system security by controlling file modifications upon login, addressing a real risk of unauthorized access.",
+      "elapsed_seconds": 53.1,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "\n\nThe TMOUT setting in /etc/profile poses a real security risk due to potential accidental changes. Given the system's configuration, ignoring physical tampering risks internal session instability.\n\n**Decision:** KEEP  \n**Reason:** The risk of accidental changes causing session timeouts is significant, aligning with Rule 1's requirements and system context.",
+      "elapsed_seconds": 48.5,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor  \nDECISION: KEEP  \nREASON: Ensures AppArmor is enabled for enhanced security against potential malware threats in the GRUB bootloader configuration.",
+      "elapsed_seconds": 44.7,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password  \nDECISION: KEEP  \nREASON: Even with low physical and network risks, secure UEFI boot passwords are critical for system integrity, especially given the rule's importance in protecting against potential vulnerabilities.",
+      "elapsed_seconds": 47.7,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: SKIP\nREASON: The service is unnecessary for a stable production environment and could cause resource usage or security risks.",
+      "elapsed_seconds": 39.9,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_compress  \nDECISION: SKIP  \nREASON: The rule addresses an informational concern (efficient log storage) without posing a security risk to the system or user environment.",
+      "elapsed_seconds": 41.4,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog"
+      ],
+      "raw_response": "\n\nThe rule to ensure journald logs are sent to rsyslog should be kept because it provides a reliable method for system monitoring, aiding in timely issue detection and resolution. This contributes to overall system security by maintaining actionable logging data.\n\nRULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog  \nDECISION: KEEP  \nREASON: Ensures logs from journald are forwarded to rsyslog for monitoring and incident response, aiding in timely issue detection.",
+      "elapsed_seconds": 75.1,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_storage"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_journald_storage  \n**DECISION:** SKIP  \n**REASON:** The system's environment and configuration inherently handle journald logs being stored on persistent disk, reducing the risk of data loss upon reboot.",
+      "elapsed_seconds": 41.7,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls"
+      ],
+      "raw_response": "\n\nThe system runs in a trusted environment with no external threats. The rule concerns networked systems' security but isn't necessary for this setup since physical and external risks aren't present. \n\n**RULE ID:** xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls  \n**DECISION:** SKIP  \n**REASON:** No real risk due to trusted network environment; rule may be unnecessary unless affecting another user on the same network.",
+      "elapsed_seconds": 58.0,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url"
+      ],
+      "raw_response": "\n\nThe rule is about securing rsyslog messages, which could be misconfigured to expose services. My system uses only trusted networks, so while not directly applicable, it's still relevant for networked systems.\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_systemd_journal_upload_url  \n**DECISION:** KEEP  \n**REASON:** It addresses potential network security concerns related to rsyslog configuration, which could lead to unintended vulnerabilities in environments that use trusted networks.",
+      "elapsed_seconds": 45.8,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: SKIP\nREASON: The rule addresses preventing potential vulnerabilities by disabling IPv6 forwarding but is unnecessary in a trusted home network environment where no external threats likely exist.",
+      "elapsed_seconds": 71.8,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects  \n**DECISION:** SKIP  \n**REASON:** There is no clear threat or vulnerability in the given environment that justifies disabling accept redirect for all IPv4 interfaces.",
+      "elapsed_seconds": 40.7,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians  \nDECISION: KEEP  \nREASON: The rule enables logging of \"Martian packets\" on all IPv4 interfaces, which could allow unauthorized packet interception or tampering. Given low physical security and trusted networks, this represents a potential risk to network confidentiality.",
+      "elapsed_seconds": 49.5,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: Reverse Path Filtering (RPF) is enabled through sysctl to mitigate DDoS risks by filtering traffic via local networks, which aligns with the system's security posture.",
+      "elapsed_seconds": 40.5,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies  \nDECISION: SKIP  \nREASON: Enabling TCP Syncookies isn't necessary for security on this system with trusted networks and doesn't introduce any risks.",
+      "elapsed_seconds": 45.2,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects  \n**DECISION:** KEEP  \n**REASON:** Disabling the send_redirects kernel parameter mitigates a real, potential security risk related to ICMP redirects that could enable network spoofing or route hijacking.",
+      "elapsed_seconds": 52.9,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward  \nDECISION: KEEP  \nREASON: The rule addresses the risk of unauthorized kernel parameter configuration, which is critical given the system's root access due to PREEMPT_DYNAMIC.",
+      "elapsed_seconds": 33.4,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled"
+      ],
+      "raw_response": "\n\nThe nftables service relates to networking configurations, which are typically secure if correctly configured. In a trusted home network with low physical risk, enabling the service is standard and doesn't pose an immediate threat without misconfiguration.\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled  \nDECISION: SKIP  \nREASON: N/A, as nftables don\u2019t inherently introduce significant risks in a trusted environment.",
+      "elapsed_seconds": 44.9,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_firewall_single_service_active  \n**DECISION:** KEEP  \n**REASON:** Ensures only one firewall service is active, preventing potential security risks like misconfigured packet filtering.",
+      "elapsed_seconds": 45.2,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "\n\n**Analysis of Rule xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow**\n\n- **Rule ID**: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\n- **Decision**: SKIP\n- **Reason**: The rule is unnecessary for this system, as the /etc/gshadow file in a modern Ubuntu environment is typically handled securely without such explicit group ownership checks.",
+      "elapsed_seconds": 43.7,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled  \n**DECISION:** SKIP  \n**REASON:** Preventing the use of cramfs could mitigate potential risks related to unencrypted or improperly configured encrypted filesystems.",
+      "elapsed_seconds": 37.8,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "\n\nThe rule in question pertains to disabling HFS, an older file system. Given that the user is running Ubuntu 24.04 LTS, which uses ext4 by default, there is no need for this configuration. The rule does not represent a real risk or necessity for their environment.\n\n**RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled**\n\n**DECISION:** SKIP\n\n**REASON:** HFS is deprecated in modern Linux distributions like Ubuntu 24.04, which uses ext4 by default, making this rule unnecessary and non-vital for the user's system setup.",
+      "elapsed_seconds": 63.0,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled\nDECISION: SKIP\nREASON: Disabling hfsplus may cause compatibility issues with legitimate applications in an already supported environment.",
+      "elapsed_seconds": 53.7,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled  \nDECISION: KEEP  \nREASON: Disabling jffs2 prevents potential risks related to encrypted partition tables and associated vulnerabilities, aligning with the system's low physical risk and trusted network environment.",
+      "elapsed_seconds": 56.1,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 41,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev  \nDECISION: KEEP  \nREASON: Prevents device files from being created in /dev/shm, enhancing security by blocking unauthorized attempts to persist on this directory.",
+      "elapsed_seconds": 38.9,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 42,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "\n\n**RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec**\n\n**DECISION:** KEEP\n\n**REASON:** Although your environment is secure, adding `noexec` to `/dev/shm` prevents potential malicious use of the writable directory, serving as a proactive security measure.",
+      "elapsed_seconds": 59.8,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 43,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "\n\nThe rule to add the nosuid option to /dev/shm is evaluated based on its relevance to the user's environment and existing security measures.\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid  \n**DECISION:** SKIP  \n**REASON:** While adding the nosuid option can enhance security by preventing setuid programs, it may be overkill for a personal system running on a stable and regularly patched OS with trusted internal environments. The potential risks do not outweigh the inconvenience or complexity of implementing this rule in this context.\n\nThe evaluation concludes that the rule should be skipped as there are no real, relevant, or mitigated risks to address under the given threat model.",
+      "elapsed_seconds": 69.7,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 44,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps  \nDECISION: KEEP  \nREASON: Disabling core dumps can prevent potential data exposure from system crashes, aligning with real security risks.",
+      "elapsed_seconds": 41.9,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 45,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable  \n**DECISION:** SKIP  \n**REASON:** Disabling core dumps could expose kernel privileges and memory contents; despite easy implementation via sysctl, the risk of unintended exposure necessitates closer monitoring.",
+      "elapsed_seconds": 37.3,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 46,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 180.3,
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Read timed out. (read timeout=180)",
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 47,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "\n\nThe rule addresses potential risks related to improper management of a critical system file, which could lead to unauthorized access. Therefore, it should be kept.\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON: Improper group ownership on /etc/gshadow- can allow attackers to gain unauthorized access if misused after being granted access due to incorrect permissions.",
+      "elapsed_seconds": 41.5,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 48,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow  \n**DECISION:** KEEP  \n**REASON:** Ensures proper permissions for cron files to prevent unauthorized access of cron-based services, aligning with system security best practices.",
+      "elapsed_seconds": 66.2,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 49,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "\n\n**RULE ID:** xccdf_org.ssgproject.content_rule_file_owner_cron_allow  \n**DECISION:** SKIP  \n**REASON:** The rule is unlikely to introduce a meaningful security risk for this system, as cron allow files are typically not used and the probability of such a file existing is low.",
+      "elapsed_seconds": 54.2,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 50,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow  \nDECISION: SKIP  \nREASON: The file /etc/cron.allow is unlikely to exist or require such permissions on this system, with no high-risk theoretical threat.",
+      "elapsed_seconds": 59.1,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 51,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "\n\n**RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d**\n\n**DECISION:** KEEP\n\n**REASON:** The rule addresses the real security risk of untrusted cron jobs running with sufficient privileges by verifying the correct permissions on /etc/cron.d, which is relevant to my system. While my setup doesn't require these specific permissions, adhering to best practices ensures cron scripts are executed safely.",
+      "elapsed_seconds": 59.0,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 52,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily  \nDECISION: KEEP  \nREASON: The rule addresses a relevant security concern by enforcing proper file permissions on cron.daily, which is crucial for preventing unintended access and ensuring command execution requires sudo.",
+      "elapsed_seconds": 47.0,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 53,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab  \nDECISION: KEEP  \nREASON: The rule addresses a potential security risk by verifying file permissions on /etc/crontab, which could allow unauthorized access or script execution if compromised. Although the system has physical and network security measures, there's still an actual risk that needs addressing.",
+      "elapsed_seconds": 54.6,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 54,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed"
+      ],
+      "raw_response": "\n\n**Analysis:**\n\n- **RULE ID:** xccdf_org.ssgproject.content_rule_package_nis_removed  \n  **DECISION:** SKIP  \n  **REASON:** The rule to uninstall the 'nis' package addresses the support for Yellowpages, which may not be relevant if the user's current setup does not require it. Given that the network environment is trusted and they are using a standard firewall, removing unnecessary packages like 'nis' might not directly impact their system unless specifically needed elsewhere in their configuration.\n\n**Conclusion:** Skip this rule as it doesn't pose an immediate security risk based on the provided threat model and user environment.",
+      "elapsed_seconds": 86.5,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 55,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_vsftpd_removed"
+      ],
+      "raw_response": "\n\nThe vsftpd package is outdated and may pose security risks if left installed, especially on an otherwise secure system like the one described. The rule provides a simple solution by suggesting removal via apt-get.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_vsftpd_removed\nDECISION: KEEP\nREASON: vsftpd is outdated and potentially risky; the rule offers a straightforward fix to remove it.",
+      "elapsed_seconds": 43.8,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 56,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled"
+      ],
+      "raw_response": "\n\nThe rule about disabling vsftpd is considered for removal due to its unusual command usage. \n\nRULE ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled\nDECISION: SKIP\nREASON: The rule instructs using 'systemctl' to disable the vsftpd service, which is non-standard and likely incorrect.\n\nAnalysis:\n\n- **Rule 1 ID**: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled\n- **Decision**: SKIP\n- **Reason**: The use of \"systemctl\" command is unusual for system-wide management.",
+      "elapsed_seconds": 44.9,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 57,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed  \nDECISION: KEEP  \nREASON: The rule addresses a low-risk FTP vulnerability in a trusted home network setup and physical access restrictions.",
+      "elapsed_seconds": 45.3,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 58,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_tnftp_removed"
+      ],
+      "raw_response": "\n\nThe rule about removing the tnftp package is evaluated based on its potential security risk.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_tnftp_removed  \nDECISION: SKIP  \nREASON: The TNFTPS package is a well-maintained enhanced FTP client with no known major vulnerabilities, so no real threat exists to justify removing it.",
+      "elapsed_seconds": 40.3,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 59,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "\n\nThe rule is based on outdated information about SGLI being unsupported in Ubuntu 24.04, which is no longer relevant. Since the package isn't needed due to modern security considerations, applying this rule would not add value or potentially cause issues.\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed  \nDECISION: SKIP  \nREASON: The rule is outdated as SGLI is supported in Ubuntu 24.04 and the package isn't necessary for security.",
+      "elapsed_seconds": 55.5,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 60,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed  \nDECISION: SKIP  \nREASON: No real risk in a controlled home network with limited physical access; not critical for modern IPC systems.",
+      "elapsed_seconds": 53.4,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 61,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed  \nDECISION: KEEP  \nREASON: Removing ypserv is determined to have no real risk on the current Ubuntu 24.04 system, as it's likely unnecessary or deprecated without causing vulnerabilities.",
+      "elapsed_seconds": 53.2,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 62,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed  \nDECISION: KEEP  \nREASON: Low risk of attack vector with controlled environment; enhancing security by removing telnet clients is appropriate.",
+      "elapsed_seconds": 52.4,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 63,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed  \nDECISION: SKIP  \nREASON: Removing rsync does not pose a real security risk to this system. The command is unnecessary for normal operation, and there are no risks associated with removing it since the user has trusted home networks and low physical access risk.",
+      "elapsed_seconds": 40.2,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 64,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "\n\nRULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: SKIP\nREASON: Disabling rsyncd may not be necessary for a personal system and could have unintended consequences without providing significant security benefits.",
+      "elapsed_seconds": 38.3,
+      "error": null,
+      "kept_count_after_batch": 33
+    }
+  ],
+  "total_elapsed_seconds": 3270.1,
+  "wall_time_seconds": 3270.14,
+  "resource_metrics": {
+    "peak_ram_mb": 55.0,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 3.17,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": null
+}

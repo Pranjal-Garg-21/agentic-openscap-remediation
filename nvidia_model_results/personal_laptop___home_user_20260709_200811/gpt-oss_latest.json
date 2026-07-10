@@ -1,0 +1,693 @@
+{
+  "model": "gpt-oss:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 40,
+  "total_batches_available": 40,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Locking accounts after failed attempts reduces the risk of credential brute\u2011force attacks even on a home laptop, and adds an extra layer of protection for local logins.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling pam_faillock protects against password\u2011guessing attempts even on a personal home laptop.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Locking accounts after repeated failed logins protects against brute\u2011force attempts on a personal laptop, even with low physical or network risk.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length to protect against brute\u2011force or simple guess attacks, even on a home laptop.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing a minimum number of uppercase characters strengthens local passwords, which is beneficial even on a home laptop.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing a minimum number of digits helps strengthen local passwords, which is beneficial even on a personal home laptop.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized logins from accounts that might have no passwords set.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Even on a personal laptop, disabling ICMP redirects reduces the attack surface for potential MITM exploits.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enabling log_martians offers valuable defensive visibility against spoofed traffic, which is useful even on a personal home laptop.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Enabling rp_filter provides useful anti\u2011spoofing protection on all interfaces, which benefits a personal home laptop without impacting typical usage.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enabling syncookies protects against SYN flood attacks even on a home laptop connected to the internet.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling ASLR (kernel.randomize_va_space=2) protects against memory\u2011exploitation attacks and is a standard hardening measure on Ubuntu.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Prevents sensitive data leakage from SUID program core dumps.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "Provides mandatory access control to mitigate potential exploits on a personal laptop.",
+      "title": "Ensure AppArmor Utils is installed",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "Enforcing or complain mode on all AppArmor profiles still protects a home laptop from local exploitation.",
+      "title": "All AppArmor Profiles are in enforce or complain mode",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor provides useful mandatory access control on all Ubuntu systems, including personal laptops.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Restricts cron configuration to root, preventing unauthorized local modifications.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling cramfs removes an unused module, reducing the attack surface even on a home laptop.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Adding nosuid to /dev/shm prevents execution of set\u2011uid binaries in this world\u2011writable tmpfs, a recommended hardening step even for a personal laptop.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Locking accounts after failed attempts reduces the risk of credential brute\u2011force attacks even on a home laptop, and adds an extra layer of protection for local logins."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling pam_faillock protects against password\u2011guessing attempts even on a personal home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Locking accounts after repeated failed logins protects against brute\u2011force attempts on a personal laptop, even with low physical or network risk."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length to protect against brute\u2011force or simple guess attacks, even on a home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing a minimum number of uppercase characters strengthens local passwords, which is beneficial even on a home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforcing a minimum number of digits helps strengthen local passwords, which is beneficial even on a personal home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "SKIP",
+      "reason": "The default Ubuntu PAM configuration does not use the \u201cremember\u201d option, so it is irrelevant for a personal laptop with trusted networks and limited physical access."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Prevents unauthorized logins from accounts that might have no passwords set."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Even on a personal laptop, disabling ICMP redirects reduces the attack surface for potential MITM exploits."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "SKIP",
+      "reason": "Accepting ICMP redirects poses minimal threat on a trusted home network with no physical access risks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enabling log_martians offers valuable defensive visibility against spoofed traffic, which is useful even on a personal home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Enabling rp_filter provides useful anti\u2011spoofing protection on all interfaces, which benefits a personal home laptop without impacting typical usage."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enabling syncookies protects against SYN flood attacks even on a home laptop connected to the internet."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "SKIP",
+      "reason": "IP forwarding is disabled by default on a personal home laptop, so enforcing it provides no additional security value."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling ASLR (kernel.randomize_va_space=2) protects against memory\u2011exploitation attacks and is a standard hardening measure on Ubuntu."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "SKIP",
+      "reason": "IPv6 forwarding is not needed on a personal home laptop that does not act as a router."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Prevents sensitive data leakage from SUID program core dumps."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "SKIP",
+      "reason": "Core dumps aid debugging on a personal laptop and pose minimal risk in a trusted home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "SKIP",
+      "reason": "For a single-user personal laptop on trusted home networks, automatic session logout provides minimal additional security while potentially causing inconvenience."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "SKIP",
+      "reason": "For a single\u2011user personal laptop, the default umask setting is not critical."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "SKIP",
+      "reason": "Only the user has physical access and trusts the home network, so frequent sudo re\u2011authentications add little practical benefit."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "SKIP",
+      "reason": "Default sudo logging to syslog is sufficient for a personal home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "Provides mandatory access control to mitigate potential exploits on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "Enforcing or complain mode on all AppArmor profiles still protects a home laptop from local exploitation."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor provides useful mandatory access control on all Ubuntu systems, including personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "SKIP",
+      "reason": "The FTP client is not required for a personal laptop used only in a trusted home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "SKIP",
+      "reason": "Telnet client is not installed by default on Ubuntu 24.04, and its absence poses no security risk in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "SKIP",
+      "reason": "Rsync is benign on a personal laptop and not required for the user\u2019s activities."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "SKIP",
+      "reason": "The laptop does not run an rsync daemon, making the rule unnecessary."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "SKIP",
+      "reason": "Typical personal laptop does not require an LDAP client."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "SKIP",
+      "reason": "This rule is unnecessary on a personal laptop where cron usage is controlled by default user permissions and no one needs to restrict crontab access."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Restricts cron configuration to root, preventing unauthorized local modifications."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "SKIP",
+      "reason": "Unlikely to be exploitable in a single-user home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "SKIP",
+      "reason": "The rule matters only when /etc/cron.allow is used, which is uncommon on a personal home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling cramfs removes an unused module, reducing the attack surface even on a home laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "SKIP",
+      "reason": "HFS mounting unlikely needed on a home Ubuntu laptop and poses no risk."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "SKIP",
+      "reason": "JFFS2 is not used on standard x86_64 desktop Linux, so disabling it adds no benefit."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "SKIP",
+      "reason": "The default /dev/shm mount on Ubuntu 24.04 LTS already includes the nodev option, so this rule is not required for this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "SKIP",
+      "reason": "The laptop is a single-user home machine, so execution from /dev/shm poses negligible risk."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Adding nosuid to /dev/shm prevents execution of set\u2011uid binaries in this world\u2011writable tmpfs, a recommended hardening step even for a personal laptop."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny  \nDECISION: KEEP  \nREASON: Locking accounts after failed attempts reduces the risk of credential brute\u2011force attacks even on a home laptop, and adds an extra layer of protection for local logins.",
+      "elapsed_seconds": 45.3,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled  \nDECISION: KEEP  \nREASON: Enabling pam_faillock protects against password\u2011guessing attempts even on a personal home laptop.",
+      "elapsed_seconds": 27.0,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time  \nDECISION: KEEP  \nREASON: Locking accounts after repeated failed logins protects against brute\u2011force attempts on a personal laptop, even with low physical or network risk.",
+      "elapsed_seconds": 44.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen  \nDECISION: KEEP  \nREASON: Enforces a minimum password length to protect against brute\u2011force or simple guess attacks, even on a home laptop.",
+      "elapsed_seconds": 25.0,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit  \nDECISION: KEEP  \nREASON: Enforcing a minimum number of uppercase characters strengthens local passwords, which is beneficial even on a home laptop.",
+      "elapsed_seconds": 23.0,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit  \nDECISION: KEEP  \nREASON: Enforcing a minimum number of digits helps strengthen local passwords, which is beneficial even on a personal home laptop.",
+      "elapsed_seconds": 23.7,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: SKIP\nREASON: The default Ubuntu PAM configuration does not use the \u201cremember\u201d option, so it is irrelevant for a personal laptop with trusted networks and limited physical access.",
+      "elapsed_seconds": 21.2,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix  \nDECISION: KEEP  \nREASON: Prevents unauthorized logins from accounts that might have no passwords set.",
+      "elapsed_seconds": 31.8,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects  \nDECISION: KEEP  \nREASON: Even on a personal laptop, disabling ICMP redirects reduces the attack surface for potential MITM exploits.",
+      "elapsed_seconds": 29.4,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects  \nDECISION: SKIP  \nREASON: Accepting ICMP redirects poses minimal threat on a trusted home network with no physical access risks.",
+      "elapsed_seconds": 34.3,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians  \nDECISION: KEEP  \nREASON: Enabling log_martians offers valuable defensive visibility against spoofed traffic, which is useful even on a personal home laptop.",
+      "elapsed_seconds": 29.9,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter  \nDECISION: KEEP  \nREASON: Enabling rp_filter provides useful anti\u2011spoofing protection on all interfaces, which benefits a personal home laptop without impacting typical usage.",
+      "elapsed_seconds": 33.8,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: Enabling syncookies protects against SYN flood attacks even on a home laptop connected to the internet.",
+      "elapsed_seconds": 14.1,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward  \nDECISION: SKIP  \nREASON: IP forwarding is disabled by default on a personal home laptop, so enforcing it provides no additional security value.",
+      "elapsed_seconds": 26.5,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space  \nDECISION: KEEP  \nREASON: Enabling ASLR (kernel.randomize_va_space=2) protects against memory\u2011exploitation attacks and is a standard hardening measure on Ubuntu.",
+      "elapsed_seconds": 26.8,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: SKIP\nREASON: IPv6 forwarding is not needed on a personal home laptop that does not act as a router.",
+      "elapsed_seconds": 19.3,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable  \nDECISION: KEEP  \nREASON: Prevents sensitive data leakage from SUID program core dumps.",
+      "elapsed_seconds": 32.9,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps  \nDECISION: SKIP  \nREASON: Core dumps aid debugging on a personal laptop and pose minimal risk in a trusted home environment.",
+      "elapsed_seconds": 25.9,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout  \nDECISION: SKIP  \nREASON: For a single-user personal laptop on trusted home networks, automatic session logout provides minimal additional security while potentially causing inconvenience.",
+      "elapsed_seconds": 37.2,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc  \nDECISION: SKIP  \nREASON: For a single\u2011user personal laptop, the default umask setting is not critical.",
+      "elapsed_seconds": 26.5,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication  \nDECISION: SKIP  \nREASON: Only the user has physical access and trusts the home network, so frequent sudo re\u2011authentications add little practical benefit.",
+      "elapsed_seconds": 45.3,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: SKIP\nREASON: Default sudo logging to syslog is sufficient for a personal home laptop.",
+      "elapsed_seconds": 15.6,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed\nDECISION: KEEP\nREASON: Provides mandatory access control to mitigate potential exploits on a personal laptop.",
+      "elapsed_seconds": 42.6,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode\nDECISION: KEEP\nREASON: Enforcing or complain mode on all AppArmor profiles still protects a home laptop from local exploitation.",
+      "elapsed_seconds": 34.3,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor  \nDECISION: KEEP  \nREASON: Enabling AppArmor provides useful mandatory access control on all Ubuntu systems, including personal laptops.",
+      "elapsed_seconds": 32.9,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed  \nDECISION: SKIP  \nREASON: The FTP client is not required for a personal laptop used only in a trusted home environment.",
+      "elapsed_seconds": 22.1,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed  \nDECISION: SKIP  \nREASON: Telnet client is not installed by default on Ubuntu 24.04, and its absence poses no security risk in this environment.",
+      "elapsed_seconds": 33.9,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed  \nDECISION: SKIP  \nREASON: Rsync is benign on a personal laptop and not required for the user\u2019s activities.",
+      "elapsed_seconds": 18.3,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: SKIP\nREASON: The laptop does not run an rsync daemon, making the rule unnecessary.",
+      "elapsed_seconds": 49.3,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed  \nDECISION: SKIP  \nREASON: Typical personal laptop does not require an LDAP client.",
+      "elapsed_seconds": 22.5,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow  \nDECISION: SKIP  \nREASON: This rule is unnecessary on a personal laptop where cron usage is controlled by default user permissions and no one needs to restrict crontab access.",
+      "elapsed_seconds": 20.3,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d  \nDECISION: KEEP  \nREASON: Restricts cron configuration to root, preventing unauthorized local modifications.",
+      "elapsed_seconds": 32.5,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily  \nDECISION: SKIP  \nREASON: Unlikely to be exploitable in a single-user home environment.",
+      "elapsed_seconds": 47.4,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: SKIP\nREASON: The rule matters only when /etc/cron.allow is used, which is uncommon on a personal home laptop.",
+      "elapsed_seconds": 66.1,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: Disabling cramfs removes an unused module, reducing the attack surface even on a home laptop.",
+      "elapsed_seconds": 33.7,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: SKIP\nREASON: HFS mounting unlikely needed on a home Ubuntu laptop and poses no risk.",
+      "elapsed_seconds": 34.0,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: SKIP\nREASON: JFFS2 is not used on standard x86_64 desktop Linux, so disabling it adds no benefit.",
+      "elapsed_seconds": 19.7,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: SKIP\nREASON: The default /dev/shm mount on Ubuntu 24.04 LTS already includes the nodev option, so this rule is not required for this environment.",
+      "elapsed_seconds": 49.6,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: SKIP\nREASON: The laptop is a single-user home machine, so execution from /dev/shm poses negligible risk.",
+      "elapsed_seconds": 35.4,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid  \nDECISION: KEEP  \nREASON: Adding nosuid to /dev/shm prevents execution of set\u2011uid binaries in this world\u2011writable tmpfs, a recommended hardening step even for a personal laptop.",
+      "elapsed_seconds": 40.6,
+      "error": null,
+      "kept_count_after_batch": 19
+    }
+  ],
+  "total_elapsed_seconds": 1274.2,
+  "error": null
+}

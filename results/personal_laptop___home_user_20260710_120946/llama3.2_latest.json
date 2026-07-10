@@ -1,0 +1,39 @@
+{
+  "model": "llama3.2:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 1,
+  "total_batches_available": 64,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 411.7,
+      "error": "Connection failed (check VPN): HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x74e4e16d2a20>, 'Connection to 10.1.96.96 timed out. (connect timeout=180)'))",
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 411.7,
+  "wall_time_seconds": 411.7,
+  "resource_metrics": {
+    "peak_ram_mb": 54.6,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 0.01,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": "Connection failed (check VPN): HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x74e4e16d2a20>, 'Connection to 10.1.96.96 timed out. (connect timeout=180)'))"
+}

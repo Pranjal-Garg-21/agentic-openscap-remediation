@@ -16,8 +16,94 @@ import re
 import sys
 import datetime
 import time
+import threading
 import xml.etree.ElementTree as ET
 import requests
+import urllib3
+
+try:
+    import psutil
+    HAVE_PSUTIL = True
+except ImportError:
+    HAVE_PSUTIL = False
+    import resource  # stdlib fallback, Unix-only, coarser granularity
+
+# The lab Ollama proxy uses a self-signed cert (VPN-internal), so we skip
+# verification for that host — this silences the resulting urllib3 warning.
+# NVIDIA's endpoint still gets normal cert verification.
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# ─────────────────────────────────────────────
+# RESOURCE METRICS (wall time / peak RAM / CPU)
+# ─────────────────────────────────────────────
+# IMPORTANT CAVEAT: model inference runs remotely (NVIDIA's cloud, or the lab
+# Ollama box over VPN). These metrics measure THIS SCRIPT's own client-side
+# footprint (making HTTP calls, parsing text) — not the model server's GPU/CPU
+# usage. Wall time is still meaningful (it's real end-to-end latency per
+# model), but "peak RAM"/"CPU%" here describe the orchestration process, not
+# the model's compute cost. To measure the lab box itself, instrument it
+# directly (e.g. `ollama ps`, nvidia-smi, or a monitoring agent on that host).
+
+class ResourceSampler:
+    """
+    Background sampler that polls this process's RSS memory and CPU% at a
+    fixed interval while a model is being queried, so we can report a true
+    peak (not just a before/after snapshot that could miss a spike).
+    Falls back to a single before/after delta via the stdlib `resource`
+    module if psutil isn't installed (coarser: only gives cumulative CPU
+    time and lifetime-peak RSS, not a windowed peak).
+    """
+    def __init__(self, interval=0.2):
+        self.interval = interval
+        self._stop_event = threading.Event()
+        self._thread = None
+        self.peak_rss_mb = 0.0
+        self.cpu_samples = []
+        self._process = psutil.Process(os.getpid()) if HAVE_PSUTIL else None
+        self._start_ru = None
+
+    def _poll_loop(self):
+        self._process.cpu_percent(interval=None)  # prime the internal counter
+        while not self._stop_event.is_set():
+            try:
+                rss_mb = self._process.memory_info().rss / (1024 * 1024)
+                self.peak_rss_mb = max(self.peak_rss_mb, rss_mb)
+                self.cpu_samples.append(self._process.cpu_percent(interval=None))
+            except Exception:
+                pass
+            self._stop_event.wait(self.interval)
+
+    def start(self):
+        if HAVE_PSUTIL:
+            self._stop_event.clear()
+            self._thread = threading.Thread(target=self._poll_loop, daemon=True)
+            self._thread.start()
+        else:
+            self._start_ru = resource.getrusage(resource.RUSAGE_SELF)
+
+    def stop(self):
+        """Returns dict: peak_ram_mb, avg_cpu_percent, method."""
+        if HAVE_PSUTIL:
+            self._stop_event.set()
+            if self._thread:
+                self._thread.join(timeout=self.interval * 2)
+            avg_cpu = round(sum(self.cpu_samples) / len(self.cpu_samples), 1) if self.cpu_samples else 0.0
+            return {
+                "peak_ram_mb": round(self.peak_rss_mb, 1),
+                "avg_cpu_percent": avg_cpu,
+                "method": "psutil (sampled every %.1fs)" % self.interval,
+            }
+        else:
+            end_ru = resource.getrusage(resource.RUSAGE_SELF)
+            cpu_time = (end_ru.ru_utime - self._start_ru.ru_utime) + \
+                       (end_ru.ru_stime - self._start_ru.ru_stime)
+            # ru_maxrss is KB on Linux, bytes on macOS — assume Linux (lab box is Ubuntu)
+            return {
+                "peak_ram_mb": round(end_ru.ru_maxrss / 1024, 1),
+                "avg_cpu_percent": None,  # not derivable without psutil
+                "cpu_time_seconds": round(cpu_time, 2),
+                "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)",
+            }
 
 # ─────────────────────────────────────────────
 # CONFIG
@@ -27,28 +113,39 @@ import requests
 NVIDIA_API_KEY = "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"
 NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# Exact model strings straight from the NVIDIA NIM catalog pages
+# Lab Ollama server, reached over VPN via a basic-auth HTTPS proxy.
+# Same rotation advice as the NVIDIA key above: prefer env vars over hardcoding
+# once this is off your local machine, since this password is now in your
+# chat history and this file. export LAB_URL / LAB_USER / LAB_PASS to override.
+LAB_URL = os.environ.get("LAB_URL", "https://10.1.96.96:8443")
+LAB_USER = os.environ.get("LAB_USER", "user")
+LAB_PASS = os.environ.get("LAB_PASS", "H72j8n19sna")
+
+# Exact model strings straight from the NVIDIA NIM catalog pages, plus
+# whatever's pulled on the lab Ollama box. Each entry is tagged with which
+# backend serves it so the same pipeline can query both.
+# Exact model strings pulled from your local Ollama box.
+# All entries are mapped to the 'lab' backend to query your Ollama server.
 MODELS = [
-    
-    "openai/gpt-oss-120b",
-    "deepseek-ai/deepseek-v4-pro",
-    "google/gemma-4-31b-it",
-    "z-ai/glm-5.2",
-    "qwen/qwen3.5-397b-a17b",
-    "moonshotai/kimi-k2.6",
-    "meta/llama-3.3-70b-instruct",
-    "mistralai/mistral-large-3-675b-instruct-2512",
-# "microsoft/phi-4-mini-instruct",
+    {"backend": "lab", "name": "qwen2.5:7b"},
+    {"backend": "lab", "name": "gpt-oss:latest"},
+    {"backend": "lab", "name": "granite4.1:8b"},
+    {"backend": "lab", "name": "phi3:latest"},
+    {"backend": "lab", "name": "gemma2:latest"},
+    {"backend": "lab", "name": "mistral:latest"},
+    {"backend": "lab", "name": "llama3.2:latest"},
+    {"backend": "lab", "name": "deepseek-r1:7b"},
+    # {"backend": "lab", "name": "mistral-small:latest"},  # Added this from the available list
 ]
 
 SCAN_RESULT_XML = "agent-test.xml"
 RESULTS_DIR = "results"
 
 # Max chars for rule descriptions to optimize cloud payload context footprint
-DESCRIPTION_MAX_CHARS = 1200
+DESCRIPTION_MAX_CHARS = 200
 
 # Batching logic — 40 target rules / 20 per batch = 2 rounds
-BATCH_SIZE = 5
+BATCH_SIZE = 1
 
 # KEEP_TARGET is the early-stop threshold used in v2 (stop once N rules are
 # KEPT). Set to None here so every rule in TARGET_RULE_IDS gets a verdict
@@ -59,61 +156,95 @@ KEEP_TARGET = None
 # TARGET RULE IDS — restrict analysis to just these 40 rules
 # ─────────────────────────────────────────────
 TARGET_RULE_IDS = [
-    # === PAM / Password Policy (8 rules) ===
+    # === System and Software Integrity (2 rules) ===
+    "xccdf_org.ssgproject.content_rule_aide_build_database",
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp",
+
+    # === Sudo Restrictions (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate",
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
+
+    # === Authentication & PAM Policies (10 rules) ===
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok",
     "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
     "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled",
     "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time",
-    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",  # Fixed upstream name
-    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit",
     "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit",
-    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",  # Replaced with modern Ubuntu variant
-    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",  # Corrected to specific Ubuntu identifier
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit",
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth",
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",
 
-    # === Kernel Parameters / Sysctl (8 rules) ===
-    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
+    # === Shell Environment & Session Timeouts (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc",
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs",
+    "xccdf_org.ssgproject.content_rule_accounts_tmout",
+
+    # === Bootloader & AppArmor Controls (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor",
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password",
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled",
+
+    # === Journald Logging Configurations (5 rules) ===
+    "xccdf_org.ssgproject.content_rule_journald_compress",
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog",
+    "xccdf_org.ssgproject.content_rule_journald_storage",
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls",
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url",
+
+    # === Networking & Kernel Sysctl Flags (7 rules) ===
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
     "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects",
     "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians",
     "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter",
     "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies",
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
     "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward",
+
+    # === Firewalls & Core System Shadow Files (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled",
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow",
+
+    # === File System Kernel Modules (4 rules) ===
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled",
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled",
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
+
+    # === Shared Memory Mount Tweaks (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid",
+
+    # === Core Dump Bounds & Address Randomization (3 rules) ===
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps",
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",
     "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space",
-    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
 
-    # === System Settings (6 rules) ===
-    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",  # Modern kernel core dump block variant
-    "xccdf_org.ssgproject.content_rule_disable_users_coredumps",  # Active Ubuntu user space core dump block
-    "xccdf_org.ssgproject.content_rule_accounts_tmout",
-    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc",
-    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
-    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",  # Modern Ubuntu log file rule mapping
-
-    # === AppArmor (3 rules) ===
-    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed",  # Fixed dash mismatch
-    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode",
-    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor",
-
-    # === Unnecessary Packages (5 rules) ===
-    "xccdf_org.ssgproject.content_rule_package_ftp_removed",
-    "xccdf_org.ssgproject.content_rule_package_telnet_removed",
-    "xccdf_org.ssgproject.content_rule_package_rsync_removed",
-    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled",
-    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed",  # Fixed dash mismatch
-
-    # === Cron / File Permissions (4 rules) ===
+    # === Cron Directory Permissions & File Owners (6 rules) ===
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow",
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow",
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
     "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow",
     "xccdf_org.ssgproject.content_rule_file_permissions_cron_d",
     "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily",
-    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab",
 
-    # === Filesystem Modules (3 rules) ===
-    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled",
-    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
-    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
-
-    # === /dev/shm Mount Options (3 rules) ===
-    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
-    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
-    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+    # === Non-compliant Server/Client Packages & Services (11 rules) ===
+    "xccdf_org.ssgproject.content_rule_package_nis_removed",
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed",
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled",
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed",
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed",
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed",
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed",
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed",
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
 ]
 
 # ─────────────────────────────────────────────
@@ -389,29 +520,28 @@ def build_prompt(role, profile, rules):
             f"  Description: {r['description']}\n\n"
         )
 
-    prompt = f"""[SYSTEM INSTRUCTION: YOU ARE A PARSING MACHINE. DO NOT BE CONVERSATIONAL. DO NOT PROVIDE ANY INTRODUCTORY OR CONCLUDING TEXT. PROVIDE ONLY THE EXACT RULE-BY-RULE OUTPUT BLOCKS REQUESTED BELOW. ]
-    You are a cybersecurity analyst. Your ONLY job is to decide if each failed CIS rule is relevant to this user's THREAT MODEL.
+    prompt = f"""You are an expert cybersecurity analyst evaluating CIS benchmark rules against a target threat model.
 
-HOST SYSTEM:
+MY SYSTEM CONFIGURATION:
 {system_lines}
 
-USER ENVIRONMENT:
+USER ENVIRONMENT & ROLE:
 Role: {role}
 {profile_lines}
 
-STRICT FILTERING RULES:
-- KEEP if the rule addresses a real threat given the user's environment and host system above.
-- SKIP if the rule is irrelevant to their environment (e.g. network rule for offline system) OR does not apply to this OS/kernel/architecture.
-- IGNORE scan result status (fail). Status does NOT affect your decision.
-- IGNORE whether the user can implement it. Capability is NOT a filtering criterion.
-- IGNORE rule complexity. Hard rules are not automatically skipped.
-- Use the rule's full description below (not just the title) to judge what the rule actually does before deciding.
-Your response shhould include rule id, decision (KEEP or SKIP), and a brief reason for your decision.
-If possible keep the output format as a structured list of RULE ID, DECISION, and REASON for each rule.
+CRITICAL FILTERING POSTURE (STRICT RULES):
+1. KEEP the rule if it addresses a real, theoretical risk to this OS/kernel or environment.
+2. IGNORE whether the user has the technical capability to implement it.
+3. IGNORE rule implementation complexity. Even if a rule is incredibly difficult or disruptive, do not automatically skip it.
+4. Focus purely on whether the underlying vulnerability applies to this system architecture and user profile.
 
-RULES:
+RULE TO EVALUATE:
 {rules_block}
-Begin:"""
+
+Provide your analysis exactly in this plain-text format:
+RULE ID: <rule_id>
+DECISION: <KEEP or SKIP>
+REASON: <one short sentence explanation balancing the strict criteria above>"""
 
     return prompt
 
@@ -499,31 +629,183 @@ def query_nvidia_nim(model_name, prompt, timeout=900):
                 "response": reply_text,
                 "elapsed_seconds": elapsed,
                 "error": None,
+                "fatal": False,
             }
             
         except requests.exceptions.HTTPError as e:
+            status = e.response.status_code
+
+            # 404/410 mean the model string is wrong or retired on NVIDIA's
+            # side — retrying won't help, so bail out of this model entirely.
+            if status in (404, 410):
+                elapsed = round(time.time() - start, 1)
+                err_msg = f"HTTP Error: {status} - {e.response.text[:150]}"
+                return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                        "error": err_msg, "fatal": True}
+
             # If it's a server timeout (502, 504) and we haven't run out of retries, wait and try again
-            if e.response.status_code in [502, 504] and attempt < max_retries - 1:
+            if status in [502, 504] and attempt < max_retries - 1:
                 print(" [API Busy - Retrying in 5s]...", end="", flush=True)
                 time.sleep(5)
                 continue
                 
             elapsed = round(time.time() - start, 1)
-            err_msg = f"HTTP Error: {e.response.status_code} - {e.response.text[:100]}"
-            return {"model": model_name, "response": "", "elapsed_seconds": elapsed, "error": err_msg}
+            err_msg = f"HTTP Error: {status} - {e.response.text[:100]}"
+            return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                    "error": err_msg, "fatal": False}
             
         except Exception as e:
             elapsed = round(time.time() - start, 1)
-            return {"model": model_name, "response": "", "elapsed_seconds": elapsed, "error": str(e)}
+            return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                    "error": str(e), "fatal": False}
+
+
+# ─────────────────────────────────────────────
+# QUERY THE LAB OLLAMA SERVER (VPN, basic auth, self-signed cert)
+# ─────────────────────────────────────────────
+
+def get_lab_models():
+    """
+    GET /models on the lab proxy. Returns a list of model name strings.
+    Handles a few likely response shapes since the proxy's exact schema
+    hasn't been confirmed yet — a plain list, an Ollama-style {"models":[...]}
+    with "name" keys, or a {"models": ["name", ...]} list of strings.
+    """
+    try:
+        resp = requests.get(
+            f"{LAB_URL}/models",
+            auth=(LAB_USER, LAB_PASS),
+            verify=False,
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception as e:
+        print(f"[ERROR] Could not reach lab server at {LAB_URL}/models: {e}")
+        print("        Check that you're on the VPN and the address/port are correct.")
+        return []
+
+    if isinstance(data, list):
+        return [m.get("name", m) if isinstance(m, dict) else m for m in data]
+    if isinstance(data, dict) and "models" in data:
+        return [m.get("name", m) if isinstance(m, dict) else m for m in data["models"]]
+
+    print(f"[WARN] Unrecognized /models response shape, raw: {str(data)[:300]}")
+    return []
+
+
+def query_lab_model(model_name, prompt, batch_len=20, timeout=900):
+    """
+    POST /chat on the lab proxy, same call contract as query_nvidia_nim so
+    both backends can share run_one_model_through_batches unchanged.
+    """
+    payload = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": prompt}],
+        # Ollama's default num_predict can be small (as low as 128 on some
+        # versions) and would silently truncate a 20-rule batch response.
+        # This key is ignored harmlessly if the proxy doesn't pass it through.
+        "stream": False,
+        "options": {"num_predict": min(8192, 200 * max(batch_len, 1) + 300)},
+    }
+
+    start = time.time()
+    max_retries = 3
+
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(
+                f"{LAB_URL}/chat",
+                auth=(LAB_USER, LAB_PASS),
+                json=payload,
+                verify=False,
+                timeout=timeout,
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            # Defensive extraction — exact shape not yet confirmed against the
+            # live server. Covers Ollama-native, OpenAI-proxy, and plain-text.
+            reply_text = ""
+            if isinstance(data, dict):
+                if "message" in data and isinstance(data["message"], dict):
+                    reply_text = data["message"].get("content", "")
+                elif "choices" in data:
+                    reply_text = data["choices"][0]["message"].get("content", "")
+                elif "response" in data:
+                    reply_text = data["response"]
+
+            elapsed = round(time.time() - start, 1)
+            return {
+                "model": model_name,
+                "response": reply_text,
+                "elapsed_seconds": elapsed,
+                "error": None,
+                "fatal": False,
+            }
+
+        except requests.exceptions.HTTPError as e:
+            status = e.response.status_code
+
+            # 401 = bad credentials, 404 = model not pulled on the lab box.
+            # Neither improves on retry.
+            if status in (401, 404):
+                elapsed = round(time.time() - start, 1)
+                err_msg = f"HTTP Error: {status} - {e.response.text[:150]}"
+                return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                        "error": err_msg, "fatal": True}
+
+            if status in (500, 502, 503, 504) and attempt < max_retries - 1:
+                print(f" [Lab server busy/{status} - retrying in 5s]...", end="", flush=True)
+                time.sleep(5)
+                continue
+
+            elapsed = round(time.time() - start, 1)
+            err_msg = f"HTTP Error: {status} - {e.response.text[:150]}"
+            return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                    "error": err_msg, "fatal": False}
+
+        except requests.exceptions.ConnectionError as e:
+            # Most commonly: not on the VPN, or the box is off.
+            if attempt < max_retries - 1:
+                print(" [Lab server unreachable - retrying in 5s, check VPN]...", end="", flush=True)
+                time.sleep(5)
+                continue
+            elapsed = round(time.time() - start, 1)
+            return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                    "error": f"Connection failed (check VPN): {e}", "fatal": True}
+
+        except Exception as e:
+            elapsed = round(time.time() - start, 1)
+            return {"model": model_name, "response": "", "elapsed_seconds": elapsed,
+                    "error": str(e), "fatal": False}
+
+
+def query_model(model_entry, prompt, batch_len=20, timeout=900):
+    """Dispatches to the right backend based on model_entry['backend']."""
+    backend = model_entry["backend"]
+    name = model_entry["name"]
+    if backend == "nim":
+        return query_nvidia_nim(name, prompt, batch_len=batch_len, timeout=timeout)
+    elif backend == "lab":
+        return query_lab_model(name, prompt, batch_len=batch_len, timeout=timeout)
+    else:
+        raise ValueError(f"Unknown backend '{backend}' for model {name}")
 # ─────────────────────────────────────────────
 # RUN MODEL WITH CLEAR TERMINAL OUTPUT
 # ─────────────────────────────────────────────
 
-def run_one_model_through_batches(model, batches, role, profile, total_rules):
+def run_one_model_through_batches(model_entry, batches, role, profile, total_rules):
+    model = model_entry["name"]
+    backend = model_entry["backend"]
     print(f"\n{'='*60}")
-    print(f"  EVALUATING MODEL: {model}")
+    print(f"  EVALUATING MODEL: {model}  [{backend}]")
     print(f"{'='*60}")
-    
+
+    sampler = ResourceSampler()
+    wall_start = time.perf_counter()
+    sampler.start()
+
     kept_rules = {}
     all_decisions = {}
     batch_calls = []
@@ -537,10 +819,11 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
         start_idx = (batch_num - 1) * BATCH_SIZE + 1
         end_idx = min(batch_num * BATCH_SIZE, total_rules)
         
-        print(f"  [Batch {batch_num}/{len(batches)}] Evaluating rules {start_idx} to {end_idx} via Cloud...", end="", flush=True)
+        source = "Cloud" if backend == "nim" else "Lab Server"
+        print(f"  [Batch {batch_num}/{len(batches)}] Evaluating rules {start_idx} to {end_idx} via {source}...", end="", flush=True)
         
         prompt = build_prompt(role, profile, batch)
-        call_result = query_nvidia_nim(model, prompt)
+        call_result = query_model(model_entry, prompt, batch_len=len(batch), timeout=180)
 
         if call_result["error"]:
             print(f" ERROR: {call_result['error']}")
@@ -584,9 +867,17 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
             "kept_count_after_batch": len(kept_rules),
         })
 
+        if call_result.get("fatal"):
+            print(f"  [FATAL] Model '{model}' unavailable (bad name, retired, not pulled, "
+                  f"or auth/VPN issue). Skipping remaining batches for this model.")
+            break
+
         if KEEP_TARGET is not None and len(kept_rules) >= KEEP_TARGET:
             print(f"  [INFO] Reached {KEEP_TARGET} KEEPs. Stopping early.")
             break
+
+    wall_time = round(time.perf_counter() - wall_start, 2)
+    resource_metrics = sampler.stop()
 
     print(f"\n  FINAL KEEP ({len(kept_rules)}):")
     if not kept_rules:
@@ -604,8 +895,14 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
         if info["decision"] == "SKIP":
             print(f"    - {rid.replace('xccdf_org.ssgproject.content_rule_', '')}")
 
+    cpu_display = f"{resource_metrics['avg_cpu_percent']}%" if resource_metrics.get("avg_cpu_percent") is not None \
+        else f"{resource_metrics.get('cpu_time_seconds', '?')}s CPU time"
+    print(f"\n  [METRICS] Wall time: {wall_time}s | Client peak RAM: {resource_metrics['peak_ram_mb']} MB | "
+          f"Client CPU: {cpu_display}  (script-side only, not model-server-side — see note in code)")
+
     return {
         "model": model,
+        "backend": backend,
         "role": role,
         "profile": profile,
         "batches_used": batches_used,
@@ -614,21 +911,35 @@ def run_one_model_through_batches(model, batches, role, profile, total_rules):
         "all_decisions": all_decisions,
         "batch_calls": batch_calls,
         "total_elapsed_seconds": round(sum(b["elapsed_seconds"] for b in batch_calls), 1),
+        "wall_time_seconds": wall_time,
+        "resource_metrics": resource_metrics,
         "error": batch_calls[-1]["error"] if batch_calls and all(b["error"] for b in batch_calls) else None,
     }
 
 def run_all_models(rules, role, profile):
     batches = batch_rules(rules, BATCH_SIZE)
     total_rules = len(rules)
-    
+
+    nim_count = sum(1 for m in MODELS if m["backend"] == "nim")
+    lab_count = sum(1 for m in MODELS if m["backend"] == "lab")
+
     print(f"\n{'='*60}")
-    print(f"  STARTING RUN: {len(MODELS)} Cloud Models")
+    print(f"  STARTING RUN: {len(MODELS)} models ({nim_count} NIM cloud, {lab_count} lab)")
     print(f"  Rules: {total_rules} ({len(batches)} batches of {BATCH_SIZE})")
     print(f"{'='*60}")
 
+    if lab_count > 0:
+        available = get_lab_models()
+        if available:
+            wanted = {m["name"] for m in MODELS if m["backend"] == "lab"}
+            missing = wanted - set(available)
+            if missing:
+                print(f"[WARN] These lab models aren't in the server's /models list: {sorted(missing)}")
+                print(f"       Available on lab server: {available}")
+
     results = []
-    for model in MODELS:
-        result = run_one_model_through_batches(model, batches, role, profile, total_rules)
+    for model_entry in MODELS:
+        result = run_one_model_through_batches(model_entry, batches, role, profile, total_rules)
         results.append(result)
         # Smooth window progression gap protecting against aggressive API bursts
         time.sleep(2)
@@ -672,6 +983,15 @@ def save_results(results, role, profile, total_rules_available):
             f.write(f"## Model: `{r['model']}`\n\n")
             f.write(f"**Batches used:** {r['batches_used']}/{r['total_batches_available']} | ")
             f.write(f"**Total time:** {r['total_elapsed_seconds']}s\n\n")
+
+            rm = r.get("resource_metrics", {})
+            cpu_str = f"{rm.get('avg_cpu_percent')}%" if rm.get("avg_cpu_percent") is not None \
+                else f"{rm.get('cpu_time_seconds', '?')}s CPU time"
+            f.write(f"**Wall time:** {r.get('wall_time_seconds', '?')}s | "
+                    f"**Client peak RAM:** {rm.get('peak_ram_mb', '?')} MB | "
+                    f"**Client CPU:** {cpu_str} "
+                    f"_(script-side only — model inference runs remotely, see note in source)_\n\n")
+
             keep_denom = KEEP_TARGET if KEEP_TARGET is not None else len(r["all_decisions"]) or n_keep
             f.write(f"**KEEP: {n_keep}/{keep_denom}** | SKIP: {n_skip} | Unparsed: {n_unparsed}\n\n")
 
@@ -707,12 +1027,15 @@ def save_results(results, role, profile, total_rules_available):
         "models_run": [
             {
                 "model": r["model"],
+                "backend": r.get("backend"),
                 "batches_used": r["batches_used"],
                 "total_batches_available": r["total_batches_available"],
                 "kept_count": len(r["kept_rules"]),
                 "skip_count": sum(1 for d in r["all_decisions"].values() if d["decision"] == "SKIP"),
                 "unparsed_count": sum(1 for d in r["all_decisions"].values() if d["decision"] == "UNPARSED"),
                 "total_elapsed_seconds": r["total_elapsed_seconds"],
+                "wall_time_seconds": r.get("wall_time_seconds"),
+                "resource_metrics": r.get("resource_metrics"),
                 "error": r["error"],
             }
             for r in results
@@ -750,8 +1073,17 @@ def main():
     for r in results:
         status = f"{r['total_elapsed_seconds']}s" if not r["error"] else "ERROR"
         keep_denom = KEEP_TARGET if KEEP_TARGET is not None else len(r["all_decisions"])
-        print(f"  {r['model']:<46} {status:<10} KEEP {len(r['kept_rules'])}/{keep_denom}  "
-              f"(batches {r['batches_used']}/{r['total_batches_available']})")
+        rm = r.get("resource_metrics", {})
+        cpu_str = f"{rm.get('avg_cpu_percent')}%" if rm.get("avg_cpu_percent") is not None \
+            else f"{rm.get('cpu_time_seconds', '?')}s"
+        print(f"  {r['model']:<32} {status:<10} KEEP {len(r['kept_rules'])}/{keep_denom}  "
+              f"(batches {r['batches_used']}/{r['total_batches_available']})  "
+              f"wall={r.get('wall_time_seconds', '?')}s  peakRAM={rm.get('peak_ram_mb', '?')}MB  cpu={cpu_str}")
+
+    if not HAVE_PSUTIL:
+        print("\n  [NOTE] psutil not installed — CPU%/peak RAM used the coarser 'resource' module "
+              "fallback (cumulative process lifetime figures, not per-model windowed peaks).")
+        print("         For accurate per-model sampling: pip install psutil --break-system-packages")
 
     print(f"\n[✓] Done. Check terminal output above or open {run_dir}/comparison.md for deep dive.\n")
 

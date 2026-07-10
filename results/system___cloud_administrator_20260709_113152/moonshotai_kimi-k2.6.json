@@ -1,0 +1,235 @@
+{
+  "model": "moonshotai/kimi-k2.6",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 2,
+  "total_batches_available": 2,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward",
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps",
+        "xccdf_org.ssgproject.content_rule_accounts_tmout",
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 0.6,
+      "error": "HTTP Error: 404 - {\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '23d4f03a-b8a6-4adb-a183-7daa083a09cc': Not fou",
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed",
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode",
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor",
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed",
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed",
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed",
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled",
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily",
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled",
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 0.4,
+      "error": "HTTP Error: 404 - {\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '23d4f03a-b8a6-4adb-a183-7daa083a09cc': Not fou",
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 1.0,
+  "error": "HTTP Error: 404 - {\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '23d4f03a-b8a6-4adb-a183-7daa083a09cc': Not fou"
+}

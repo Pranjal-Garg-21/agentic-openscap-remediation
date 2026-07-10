@@ -1,0 +1,93 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260709_202855",
+  "total_rules_available": 40,
+  "batch_size": 5,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 41.8,
+      "error": null
+    },
+    {
+      "model": "deepseek-ai/deepseek-v4-pro",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 14690.8,
+      "error": null
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 8,
+      "skip_count": 2,
+      "unparsed_count": 30,
+      "total_elapsed_seconds": 229.2,
+      "error": null
+    },
+    {
+      "model": "z-ai/glm-5.2",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 31,
+      "skip_count": 4,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 2544.0,
+      "error": null
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 2450.9,
+      "error": null
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 2.1,
+      "error": "HTTP Error: 404 - {\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '23d4f03a-b8a6-4adb-a183-7daa083a09cc': Not fou"
+    },
+    {
+      "model": "meta/llama-3.3-70b-instruct",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 7202.3,
+      "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=900)"
+    },
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 8,
+      "total_batches_available": 8,
+      "kept_count": 23,
+      "skip_count": 7,
+      "unparsed_count": 10,
+      "total_elapsed_seconds": 31.4,
+      "error": null
+    }
+  ]
+}

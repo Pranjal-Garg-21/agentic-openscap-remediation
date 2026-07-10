@@ -1,0 +1,67 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260710_192611",
+  "total_rules_available": 64,
+  "batch_size": 1,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "mistral:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 62,
+      "skip_count": 0,
+      "unparsed_count": 1,
+      "total_elapsed_seconds": 734.0,
+      "wall_time_seconds": 734.44,
+      "resource_metrics": {
+        "peak_ram_mb": 55.0,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.56,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "llama3.2:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 51,
+      "skip_count": 0,
+      "unparsed_count": 12,
+      "total_elapsed_seconds": 268.9,
+      "wall_time_seconds": 269.06,
+      "resource_metrics": {
+        "peak_ram_mb": 55.0,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 4.05,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 33,
+      "skip_count": 28,
+      "unparsed_count": 2,
+      "total_elapsed_seconds": 3270.1,
+      "wall_time_seconds": 3270.14,
+      "resource_metrics": {
+        "peak_ram_mb": 55.0,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.17,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    }
+  ]
+}

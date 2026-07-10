@@ -1,0 +1,585 @@
+{
+  "model": "gemma2:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 40,
+  "total_batches_available": 40,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "This rule helps protect against unauthorized access to cron jobs, which is important even on a personal device.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to personal use and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access on a personal laptop in a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to physical and network security measures."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "SKIP",
+      "reason": "Minimal risk due to physical access and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "SKIP",
+      "reason": "Low risk of compromise on a personal laptop with limited access."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "SKIP",
+      "reason": "Low risk environment with only trusted networks and physical access."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "SKIP",
+      "reason": "Low risk of compromise due to personal use and limited network access."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to physical security and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "SKIP",
+      "reason": "Low risk of attack surface on a personal laptop with trusted network access."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "SKIP",
+      "reason": "Low risk environment with trusted network access."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "SKIP",
+      "reason": "Not relevant for a personal laptop in a trusted home network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "SKIP",
+      "reason": "Reverse path filtering is less critical on a personal laptop with controlled network access."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "SKIP",
+      "reason": "My personal laptop is on a trusted network with low risk of attack."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "SKIP",
+      "reason": "IP forwarding is unnecessary for a personal laptop on trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "SKIP",
+      "reason": "Low risk of targeted attacks due to home network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "SKIP",
+      "reason": "IPv6 forwarding is not necessary for a personal laptop on trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "SKIP",
+      "reason": "Low risk of exploitation on a personal laptop with limited access."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "SKIP",
+      "reason": "Low risk of exploitation on a personal laptop with limited access."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to limited physical and network exposure."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "SKIP",
+      "reason": "Low risk due to controlled environment and minimal user permissions."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to physical security and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "SKIP",
+      "reason": "Limited risk due to personal laptop and controlled environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "SKIP",
+      "reason": "AppArmor is not necessary for a home user environment with low physical risk and trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "SKIP",
+      "reason": "AppArmor is not necessary for a personal laptop with limited access and trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "SKIP",
+      "reason": "AppArmor is not necessary for a personal laptop with controlled access and trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "SKIP",
+      "reason": "I do not use FTP on this personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "SKIP",
+      "reason": "Telnet is unnecessary on a personal laptop in a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "SKIP",
+      "reason": "Not required on a personal laptop with limited network access."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "SKIP",
+      "reason": "Not using rsync for file sharing on a personal laptop with no external access."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with no external LDAP dependencies, the risk is negligible."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized cron job execution due to trusted home network and personal access."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "This rule helps protect against unauthorized access to cron jobs, which is important even on a personal device."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access due to physical and network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "SKIP",
+      "reason": "Low risk of unauthorized access on a personal laptop in a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "SKIP",
+      "reason": "Low risk environment with limited network exposure and controlled physical access."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "SKIP",
+      "reason": "Minimal risk on a personal laptop with limited access and trusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "SKIP",
+      "reason": "jffs2 is not typically used in a personal home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "SKIP",
+      "reason": "Low risk of device file creation within /dev/shm on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "SKIP",
+      "reason": "Low risk of malicious execution due to personal use and trusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "SKIP",
+      "reason": "Low risk of exploitation on a personal laptop with limited network exposure."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: SKIP\nREASON: Low risk of unauthorized access due to personal use and trusted network environment.  \n",
+      "elapsed_seconds": 18.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: SKIP\nREASON: Low risk of unauthorized access on a personal laptop in a trusted home network. \n\n\n",
+      "elapsed_seconds": 17.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: SKIP\nREASON:  Low risk of unauthorized access due to physical and network security measures. \n\n\n",
+      "elapsed_seconds": 13.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: SKIP\nREASON: Minimal risk due to physical access and trusted network environment. \n",
+      "elapsed_seconds": 12.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: SKIP\nREASON: Low risk of compromise on a personal laptop with limited access.  \n\n\n",
+      "elapsed_seconds": 12.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: SKIP\nREASON:  Low risk environment with only trusted networks and physical access. \n\n\n",
+      "elapsed_seconds": 12.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: SKIP\nREASON: Low risk of compromise due to personal use and limited network access. \n\n\n",
+      "elapsed_seconds": 12.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: SKIP\nREASON: Low risk of unauthorized access due to physical security and trusted network environment.  \n",
+      "elapsed_seconds": 12.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: SKIP\nREASON: Low risk of attack surface on a personal laptop with trusted network access. \n\n\n",
+      "elapsed_seconds": 13.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: SKIP\nREASON:  Low risk environment with trusted network access. \n",
+      "elapsed_seconds": 13.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: SKIP\nREASON:  Not relevant for a personal laptop in a trusted home network environment. \n\n\n",
+      "elapsed_seconds": 14.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: SKIP\nREASON: Reverse path filtering is less critical on a personal laptop with controlled network access. \n",
+      "elapsed_seconds": 13.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: SKIP\nREASON: My personal laptop is on a trusted network with low risk of attack. \n\n\n",
+      "elapsed_seconds": 13.6,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: SKIP\nREASON: IP forwarding is unnecessary for a personal laptop on trusted networks. \n\n\n",
+      "elapsed_seconds": 12.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: SKIP\nREASON:  Low risk of targeted attacks due to home network environment. \n\n\n",
+      "elapsed_seconds": 12.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: SKIP\nREASON: IPv6 forwarding is not necessary for a personal laptop on trusted networks. \n\n\n",
+      "elapsed_seconds": 13.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: SKIP\nREASON: Low risk of exploitation on a personal laptop with limited access. \n\n\n",
+      "elapsed_seconds": 12.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: SKIP\nREASON: Low risk of exploitation on a personal laptop with limited access. \n\n\n",
+      "elapsed_seconds": 12.1,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: SKIP\nREASON:  Low risk of unauthorized access due to limited physical and network exposure. \n\n\n",
+      "elapsed_seconds": 12.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: SKIP\nREASON: Low risk due to controlled environment and minimal user permissions. \n\n\n",
+      "elapsed_seconds": 11.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: SKIP\nREASON: Low risk of unauthorized access due to physical security and trusted network environment. \n\n\n",
+      "elapsed_seconds": 13.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: SKIP\nREASON:  Limited risk due to personal laptop and controlled environment. \n\n\n",
+      "elapsed_seconds": 12.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed\nDECISION: SKIP\nREASON: AppArmor is not necessary for a home user environment with low physical risk and trusted networks. \n\n\n",
+      "elapsed_seconds": 12.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode\nDECISION: SKIP\nREASON: AppArmor is not necessary for a personal laptop with limited access and trusted networks. \n\n\n",
+      "elapsed_seconds": 13.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: SKIP\nREASON: AppArmor is not necessary for a personal laptop with controlled access and trusted networks. \n\n\n",
+      "elapsed_seconds": 12.7,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed\nDECISION: SKIP\nREASON:  I do not use FTP on this personal laptop. \n",
+      "elapsed_seconds": 11.9,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: SKIP\nREASON:  Telnet is unnecessary on a personal laptop in a trusted home network. \n\n\n",
+      "elapsed_seconds": 12.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed\nDECISION: SKIP\nREASON: Not required on a personal laptop with limited network access. \n",
+      "elapsed_seconds": 12.4,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: SKIP\nREASON: Not using rsync for file sharing on a personal laptop with no external access. \n\n\n",
+      "elapsed_seconds": 12.5,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: SKIP\nREASON:  As a personal laptop with no external LDAP dependencies, the risk is negligible. \n\n\n",
+      "elapsed_seconds": 12.8,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: SKIP\nREASON: Low risk of unauthorized cron job execution due to trusted home network and personal access. \n",
+      "elapsed_seconds": 13.2,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d\nDECISION: KEEP\nREASON: This rule helps protect against unauthorized access to cron jobs, which is important even on a personal device. \n\n\n",
+      "elapsed_seconds": 12.9,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: SKIP\nREASON: Low risk of unauthorized access due to physical and network environment. \n\n\n",
+      "elapsed_seconds": 12.0,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: SKIP\nREASON: Low risk of unauthorized access on a personal laptop in a trusted home network.  ",
+      "elapsed_seconds": 12.5,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: SKIP\nREASON: Low risk environment with limited network exposure and controlled physical access. \n\n\n",
+      "elapsed_seconds": 12.7,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: SKIP\nREASON:  Minimal risk on a personal laptop with limited access and trusted network. \n\n\n",
+      "elapsed_seconds": 12.5,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: SKIP\nREASON: jffs2 is not typically used in a personal home environment. \n\n\n",
+      "elapsed_seconds": 12.6,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: SKIP\nREASON:  Low risk of device file creation within /dev/shm on a personal laptop. \n\n\n",
+      "elapsed_seconds": 13.3,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: SKIP\nREASON:  Low risk of malicious execution due to personal use and trusted network. \n",
+      "elapsed_seconds": 13.0,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: SKIP\nREASON: Low risk of exploitation on a personal laptop with limited network exposure.  \n",
+      "elapsed_seconds": 12.7,
+      "error": null,
+      "kept_count_after_batch": 1
+    }
+  ],
+  "total_elapsed_seconds": 523.0,
+  "error": null
+}

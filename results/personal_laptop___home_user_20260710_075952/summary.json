@@ -1,0 +1,103 @@
+{
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "timestamp": "20260710_075952",
+  "total_rules_available": 40,
+  "batch_size": 1,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "qwen2.5:7b",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 36,
+      "skip_count": 4,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 338.0,
+      "error": null
+    },
+    {
+      "model": "gpt-oss:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 39,
+      "skip_count": 1,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 1549.8,
+      "error": null
+    },
+    {
+      "model": "granite4.1:8b",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 32,
+      "skip_count": 3,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 672.8,
+      "error": null
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 19,
+      "skip_count": 17,
+      "unparsed_count": 4,
+      "total_elapsed_seconds": 1842.9,
+      "error": null
+    },
+    {
+      "model": "phi3:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 26,
+      "skip_count": 10,
+      "unparsed_count": 4,
+      "total_elapsed_seconds": 277.2,
+      "error": null
+    },
+    {
+      "model": "gemma2:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 40,
+      "skip_count": 0,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 643.4,
+      "error": null
+    },
+    {
+      "model": "mistral:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 40,
+      "skip_count": 0,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 469.1,
+      "error": null
+    },
+    {
+      "model": "llama3.2:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 32,
+      "skip_count": 0,
+      "unparsed_count": 8,
+      "total_elapsed_seconds": 167.6,
+      "error": null
+    },
+    {
+      "model": "mistral-small:latest",
+      "batches_used": 40,
+      "total_batches_available": 40,
+      "kept_count": 39,
+      "skip_count": 0,
+      "unparsed_count": 1,
+      "total_elapsed_seconds": 24965.8,
+      "error": null
+    }
+  ]
+}

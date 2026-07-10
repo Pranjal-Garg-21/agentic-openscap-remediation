@@ -1,0 +1,819 @@
+{
+  "model": "mistral:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 40,
+  "total_batches_available": 40,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by locking accounts after failed password attempts, mitigating brute-force attacks in the user's home environment.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Addresses a real theoretical risk of brute-force attacks on this personal laptop within a trusted home network, despite being moderately difficult to implement.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Real risk of brute-force attacks on personal laptop, despite being a home user, and faillock addresses this vulnerability for the given OS/kernel.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk for this OS/kernel by enforcing password complexity and minimizing the risk of weak passwords in the given user environment.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by enforcing password complexity, including the use of uppercase characters, which is applicable to this Linux system architecture and user profile.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real theoretical risk by enforcing password complexity, which is particularly important for personal laptops to prevent potential attacks.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk in the specified OS/kernel by enforcing password history and preventing users from reusing the same passwords, which is important for personal laptops.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel (Linux) by preventing unauthenticated logins, which is applicable for the personal laptop/home user environment specified.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real theoretical risk to this OS/kernel by disabling ICMP redirects which can potentially be exploited for route hijacking and Man-in-the-Middle attacks.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by disabling ICMP redirects, which can be used in man-in-the-middle attacks. Despite potential complexity or disruption, the security benefit outweighs the inconvenience for a personal laptop with low physical access risk.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk as it pertains to logging Martian packets on IPv4 interfaces, which can help in network security by identifying spoofed or malicious traffic. The user's home network environment and low physical access risk justify the implementation of this rule even though it may be technically challenging.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk of IP spoofing attacks on the IPv4 network interfaces, which applies to this system architecture and user profile.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel (Linux) by enhancing TCP connections' security on the home network environment.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel by preventing unintended routing of network traffic in the home user environment.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by strengthening address space layout randomization to protect against buffer overflow attacks, which is relevant for this OS/kernel architecture and user profile.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk to this IPv6-enabled system and user environment by disabling kernel parameter for IPv6 forwarding, reducing the attack surface in case of unintended routing.",
+      "title": "Disable Kernel Parameter for IPv6 Forwarding",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel by disabling core dumps for SUID programs, reducing potential attack vectors.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a potential risk of unauthorized access to sensitive data in core dumps for all users in this environment. Despite the complexity and technical capability, it's advisable to mitigate the medium-severity vulnerability that applies to this system architecture and user profile.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by limiting idle session time, reducing potential vulnerabilities and unauthorized access in this home user environment.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk (inappropriate file permissions) in this OS/kernel and user profile by setting the default umask for users of the Bash shell correctly.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "Real risk of unauthorized access if sudo password prompt waits for a long time, especially considering personal use and low risk of physical tampering.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by ensuring a custom sudo logfile exists, mitigating potential unrecorded or lost sudo activity on the system.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "Enhances real security with Mandatory Access Controls for this Linux OS architecture and user profile.",
+      "title": "Ensure AppArmor Utils is installed",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk as AppArmor profiles control access to resources, and setting all profiles to enforce or complain mode can enhance security in the given personal laptop/home user environment.",
+      "title": "All AppArmor Profiles are in enforce or complain mode",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk to this OS/kernel (Ubuntu 24.04 LTS) as AppArmor is designed to improve the security of Linux applications by defining and enforcing strict access control policies. Despite potential complexity in implementation, it applies to this system architecture and user profile.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk as FTP can be vulnerable to unauthorized access, especially without authentication. In the user's home network environment, even though the risk might be lower compared to public networks, it is still beneficial to remove unnecessary services like FTP.",
+      "title": "Remove ftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The telnet client can potentially introduce a real, theoretical risk due to its outdated and insecure nature. It is not commonly used but still poses a potential vulnerability in home user environments, especially for personal laptops.",
+      "title": "Remove telnet Clients",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsync service can potentially introduce network vulnerabilities, although the user environment is limited to trusted networks, the presence of this service in the system still addresses a real and theoretical risk.",
+      "title": "Uninstall rsync Package",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk of unauthorized data transfer on personal laptops, applicable to this OS and user profile.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The LDAP client, if installed unintentionally, could pose a low risk to the home user's system even though it is not commonly used in personal environments. Given that the rule addresses a real, theoretical risk and the user profile does not require the LDAP client, it is advisable to keep this rule in place.",
+      "title": "Ensure LDAP client is not installed",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by ensuring restricted access to the /etc/cron.allow file, which is applicable to this system architecture and user profile as it involves personal data on a home network.",
+      "title": "Verify Permissions on /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Addresses a real risk by securing permissions on /etc/cron.d, which is relevant to the OS and user profile regardless of technical capability or complexity.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk of unauthorized access to critical system files in the specified OS/kernel environment.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by ensuring that the /etc/cron.allow file, which is used to define permitted users for the cron daemon, is owned by root. This is applicable to the specified OS and user environment as it secures the system's access control for cron jobs.",
+      "title": "Verify User Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real theoretical risk to this OS/kernel (Linux) by preventing unauthorized manipulation of the file system due to cramfs being a read-only filesystem.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk as it prevents usage of HFS filesystem, which is potentially vulnerable to certain attacks on non-Apple systems. Despite the low severity, it is applicable to this Linux environment and user profile.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The jffs2 kernel module is used in some embedded devices and flash storage systems. Although the severity is low, considering it addresses a real risk for this OS/kernel (Linux), it's worth implementing to secure the system from potential vulnerabilities related to the jffs2 file system.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by preventing creation of potentially harmful devices in /dev/shm, which aligns with the strict criteria for this user profile and system architecture.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "The vulnerability of allowing binary execution from world-writable directories applies to this system architecture and user profile, regardless of implementation complexity or the user's technical capability.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Addresses a real risk to this OS/kernel by preventing execution of setuid programs in world-writable directories, even if difficult or disruptive.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by locking accounts after failed password attempts, mitigating brute-force attacks in the user's home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Addresses a real theoretical risk of brute-force attacks on this personal laptop within a trusted home network, despite being moderately difficult to implement."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Real risk of brute-force attacks on personal laptop, despite being a home user, and faillock addresses this vulnerability for the given OS/kernel."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk for this OS/kernel by enforcing password complexity and minimizing the risk of weak passwords in the given user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by enforcing password complexity, including the use of uppercase characters, which is applicable to this Linux system architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real theoretical risk by enforcing password complexity, which is particularly important for personal laptops to prevent potential attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk in the specified OS/kernel by enforcing password history and preventing users from reusing the same passwords, which is important for personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel (Linux) by preventing unauthenticated logins, which is applicable for the personal laptop/home user environment specified."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real theoretical risk to this OS/kernel by disabling ICMP redirects which can potentially be exploited for route hijacking and Man-in-the-Middle attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by disabling ICMP redirects, which can be used in man-in-the-middle attacks. Despite potential complexity or disruption, the security benefit outweighs the inconvenience for a personal laptop with low physical access risk."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk as it pertains to logging Martian packets on IPv4 interfaces, which can help in network security by identifying spoofed or malicious traffic. The user's home network environment and low physical access risk justify the implementation of this rule even though it may be technically challenging."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk of IP spoofing attacks on the IPv4 network interfaces, which applies to this system architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel (Linux) by enhancing TCP connections' security on the home network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel by preventing unintended routing of network traffic in the home user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by strengthening address space layout randomization to protect against buffer overflow attacks, which is relevant for this OS/kernel architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk to this IPv6-enabled system and user environment by disabling kernel parameter for IPv6 forwarding, reducing the attack surface in case of unintended routing."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel by disabling core dumps for SUID programs, reducing potential attack vectors."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a potential risk of unauthorized access to sensitive data in core dumps for all users in this environment. Despite the complexity and technical capability, it's advisable to mitigate the medium-severity vulnerability that applies to this system architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by limiting idle session time, reducing potential vulnerabilities and unauthorized access in this home user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk (inappropriate file permissions) in this OS/kernel and user profile by setting the default umask for users of the Bash shell correctly."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "Real risk of unauthorized access if sudo password prompt waits for a long time, especially considering personal use and low risk of physical tampering."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by ensuring a custom sudo logfile exists, mitigating potential unrecorded or lost sudo activity on the system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "KEEP",
+      "reason": "Enhances real security with Mandatory Access Controls for this Linux OS architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk as AppArmor profiles control access to resources, and setting all profiles to enforce or complain mode can enhance security in the given personal laptop/home user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk to this OS/kernel (Ubuntu 24.04 LTS) as AppArmor is designed to improve the security of Linux applications by defining and enforcing strict access control policies. Despite potential complexity in implementation, it applies to this system architecture and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk as FTP can be vulnerable to unauthorized access, especially without authentication. In the user's home network environment, even though the risk might be lower compared to public networks, it is still beneficial to remove unnecessary services like FTP."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The telnet client can potentially introduce a real, theoretical risk due to its outdated and insecure nature. It is not commonly used but still poses a potential vulnerability in home user environments, especially for personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsync service can potentially introduce network vulnerabilities, although the user environment is limited to trusted networks, the presence of this service in the system still addresses a real and theoretical risk."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk of unauthorized data transfer on personal laptops, applicable to this OS and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The LDAP client, if installed unintentionally, could pose a low risk to the home user's system even though it is not commonly used in personal environments. Given that the rule addresses a real, theoretical risk and the user profile does not require the LDAP client, it is advisable to keep this rule in place."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by ensuring restricted access to the /etc/cron.allow file, which is applicable to this system architecture and user profile as it involves personal data on a home network."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Addresses a real risk by securing permissions on /etc/cron.d, which is relevant to the OS and user profile regardless of technical capability or complexity."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk of unauthorized access to critical system files in the specified OS/kernel environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by ensuring that the /etc/cron.allow file, which is used to define permitted users for the cron daemon, is owned by root. This is applicable to the specified OS and user environment as it secures the system's access control for cron jobs."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real theoretical risk to this OS/kernel (Linux) by preventing unauthorized manipulation of the file system due to cramfs being a read-only filesystem."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk as it prevents usage of HFS filesystem, which is potentially vulnerable to certain attacks on non-Apple systems. Despite the low severity, it is applicable to this Linux environment and user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The jffs2 kernel module is used in some embedded devices and flash storage systems. Although the severity is low, considering it addresses a real risk for this OS/kernel (Linux), it's worth implementing to secure the system from potential vulnerabilities related to the jffs2 file system."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk by preventing creation of potentially harmful devices in /dev/shm, which aligns with the strict criteria for this user profile and system architecture."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "The vulnerability of allowing binary execution from world-writable directories applies to this system architecture and user profile, regardless of implementation complexity or the user's technical capability."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Addresses a real risk to this OS/kernel by preventing execution of setuid programs in world-writable directories, even if difficult or disruptive."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk by locking accounts after failed password attempts, mitigating brute-force attacks in the user's home environment.",
+      "elapsed_seconds": 22.7,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: KEEP\nREASON: Addresses a real theoretical risk of brute-force attacks on this personal laptop within a trusted home network, despite being moderately difficult to implement.",
+      "elapsed_seconds": 10.4,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON: Real risk of brute-force attacks on personal laptop, despite being a home user, and faillock addresses this vulnerability for the given OS/kernel.",
+      "elapsed_seconds": 11.2,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk for this OS/kernel by enforcing password complexity and minimizing the risk of weak passwords in the given user environment.",
+      "elapsed_seconds": 10.5,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: KEEP\nREASON: This rule addresses a real risk by enforcing password complexity, including the use of uppercase characters, which is applicable to this Linux system architecture and user profile.",
+      "elapsed_seconds": 10.7,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: KEEP\nREASON: The rule addresses a real theoretical risk by enforcing password complexity, which is particularly important for personal laptops to prevent potential attacks.",
+      "elapsed_seconds": 10.1,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: KEEP\nREASON: This rule addresses a real risk in the specified OS/kernel by enforcing password history and preventing users from reusing the same passwords, which is important for personal laptops.",
+      "elapsed_seconds": 11.8,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk to this OS/kernel (Linux) by preventing unauthenticated logins, which is applicable for the personal laptop/home user environment specified.",
+      "elapsed_seconds": 11.1,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: KEEP\nREASON: The rule addresses a real theoretical risk to this OS/kernel by disabling ICMP redirects which can potentially be exploited for route hijacking and Man-in-the-Middle attacks.",
+      "elapsed_seconds": 12.5,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: KEEP\nREASON: This rule addresses a real risk by disabling ICMP redirects, which can be used in man-in-the-middle attacks. Despite potential complexity or disruption, the security benefit outweighs the inconvenience for a personal laptop with low physical access risk.",
+      "elapsed_seconds": 13.9,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: KEEP\nREASON: This rule addresses a real risk as it pertains to logging Martian packets on IPv4 interfaces, which can help in network security by identifying spoofed or malicious traffic. The user's home network environment and low physical access risk justify the implementation of this rule even though it may be technically challenging.",
+      "elapsed_seconds": 15.0,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk of IP spoofing attacks on the IPv4 network interfaces, which applies to this system architecture and user profile.",
+      "elapsed_seconds": 11.6,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk to this OS/kernel (Linux) by enhancing TCP connections' security on the home network environment.",
+      "elapsed_seconds": 10.9,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk to this OS/kernel by preventing unintended routing of network traffic in the home user environment.",
+      "elapsed_seconds": 10.7,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk by strengthening address space layout randomization to protect against buffer overflow attacks, which is relevant for this OS/kernel architecture and user profile.",
+      "elapsed_seconds": 11.1,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk to this IPv6-enabled system and user environment by disabling kernel parameter for IPv6 forwarding, reducing the attack surface in case of unintended routing.",
+      "elapsed_seconds": 12.6,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk to this OS/kernel by disabling core dumps for SUID programs, reducing potential attack vectors.",
+      "elapsed_seconds": 10.3,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: KEEP\nREASON: This rule addresses a potential risk of unauthorized access to sensitive data in core dumps for all users in this environment. Despite the complexity and technical capability, it's advisable to mitigate the medium-severity vulnerability that applies to this system architecture and user profile.",
+      "elapsed_seconds": 12.8,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON: This rule addresses a real risk by limiting idle session time, reducing potential vulnerabilities and unauthorized access in this home user environment.",
+      "elapsed_seconds": 9.3,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk (inappropriate file permissions) in this OS/kernel and user profile by setting the default umask for users of the Bash shell correctly.",
+      "elapsed_seconds": 11.2,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: KEEP\nREASON: Real risk of unauthorized access if sudo password prompt waits for a long time, especially considering personal use and low risk of physical tampering.",
+      "elapsed_seconds": 10.2,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: KEEP\nREASON: The rule addresses a real risk by ensuring a custom sudo logfile exists, mitigating potential unrecorded or lost sudo activity on the system.",
+      "elapsed_seconds": 10.5,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed\nDECISION: KEEP\nREASON: Enhances real security with Mandatory Access Controls for this Linux OS architecture and user profile.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode\nDECISION: KEEP\nREASON: This rule addresses a real risk as AppArmor profiles control access to resources, and setting all profiles to enforce or complain mode can enhance security in the given personal laptop/home user environment.",
+      "elapsed_seconds": 13.1,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk to this OS/kernel (Ubuntu 24.04 LTS) as AppArmor is designed to improve the security of Linux applications by defining and enforcing strict access control policies. Despite potential complexity in implementation, it applies to this system architecture and user profile.",
+      "elapsed_seconds": 13.7,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk as FTP can be vulnerable to unauthorized access, especially without authentication. In the user's home network environment, even though the risk might be lower compared to public networks, it is still beneficial to remove unnecessary services like FTP.",
+      "elapsed_seconds": 12.1,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: KEEP\nREASON: The telnet client can potentially introduce a real, theoretical risk due to its outdated and insecure nature. It is not commonly used but still poses a potential vulnerability in home user environments, especially for personal laptops.",
+      "elapsed_seconds": 11.1,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed\nDECISION: KEEP\nREASON: The rsync service can potentially introduce network vulnerabilities, although the user environment is limited to trusted networks, the presence of this service in the system still addresses a real and theoretical risk.",
+      "elapsed_seconds": 10.2,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk of unauthorized data transfer on personal laptops, applicable to this OS and user profile.",
+      "elapsed_seconds": 9.9,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: KEEP\nREASON: The LDAP client, if installed unintentionally, could pose a low risk to the home user's system even though it is not commonly used in personal environments. Given that the rule addresses a real, theoretical risk and the user profile does not require the LDAP client, it is advisable to keep this rule in place.",
+      "elapsed_seconds": 14.0,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk by ensuring restricted access to the /etc/cron.allow file, which is applicable to this system architecture and user profile as it involves personal data on a home network.",
+      "elapsed_seconds": 11.9,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d\nDECISION: KEEP\nREASON: Addresses a real risk by securing permissions on /etc/cron.d, which is relevant to the OS and user profile regardless of technical capability or complexity.",
+      "elapsed_seconds": 10.3,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk of unauthorized access to critical system files in the specified OS/kernel environment.",
+      "elapsed_seconds": 9.4,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: KEEP\nREASON: The rule addresses a real risk by ensuring that the /etc/cron.allow file, which is used to define permitted users for the cron daemon, is owned by root. This is applicable to the specified OS and user environment as it secures the system's access control for cron jobs.",
+      "elapsed_seconds": 13.5,
+      "error": null,
+      "kept_count_after_batch": 34
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: This rule addresses a real theoretical risk to this OS/kernel (Linux) by preventing unauthorized manipulation of the file system due to cramfs being a read-only filesystem.",
+      "elapsed_seconds": 11.6,
+      "error": null,
+      "kept_count_after_batch": 35
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: KEEP\nREASON: The rule addresses a real risk as it prevents usage of HFS filesystem, which is potentially vulnerable to certain attacks on non-Apple systems. Despite the low severity, it is applicable to this Linux environment and user profile.",
+      "elapsed_seconds": 11.9,
+      "error": null,
+      "kept_count_after_batch": 36
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: KEEP\nREASON: The jffs2 kernel module is used in some embedded devices and flash storage systems. Although the severity is low, considering it addresses a real risk for this OS/kernel (Linux), it's worth implementing to secure the system from potential vulnerabilities related to the jffs2 file system.",
+      "elapsed_seconds": 13.8,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk by preventing creation of potentially harmful devices in /dev/shm, which aligns with the strict criteria for this user profile and system architecture.",
+      "elapsed_seconds": 11.6,
+      "error": null,
+      "kept_count_after_batch": 38
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: KEEP\nREASON: The vulnerability of allowing binary execution from world-writable directories applies to this system architecture and user profile, regardless of implementation complexity or the user's technical capability.",
+      "elapsed_seconds": 10.7,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: KEEP\nREASON: Addresses a real risk to this OS/kernel by preventing execution of setuid programs in world-writable directories, even if difficult or disruptive.",
+      "elapsed_seconds": 10.6,
+      "error": null,
+      "kept_count_after_batch": 40
+    }
+  ],
+  "total_elapsed_seconds": 469.1,
+  "error": null
+}

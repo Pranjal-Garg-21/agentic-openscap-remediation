@@ -1,0 +1,235 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 2,
+  "total_batches_available": 2,
+  "kept_rules": {},
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled",
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit",
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember",
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward",
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space",
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding",
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable",
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps",
+        "xccdf_org.ssgproject.content_rule_accounts_tmout",
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "- ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny, DECISION: KEEP, REASON: Prevents brute\u2011force SSH/local logins on an internet\u2011exposed cloud server.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled, DECISION: KEEP, REASON: Ensures the fail\u2011lock mechanism is active, a core defense for remote admin accounts.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time, DECISION: KEEP, REASON: Limits lockout duration, balancing security and production availability after repeated login failures.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen, DECISION: KEEP, REASON: Enforces minimum password length, reducing risk of credential compromise for privileged accounts.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit, DECISION: KEEP, REASON: Requires uppercase characters, strengthening password complexity for admin users.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit, DECISION: KEEP, REASON: Requires digits, further improving password strength on a publicly reachable host.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember, DECISION: KEEP, REASON: Replaces insecure MD5\u2011based password history with a safer module, relevant for protecting privileged credentials.  \n- ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix, DECISION: KEEP, REASON: Blocks logins with empty passwords, a critical safeguard for any internet\u2011facing system.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects, DECISION: KEEP, REASON: Disabling ICMP redirects prevents spoofed routing attacks on a cloud\u2011exposed server.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects, DECISION: KEEP, REASON: Rejecting ICMP redirects mitigates man\u2011in\u2011the\u2011middle and traffic\u2011redirection threats.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians, DECISION: KEEP, REASON: Logging malformed packets aids detection of network scanning or spoofed traffic common in public clouds.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter, DECISION: KEEP, REASON: Enabling reverse\u2011path filtering helps block spoofed source addresses on internet\u2011facing interfaces.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies, DECISION: KEEP, REASON: Syncookies protect against SYN\u2011flood DoS attacks, relevant for production services.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward, DECISION: KEEP, REASON: Disabling IP forwarding stops the host from unintentionally acting as a router or bridge in a cloud network.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space, DECISION: KEEP, REASON: ASLR hardens the kernel against memory\u2011corruption exploits, beneficial for any production server.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding, DECISION: KEEP, REASON: Prevents the host from forwarding IPv6 traffic, reducing attack surface in a cloud environment.  \n- ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable, DECISION: KEEP, REASON: Disabling core dumps for SUID programs limits leakage of privileged memory contents.  \n- ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps, DECISION: KEEP, REASON: Globally disabling core dumps further reduces information exposure on a critical system.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_tmout, DECISION: KEEP, REASON: Auto\u2011logout of idle sessions mitigates risk of credential theft on shared or compromised terminals.  \n- ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc, DECISION: KEEP, REASON: Enforcing a restrictive default umask prevents accidental creation of world\u2011readable files by administrators.",
+      "elapsed_seconds": 17.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication",
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile",
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed",
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode",
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor",
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed",
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed",
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed",
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled",
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d",
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily",
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow",
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled",
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled",
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec",
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "- **ID:** xccdf_org.ssgproject.content_rule_sudo_require_reauthentication  \n  **DECISION:** KEEP \u2013 Prevents prolonged sudo privilege without re\u2011authentication, mitigating credential theft in a high\u2011exposure admin environment.\n\n- **ID:** xccdf_org.ssgproject.content_rule_sudo_custom_logfile  \n  **DECISION:** KEEP \u2013 Provides audit logging of privileged commands, essential for detecting malicious activity on a production cloud host.\n\n- **ID:** xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed  \n  **DECISION:** KEEP \u2013 AppArmor utilities are required to enforce mandatory access controls, reducing attack surface on a publicly reachable system.\n\n- **ID:** xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode  \n  **DECISION:** KEEP \u2013 Ensures all applications are confined, limiting exploitation possibilities on a critical cloud server.\n\n- **ID:** xccdf_org.ssgproject.content_rule_grub2_enable_apparmor  \n  **DECISION:** KEEP \u2013 Guarantees AppArmor is active from boot, preventing bypass of MAC during early boot stages.\n\n- **ID:** xccdf_org.ssgproject.content_rule_package_ftp_removed  \n  **DECISION:** KEEP \u2013 FTP is insecure and unnecessary for an admin workstation; removing it eliminates a common network attack vector.\n\n- **ID:** xccdf_org.ssgproject.content_rule_package_telnet_removed  \n  **DECISION:** KEEP \u2013 Telnet transmits credentials in cleartext; its removal reduces exposure to credential interception.\n\n- **ID:** xccdf_org.ssgproject.content_rule_package_rsync_removed  \n  **DECISION:** KEEP \u2013 rsync can be abused for unauthorized data transfer; removing it hardens the host unless explicitly required.\n\n- **ID:** xccdf_org.ssgproject.content_rule_service_rsyncd_disabled  \n  **DECISION:** KEEP \u2013 Disabling the rsync daemon prevents unintended network file\u2011serving capabilities that could be leveraged by attackers.\n\n- **ID:** xccdf_org.ssgproject.content_rule_package_openldap-clients_removed  \n  **DECISION:** KEEP \u2013 LDAP clients are rarely needed on a cloud admin workstation; their removal reduces potential credential leakage.\n\n- **ID:** xccdf_org.ssgproject.content_rule_file_permissions_cron_allow  \n  **DECISION:** KEEP \u2013 Restricting permissions on /etc/cron.allow prevents unauthorized users from modifying scheduled tasks.\n\n- **ID:** xccdf_org.ssgproject.content_rule_file_permissions_cron_d  \n  **DECISION:** KEEP \u2013 Proper permissions on /etc/cron.d stop tampering with system\u2011wide cron jobs.\n\n- **ID:** xccdf_org.ssgproject.content_rule_file_permissions_cron_daily  \n  **DECISION:** KEEP \u2013 Securing /etc/cron.daily limits malicious script insertion into daily maintenance routines.\n\n- **ID:** xccdf_org.ssgproject.content_rule_file_owner_cron_allow  \n  **DECISION:** KEEP \u2013 Ensuring root ownership of /etc/cron.allow prevents privilege escalation via cron configuration.\n\n- **ID:** xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled  \n  **DECISION:** KEEP \u2013 Disabling the rarely\u2011used cramfs module removes a potential kernel\u2011module attack surface.\n\n- **ID:** xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled  \n  **DECISION:** KEEP \u2013 Prevents loading of the hfs filesystem module, which could be abused for privilege escalation.\n\n- **ID:** xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled  \n  **DECISION:** KEEP \u2013 Blocks the jffs2 module, further reducing unnecessary kernel module exposure.\n\n- **ID:** xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev  \n  **DECISION:** KEEP \u2013 Adding `nodev` to /dev/shm stops creation of device files in a world\u2011writable temporary filesystem.\n\n- **ID:** xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec  \n  **DECISION:** KEEP \u2013 The `noexec`",
+      "elapsed_seconds": 18.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    }
+  ],
+  "total_elapsed_seconds": 35.0,
+  "error": null
+}

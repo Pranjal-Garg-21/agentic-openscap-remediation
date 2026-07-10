@@ -1,0 +1,1230 @@
+{
+  "model": "gpt-oss:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 64,
+  "total_batches_available": 64,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "Building an AIDE database enables detection of unauthorized file changes, a real risk on any Linux system regardless of home usage.",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "It isolates a world\u2011writable temp space, limiting the potential for local exploits or persistence across reboots on this Ubuntu 24.04 system.",
+      "title": "Ensure /tmp Located On Separate Partition",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "It prevents a local user from gaining root privileges via sudo without re\u2011authentication, addressing a real privilege\u2011escalation risk on the system.",
+      "title": "Ensure Users Re-Authenticate for Privilege Escalation - sudo !authenticate",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "It limits the window where cached sudo privileges can be abused, mitigating a real theoretical risk on this Ubuntu system.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "It prevents inconsistent or insecure password updates when multiple PAM modules are stacked, a real risk on Ubuntu 24.04.",
+      "title": "Require use_authtok for pam_unix.so",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "It mitigates the real theoretical risk of brute\u2011force password attempts on any Ubuntu system that uses PAM for authentication, whether local or remote.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling pam_faillock mitigates brute\u2011force login attempts, a real risk for any Linux system with password authentication.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule mitigates brute\u2011force login attempts that could compromise the system, which is applicable to Ubuntu 24.04 with PAM faillock support.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Requiring a minimum number of digits strengthens passwords and reduces the risk of credential guessing on this Ubuntu 24.04 system.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length, mitigating local brute\u2011force attacks on user accounts.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Weak passwords on Ubuntu could enable local or remote attackers to compromise accounts, so enforcing uppercase character requirements mitigates that risk.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Using a secure PAM password-hashing algorithm (e.g., SHA\u2011512) prevents weak or reversible hashes that could be cracked if the password database is compromised.",
+      "title": "Set PAM''s Password Hashing Algorithm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "The pam_unix \u2018remember\u2019 option stores historical password hashes that could be read if file permissions are mis\u2011configured, presenting a theoretical risk on Ubuntu 24.04 even for a home laptop environment.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Setting an appropriate default umask prevents user-created files from being world\u2011readable, mitigating a real risk of accidental data exposure or local privilege escalation on Ubuntu 24.04.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "It restricts default file permissions, reducing the risk of unintentionally exposing user or service data on this Ubuntu kernel.",
+      "title": "Ensure the Default Umask is Set Correctly in login.defs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "TMOUT eliminates the risk of unattended shell sessions remaining logged\u2011in, which applies to any Ubuntu 24.04 laptop regardless of physical or network trust levels.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor at boot time provides mandatory access control for processes, mitigating kernel\u2011level exploitation risks on Ubuntu 24.04.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "It mitigates the risk of unauthorized boot\u2011time configuration changes on a UEFI system.",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "It protects against loss of syslog data for forensic recovery.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Enables compression of systemd\u2011journald logs, preventing potential disk\u2011space exhaustion on the Ubuntu 24.04 laptop.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Journald logs in Ubuntu 24.04 can default to volatile memory; ensuring persistent storage prevents loss of forensic data on reboot, a real risk for any user of this system.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding prevents the machine from unintentionally routing traffic, which could expose it to interception or misuse.",
+      "title": "Disable Kernel Parameter for IPv6 Forwarding",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects mitigates a routing hijack vulnerability present in all Linux kernels, including 6.17 on this Ubuntu system.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enables detection of spoofed source addresses, which can indicate malicious activity even on a home system.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering mitigates IP spoofing attacks on all IPv4 interfaces.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enables protection against TCP SYN\u2011flood denial\u2011of\u2011service attacks that can target any Ubuntu 24.04 x86_64 system exposed to the network.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirect sending prevents a local attacker from manipulating routing, which is a valid vulnerability on any Linux system regardless of the user\u2019s environment.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding mitigates the real risk that malware or an attacker with local access could misuse the laptop as a router to redirect traffic.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling nftables provides kernel\u2011level packet filtering that mitigates the theoretical risk of unauthenticated network traffic reaching services on Ubuntu 24.04, even in a home environment.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Prevents conflicting firewall services which can lead to unpredictable packet filtering on Ubuntu 24.04.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "Ensures the backup gshadow file\u2019s group ownership prevents unauthorized read/write of password data, a real risk on this OS.",
+      "title": "Verify Group Who Owns Backup gshadow File",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "CramFS can be loaded to mount malicious images that may trigger known kernel vulnerabilities on Ubuntu 24.04, so disabling it removes that attack surface.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the optional HFS module reduces the attack surface for potential kernel\u2011level exploits that could be triggered if the driver were loaded.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfsplus module can load on an Ubuntu kernel, presenting a theoretical vector for exploitation if a malicious drive is connected; disabling it mitigates that risk.",
+      "title": "Disable Mounting of hfsplus",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The JFFS2 kernel module is present in the generic Ubuntu kernel and could be loaded, so disabling it removes a possible, albeit low\u2011probability, vulnerability.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Preventing device files in the shared memory tmpfs mitigates a local privilege\u2011escalation vector that exists on Linux kernels, so the rule applies to this Ubuntu 24.04 system.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Even on a personal Ubuntu laptop /dev/shm is world\u2011writable, so adding noexec prevents execution of malicious binaries that could be dropped there by an attacker.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps can reveal memory contents that aid attackers; disabling them removes this potential data\u2011leak risk for the OS/kernel.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs prevents leakage of privileged memory that could occur if any set\u2011uid binary is compromised on this Ubuntu system.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling randomization mitigates exploitation of memory\u2011corruption flaws on Ubuntu 24.04\u2019s kernel, a real risk even for a home user.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists, proper ownership prevents untrusted users from adding cron jobs, addressing a genuine privilege\u2011escalation risk on Ubuntu systems.",
+      "title": "Verify Group Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures root ownership of /etc/cron.allow, preventing unprivileged users from creating or modifying cron jobs which could lead to privilege escalation on this Ubuntu system.",
+      "title": "Verify User Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Mis\u2011permissions on /etc/cron.daily can let a local attacker inject scripts that run as root, so stricter 0700 perms are needed to prevent this theoretical risk.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Limiting /etc/crontab to root\u2011only read/write reduces potential info\u2011disclosure and privilege\u2011escalation risks on an Ubuntu 24.04 system.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Removing the NIS package eliminates an unneeded authentication service that can be exploited to gain network\u2011level access or leak credentials on this Ubuntu laptop.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Removing vsftpd eliminates the risk of a vulnerable FTP service being exposed to the network, which is a real threat even on a personal laptop.",
+      "title": "Uninstall vsftpd Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "Stopping an unnecessary vsftpd service removes a possible attack vector on Ubuntu, even if it is not currently used.",
+      "title": "Disable vsftpd Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The LDAP client library is an optional component that still contains potentially exploitable code, so removing it reduces the theoretical attack surface on this Ubuntu laptop.",
+      "title": "Ensure LDAP client is not installed",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind exposes unnecessary RPC services that can be targeted by remote exploits, removing it mitigates a real vulnerability on an Ubuntu desktop.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Unused ypserv introduces unnecessary network services that could be exploited, reducing attack surface by uninstalling it.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "Removing rsync lowers the attack surface for a potential remote rsync\u2011daemon exploit that could be leveraged if the machine is ever exposed to an untrusted network.",
+      "title": "Uninstall rsync Package",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "The rsync daemon can be exploited if enabled, and disabling it removes a potential remote attack vector that may exist on an Ubuntu 24.04 system.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "Building an AIDE database enables detection of unauthorized file changes, a real risk on any Linux system regardless of home usage."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "It isolates a world\u2011writable temp space, limiting the potential for local exploits or persistence across reboots on this Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "SKIP",
+      "reason": "The absence of a custom sudo logfile does not present a direct vulnerability for an otherwise trusted, personal laptop environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "It prevents a local user from gaining root privileges via sudo without re\u2011authentication, addressing a real privilege\u2011escalation risk on the system."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "It limits the window where cached sudo privileges can be abused, mitigating a real theoretical risk on this Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "It prevents inconsistent or insecure password updates when multiple PAM modules are stacked, a real risk on Ubuntu 24.04."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "It mitigates the real theoretical risk of brute\u2011force password attempts on any Ubuntu system that uses PAM for authentication, whether local or remote."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling pam_faillock mitigates brute\u2011force login attempts, a real risk for any Linux system with password authentication."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule mitigates brute\u2011force login attempts that could compromise the system, which is applicable to Ubuntu 24.04 with PAM faillock support."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Requiring a minimum number of digits strengthens passwords and reduces the risk of credential guessing on this Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces a minimum password length, mitigating local brute\u2011force attacks on user accounts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Weak passwords on Ubuntu could enable local or remote attackers to compromise accounts, so enforcing uppercase character requirements mitigates that risk."
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Using a secure PAM password-hashing algorithm (e.g., SHA\u2011512) prevents weak or reversible hashes that could be cracked if the password database is compromised."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "The pam_unix \u2018remember\u2019 option stores historical password hashes that could be read if file permissions are mis\u2011configured, presenting a theoretical risk on Ubuntu 24.04 even for a home laptop environment."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "SKIP",
+      "reason": "Ubuntu 24.04\u2019s default PAM configuration blocks empty passwords, negating the rule\u2019s intended protection."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Setting an appropriate default umask prevents user-created files from being world\u2011readable, mitigating a real risk of accidental data exposure or local privilege escalation on Ubuntu 24.04."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "It restricts default file permissions, reducing the risk of unintentionally exposing user or service data on this Ubuntu kernel."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "TMOUT eliminates the risk of unattended shell sessions remaining logged\u2011in, which applies to any Ubuntu 24.04 laptop regardless of physical or network trust levels."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor at boot time provides mandatory access control for processes, mitigating kernel\u2011level exploitation risks on Ubuntu 24.04."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "It mitigates the risk of unauthorized boot\u2011time configuration changes on a UEFI system."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "It protects against loss of syslog data for forensic recovery."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Enables compression of systemd\u2011journald logs, preventing potential disk\u2011space exhaustion on the Ubuntu 24.04 laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "SKIP",
+      "reason": "On Ubuntu 24.04 journald writes logs persistently to local storage; forwarding them to rsyslog does not mitigate a real vulnerability for this trusted, personal laptop setup."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Journald logs in Ubuntu 24.04 can default to volatile memory; ensuring persistent storage prevents loss of forensic data on reboot, a real risk for any user of this system."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "SKIP",
+      "reason": "The journal\u2011upload TLS parameters only affect a service that is normally disabled on a home user\u2019s laptop, so they pose no practical risk to this system."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "SKIP",
+      "reason": "The rule concerns offloading logs to a remote server\u2014a feature the user\u2019s single\u2011user home laptop does not employ\u2014so it poses no theoretical risk in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding prevents the machine from unintentionally routing traffic, which could expose it to interception or misuse."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects mitigates a routing hijack vulnerability present in all Linux kernels, including 6.17 on this Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enables detection of spoofed source addresses, which can indicate malicious activity even on a home system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering mitigates IP spoofing attacks on all IPv4 interfaces."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enables protection against TCP SYN\u2011flood denial\u2011of\u2011service attacks that can target any Ubuntu 24.04 x86_64 system exposed to the network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirect sending prevents a local attacker from manipulating routing, which is a valid vulnerability on any Linux system regardless of the user\u2019s environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding mitigates the real risk that malware or an attacker with local access could misuse the laptop as a router to redirect traffic."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling nftables provides kernel\u2011level packet filtering that mitigates the theoretical risk of unauthenticated network traffic reaching services on Ubuntu 24.04, even in a home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Prevents conflicting firewall services which can lead to unpredictable packet filtering on Ubuntu 24.04."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "Incorrect group owner of /etc/gshadow- could allow non\u2011privileged users to read or modify sensitive group password data."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "CramFS can be loaded to mount malicious images that may trigger known kernel vulnerabilities on Ubuntu 24.04, so disabling it removes that attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the optional HFS module reduces the attack surface for potential kernel\u2011level exploits that could be triggered if the driver were loaded."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfsplus module can load on an Ubuntu kernel, presenting a theoretical vector for exploitation if a malicious drive is connected; disabling it mitigates that risk."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The JFFS2 kernel module is present in the generic Ubuntu kernel and could be loaded, so disabling it removes a possible, albeit low\u2011probability, vulnerability."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Preventing device files in the shared memory tmpfs mitigates a local privilege\u2011escalation vector that exists on Linux kernels, so the rule applies to this Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "Even on a personal Ubuntu laptop /dev/shm is world\u2011writable, so adding noexec prevents execution of malicious binaries that could be dropped there by an attacker."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "SKIP",
+      "reason": "/dev/shm is already mounted with nosuid by default on Ubuntu 24.04, so the rule offers no additional security benefit for this system."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps can reveal memory contents that aid attackers; disabling them removes this potential data\u2011leak risk for the OS/kernel."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs prevents leakage of privileged memory that could occur if any set\u2011uid binary is compromised on this Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling randomization mitigates exploitation of memory\u2011corruption flaws on Ubuntu 24.04\u2019s kernel, a real risk even for a home user."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists, proper ownership prevents untrusted users from adding cron jobs, addressing a genuine privilege\u2011escalation risk on Ubuntu systems."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures root ownership of /etc/cron.allow, preventing unprivileged users from creating or modifying cron jobs which could lead to privilege escalation on this Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "SKIP",
+      "reason": "Ubuntu 24.04 LTS installs no /etc/cron.allow by default, so the rule\u2019s condition does not apply in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "SKIP",
+      "reason": "The default /etc/cron.d permissions already prohibit non\u2011root writes, so tightening to 0700 offers no real protection in a personal home\u2011user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Mis\u2011permissions on /etc/cron.daily can let a local attacker inject scripts that run as root, so stricter 0700 perms are needed to prevent this theoretical risk."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Limiting /etc/crontab to root\u2011only read/write reduces potential info\u2011disclosure and privilege\u2011escalation risks on an Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Removing the NIS package eliminates an unneeded authentication service that can be exploited to gain network\u2011level access or leak credentials on this Ubuntu laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Removing vsftpd eliminates the risk of a vulnerable FTP service being exposed to the network, which is a real threat even on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "Stopping an unnecessary vsftpd service removes a possible attack vector on Ubuntu, even if it is not currently used."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "SKIP",
+      "reason": "The FTP client does not expose any listening service or kernel\u2011level vulnerability on a personal Ubuntu laptop used only in trusted environments."
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "SKIP",
+      "reason": "The tnftp package is not present by default on Ubuntu 24.04 and a typical home user unlikely to install it, so the vulnerability does not apply to this system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The LDAP client library is an optional component that still contains potentially exploitable code, so removing it reduces the theoretical attack surface on this Ubuntu laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind exposes unnecessary RPC services that can be targeted by remote exploits, removing it mitigates a real vulnerability on an Ubuntu desktop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "Unused ypserv introduces unnecessary network services that could be exploited, reducing attack surface by uninstalling it."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "SKIP",
+      "reason": "The telnet client poses no realistic risk on a personal Ubuntu 24.04 laptop used only in trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "Removing rsync lowers the attack surface for a potential remote rsync\u2011daemon exploit that could be leveraged if the machine is ever exposed to an untrusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "The rsync daemon can be exploited if enabled, and disabling it removes a potential remote attack vector that may exist on an Ubuntu 24.04 system."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database  \nDECISION: KEEP  \nREASON: Building an AIDE database enables detection of unauthorized file changes, a real risk on any Linux system regardless of home usage.",
+      "elapsed_seconds": 37.5,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp  \nDECISION: KEEP  \nREASON: It isolates a world\u2011writable temp space, limiting the potential for local exploits or persistence across reboots on this Ubuntu 24.04 system.",
+      "elapsed_seconds": 48.4,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile  \nDECISION: SKIP  \nREASON: The absence of a custom sudo logfile does not present a direct vulnerability for an otherwise trusted, personal laptop environment.",
+      "elapsed_seconds": 35.9,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate  \nDECISION: KEEP  \nREASON: It prevents a local user from gaining root privileges via sudo without re\u2011authentication, addressing a real privilege\u2011escalation risk on the system.",
+      "elapsed_seconds": 33.5,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: KEEP\nREASON: It limits the window where cached sudo privileges can be abused, mitigating a real theoretical risk on this Ubuntu system.",
+      "elapsed_seconds": 29.4,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok  \nDECISION: KEEP  \nREASON: It prevents inconsistent or insecure password updates when multiple PAM modules are stacked, a real risk on Ubuntu 24.04.",
+      "elapsed_seconds": 37.8,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny  \nDECISION: KEEP  \nREASON: It mitigates the real theoretical risk of brute\u2011force password attempts on any Ubuntu system that uses PAM for authentication, whether local or remote.",
+      "elapsed_seconds": 57.4,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled  \nDECISION: KEEP  \nREASON: Enabling pam_faillock mitigates brute\u2011force login attempts, a real risk for any Linux system with password authentication.",
+      "elapsed_seconds": 29.8,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON: This rule mitigates brute\u2011force login attempts that could compromise the system, which is applicable to Ubuntu 24.04 with PAM faillock support.",
+      "elapsed_seconds": 18.8,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit  \nDECISION: KEEP  \nREASON: Requiring a minimum number of digits strengthens passwords and reduces the risk of credential guessing on this Ubuntu 24.04 system.",
+      "elapsed_seconds": 24.8,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen  \nDECISION: KEEP  \nREASON: Enforces a minimum password length, mitigating local brute\u2011force attacks on user accounts.",
+      "elapsed_seconds": 23.7,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: KEEP\nREASON: Weak passwords on Ubuntu could enable local or remote attackers to compromise accounts, so enforcing uppercase character requirements mitigates that risk.",
+      "elapsed_seconds": 28.4,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth  \nDECISION: KEEP  \nREASON: Using a secure PAM password-hashing algorithm (e.g., SHA\u2011512) prevents weak or reversible hashes that could be cracked if the password database is compromised.",
+      "elapsed_seconds": 18.4,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember  \nDECISION: KEEP  \nREASON: The pam_unix \u2018remember\u2019 option stores historical password hashes that could be read if file permissions are mis\u2011configured, presenting a theoretical risk on Ubuntu 24.04 even for a home laptop environment.",
+      "elapsed_seconds": 114.9,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix  \nDECISION: SKIP  \nREASON: Ubuntu 24.04\u2019s default PAM configuration blocks empty passwords, negating the rule\u2019s intended protection.",
+      "elapsed_seconds": 97.3,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc  \nDECISION: KEEP  \nREASON: Setting an appropriate default umask prevents user-created files from being world\u2011readable, mitigating a real risk of accidental data exposure or local privilege escalation on Ubuntu 24.04.",
+      "elapsed_seconds": 42.8,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs\nDECISION: KEEP\nREASON: It restricts default file permissions, reducing the risk of unintentionally exposing user or service data on this Ubuntu kernel.",
+      "elapsed_seconds": 116.8,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON: TMOUT eliminates the risk of unattended shell sessions remaining logged\u2011in, which applies to any Ubuntu 24.04 laptop regardless of physical or network trust levels.",
+      "elapsed_seconds": 20.8,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor  \nDECISION: KEEP  \nREASON: Enabling AppArmor at boot time provides mandatory access control for processes, mitigating kernel\u2011level exploitation risks on Ubuntu\u202f24.04.",
+      "elapsed_seconds": 27.6,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password  \nDECISION: KEEP  \nREASON: It mitigates the risk of unauthorized boot\u2011time configuration changes on a UEFI system.",
+      "elapsed_seconds": 25.3,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: KEEP\nREASON: It protects against loss of syslog data for forensic recovery.",
+      "elapsed_seconds": 71.7,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress  \nDECISION: KEEP  \nREASON: Enables compression of systemd\u2011journald logs, preventing potential disk\u2011space exhaustion on the Ubuntu 24.04 laptop.",
+      "elapsed_seconds": 47.0,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog  \nDECISION: SKIP  \nREASON: On Ubuntu 24.04 journald writes logs persistently to local storage; forwarding them to rsyslog does not mitigate a real vulnerability for this trusted, personal laptop setup.",
+      "elapsed_seconds": 61.4,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_storage"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Journald logs in Ubuntu 24.04 can default to volatile memory; ensuring persistent storage prevents loss of forensic data on reboot, a real risk for any user of this system.",
+      "elapsed_seconds": 30.2,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls  \nDECISION: SKIP  \nREASON: The journal\u2011upload TLS parameters only affect a service that is normally disabled on a home user\u2019s laptop, so they pose no practical risk to this system.",
+      "elapsed_seconds": 65.6,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url  \nDECISION: SKIP  \nREASON: The rule concerns offloading logs to a remote server\u2014a feature the user\u2019s single\u2011user home laptop does not employ\u2014so it poses no theoretical risk in this environment.",
+      "elapsed_seconds": 67.6,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding  \nDECISION: KEEP  \nREASON: Disabling IPv6 forwarding prevents the machine from unintentionally routing traffic, which could expose it to interception or misuse.",
+      "elapsed_seconds": 26.1,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: KEEP\nREASON: Disabling ICMP redirects mitigates a routing hijack vulnerability present in all Linux kernels, including 6.17 on this Ubuntu system.",
+      "elapsed_seconds": 29.9,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians  \nDECISION: KEEP  \nREASON: Enables detection of spoofed source addresses, which can indicate malicious activity even on a home system.",
+      "elapsed_seconds": 29.0,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter  \nDECISION: KEEP  \nREASON: Reverse path filtering mitigates IP spoofing attacks on all IPv4 interfaces.",
+      "elapsed_seconds": 29.9,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: Enables protection against TCP SYN\u2011flood denial\u2011of\u2011service attacks that can target any Ubuntu 24.04 x86_64 system exposed to the network.",
+      "elapsed_seconds": 28.5,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: KEEP\nREASON: Disabling ICMP redirect sending prevents a local attacker from manipulating routing, which is a valid vulnerability on any Linux system regardless of the user\u2019s environment.",
+      "elapsed_seconds": 22.5,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward  \nDECISION: KEEP  \nREASON: Disabling IP forwarding mitigates the real risk that malware or an attacker with local access could misuse the laptop as a router to redirect traffic.",
+      "elapsed_seconds": 37.0,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled  \nDECISION: KEEP  \nREASON: Enabling nftables provides kernel\u2011level packet filtering that mitigates the theoretical risk of unauthenticated network traffic reaching services on Ubuntu\u202f24.04, even in a home environment.",
+      "elapsed_seconds": 42.1,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active  \nDECISION: KEEP  \nREASON: Prevents conflicting firewall services which can lead to unpredictable packet filtering on Ubuntu\u202f24.04.",
+      "elapsed_seconds": 31.6,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON: Ensures the backup gshadow file\u2019s group ownership prevents unauthorized read/write of password data, a real risk on this OS.",
+      "elapsed_seconds": 34.1,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: CramFS can be loaded to mount malicious images that may trigger known kernel vulnerabilities on Ubuntu 24.04, so disabling it removes that attack surface.",
+      "elapsed_seconds": 40.1,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled  \nDECISION: KEEP  \nREASON: Disabling the optional HFS module reduces the attack surface for potential kernel\u2011level exploits that could be triggered if the driver were loaded.",
+      "elapsed_seconds": 26.5,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled  \nDECISION: KEEP  \nREASON: The hfsplus module can load on an Ubuntu kernel, presenting a theoretical vector for exploitation if a malicious drive is connected; disabling it mitigates that risk.",
+      "elapsed_seconds": 31.3,
+      "error": null,
+      "kept_count_after_batch": 34
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled  \nDECISION: KEEP  \nREASON: The JFFS2 kernel module is present in the generic Ubuntu kernel and could be loaded, so disabling it removes a possible, albeit low\u2011probability, vulnerability.",
+      "elapsed_seconds": 46.0,
+      "error": null,
+      "kept_count_after_batch": 35
+    },
+    {
+      "batch_num": 41,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: KEEP\nREASON: Preventing device files in the shared memory tmpfs mitigates a local privilege\u2011escalation vector that exists on Linux kernels, so the rule applies to this Ubuntu 24.04 system.",
+      "elapsed_seconds": 36.7,
+      "error": null,
+      "kept_count_after_batch": 36
+    },
+    {
+      "batch_num": 42,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: KEEP\nREASON: Even on a personal Ubuntu laptop /dev/shm is world\u2011writable, so adding noexec prevents execution of malicious binaries that could be dropped there by an attacker.",
+      "elapsed_seconds": 47.6,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 43,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: SKIP\nREASON: /dev/shm is already mounted with nosuid by default on Ubuntu 24.04, so the rule offers no additional security benefit for this system.",
+      "elapsed_seconds": 67.2,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 44,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps  \nDECISION: KEEP  \nREASON: Core dumps can reveal memory contents that aid attackers; disabling them removes this potential data\u2011leak risk for the OS/kernel.",
+      "elapsed_seconds": 44.0,
+      "error": null,
+      "kept_count_after_batch": 38
+    },
+    {
+      "batch_num": 45,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable  \nDECISION: KEEP  \nREASON: Disabling core dumps for SUID programs prevents leakage of privileged memory that could occur if any set\u2011uid binary is compromised on this Ubuntu system.",
+      "elapsed_seconds": 18.2,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 46,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: Enabling randomization mitigates exploitation of memory\u2011corruption flaws on Ubuntu\u202f24.04\u2019s kernel, a real risk even for a home user.",
+      "elapsed_seconds": 30.0,
+      "error": null,
+      "kept_count_after_batch": 40
+    },
+    {
+      "batch_num": 47,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow  \nDECISION: KEEP  \nREASON: Incorrect group owner of /etc/gshadow- could allow non\u2011privileged users to read or modify sensitive group password data.",
+      "elapsed_seconds": 47.5,
+      "error": null,
+      "kept_count_after_batch": 40
+    },
+    {
+      "batch_num": 48,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow  \nDECISION: KEEP  \nREASON: If /etc/cron.allow exists, proper ownership prevents untrusted users from adding cron jobs, addressing a genuine privilege\u2011escalation risk on Ubuntu systems.",
+      "elapsed_seconds": 28.9,
+      "error": null,
+      "kept_count_after_batch": 41
+    },
+    {
+      "batch_num": 49,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: KEEP\nREASON: Ensures root ownership of /etc/cron.allow, preventing unprivileged users from creating or modifying cron jobs which could lead to privilege escalation on this Ubuntu system.",
+      "elapsed_seconds": 22.5,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 50,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow  \nDECISION: SKIP  \nREASON: Ubuntu 24.04 LTS installs no /etc/cron.allow by default, so the rule\u2019s condition does not apply in this environment.",
+      "elapsed_seconds": 35.4,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 51,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d  \nDECISION: SKIP  \nREASON: The default /etc/cron.d permissions already prohibit non\u2011root writes, so tightening to 0700 offers no real protection in a personal home\u2011user environment.",
+      "elapsed_seconds": 64.4,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 52,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: KEEP\nREASON: Mis\u2011permissions on /etc/cron.daily can let a local attacker inject scripts that run as root, so stricter 0700 perms are needed to prevent this theoretical risk.",
+      "elapsed_seconds": 65.4,
+      "error": null,
+      "kept_count_after_batch": 43
+    },
+    {
+      "batch_num": 53,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab  \nDECISION: KEEP  \nREASON: Limiting /etc/crontab to root\u2011only read/write reduces potential info\u2011disclosure and privilege\u2011escalation risks on an Ubuntu 24.04 system.",
+      "elapsed_seconds": 45.1,
+      "error": null,
+      "kept_count_after_batch": 44
+    },
+    {
+      "batch_num": 54,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: Removing the NIS package eliminates an unneeded authentication service that can be exploited to gain network\u2011level access or leak credentials on this Ubuntu laptop.",
+      "elapsed_seconds": 35.2,
+      "error": null,
+      "kept_count_after_batch": 45
+    },
+    {
+      "batch_num": 55,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_vsftpd_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_vsftpd_removed  \nDECISION: KEEP  \nREASON: Removing vsftpd eliminates the risk of a vulnerable FTP service being exposed to the network, which is a real threat even on a personal laptop.",
+      "elapsed_seconds": 22.2,
+      "error": null,
+      "kept_count_after_batch": 46
+    },
+    {
+      "batch_num": 56,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled  \nDECISION: KEEP  \nREASON: Stopping an unnecessary vsftpd service removes a possible attack vector on Ubuntu, even if it is not currently used.",
+      "elapsed_seconds": 34.9,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 57,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed  \nDECISION: SKIP  \nREASON: The FTP client does not expose any listening service or kernel\u2011level vulnerability on a personal Ubuntu laptop used only in trusted environments.",
+      "elapsed_seconds": 55.1,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 58,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_tnftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_tnftp_removed  \nDECISION: SKIP  \nREASON: The tnftp package is not present by default on Ubuntu 24.04 and a typical home user unlikely to install it, so the vulnerability does not apply to this system.",
+      "elapsed_seconds": 74.3,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 59,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: KEEP\nREASON: The LDAP client library is an optional component that still contains potentially exploitable code, so removing it reduces the theoretical attack surface on this Ubuntu laptop.",
+      "elapsed_seconds": 30.5,
+      "error": null,
+      "kept_count_after_batch": 48
+    },
+    {
+      "batch_num": 60,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed  \nDECISION: KEEP  \nREASON: rpcbind exposes unnecessary RPC services that can be targeted by remote exploits, removing it mitigates a real vulnerability on an Ubuntu desktop.",
+      "elapsed_seconds": 28.8,
+      "error": null,
+      "kept_count_after_batch": 49
+    },
+    {
+      "batch_num": 61,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: Unused ypserv introduces unnecessary network services that could be exploited, reducing attack surface by uninstalling it.",
+      "elapsed_seconds": 29.2,
+      "error": null,
+      "kept_count_after_batch": 50
+    },
+    {
+      "batch_num": 62,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: SKIP\nREASON: The telnet client poses no realistic risk on a personal Ubuntu 24.04 laptop used only in trusted home networks.",
+      "elapsed_seconds": 45.1,
+      "error": null,
+      "kept_count_after_batch": 50
+    },
+    {
+      "batch_num": 63,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed  \nDECISION: KEEP  \nREASON: Removing rsync lowers the attack surface for a potential remote rsync\u2011daemon exploit that could be leveraged if the machine is ever exposed to an untrusted network.",
+      "elapsed_seconds": 46.5,
+      "error": null,
+      "kept_count_after_batch": 51
+    },
+    {
+      "batch_num": 64,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled  \nDECISION: KEEP  \nREASON: The rsync daemon can be exploited if enabled, and disabling it removes a potential remote attack vector that may exist on an Ubuntu 24.04 system.",
+      "elapsed_seconds": 66.1,
+      "error": null,
+      "kept_count_after_batch": 52
+    }
+  ],
+  "total_elapsed_seconds": 2688.2,
+  "wall_time_seconds": 2688.25,
+  "resource_metrics": {
+    "peak_ram_mb": 54.6,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 1.91,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": null
+}

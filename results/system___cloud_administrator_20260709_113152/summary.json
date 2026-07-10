@@ -1,0 +1,93 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "timestamp": "20260709_113152",
+  "total_rules_available": 40,
+  "batch_size": 20,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "openai/gpt-oss-120b",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 35.0,
+      "error": null
+    },
+    {
+      "model": "deepseek-ai/deepseek-v4-pro",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 18,
+      "skip_count": 0,
+      "unparsed_count": 22,
+      "total_elapsed_seconds": 302.2,
+      "error": null
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 150.9,
+      "error": null
+    },
+    {
+      "model": "z-ai/glm-5.1",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 1.1,
+      "error": "HTTP Error: 410 - {\"type\":\"about:blank\",\"title\":\"Gone\",\"status\":410,\"detail\":\"The model 'z-ai/glm-5.1' has reached its"
+    },
+    {
+      "model": "qwen/qwen3.5-397b-a17b",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 201.1,
+      "error": null
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 1.0,
+      "error": "HTTP Error: 404 - {\"status\":404,\"title\":\"Not Found\",\"detail\":\"Function '23d4f03a-b8a6-4adb-a183-7daa083a09cc': Not fou"
+    },
+    {
+      "model": "meta/llama-3.3-70b-instruct",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 1196.8,
+      "error": null
+    },
+    {
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "batches_used": 2,
+      "total_batches_available": 2,
+      "kept_count": 0,
+      "skip_count": 0,
+      "unparsed_count": 40,
+      "total_elapsed_seconds": 69.9,
+      "error": null
+    }
+  ]
+}

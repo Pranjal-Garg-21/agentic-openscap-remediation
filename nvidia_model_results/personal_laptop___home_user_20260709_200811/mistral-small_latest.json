@@ -1,0 +1,621 @@
+{
+  "model": "mistral-small:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 40,
+  "total_batches_available": 40,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Even for a personal laptop, enforcing strong password policies is good practice.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Ensuring strong password requirements is always a good practice, even for personal use.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Password history is important for security even in a personal environment.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Even on a personal laptop, preventing login to accounts with empty passwords is a good security practice.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling address space layout randomization (ASLR) enhances security by making it harder for attackers to predict memory addresses.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Even though the risk is low, disabling unnecessary services like rsyncd is a good security practice.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper permissions on cron.d is important for maintaining system security.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to environments with multiple users and higher security requirements."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with low risk of physical tampering and only trusted networks, the benefit of enabling pam_faillock is minimal."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to environments with multiple users and higher security requirements."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Even for a personal laptop, enforcing strong password policies is good practice."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Ensuring strong password requirements is always a good practice, even for personal use."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to enterprise environments with multiple users."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Password history is important for security even in a personal environment."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Even on a personal laptop, preventing login to accounts with empty passwords is a good security practice."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to servers and enterprise environments, not personal laptops on trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "SKIP",
+      "reason": "Low risk of physical tampering and trusted home/private networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop on trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "SKIP",
+      "reason": "Reverse Path Filtering is not necessary for a personal laptop on trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "SKIP",
+      "reason": "TCP Syncookies are more relevant for servers under high load or public exposure, not personal laptops on trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "SKIP",
+      "reason": "IP forwarding is not relevant for a personal laptop on trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enabling address space layout randomization (ASLR) enhances security by making it harder for attackers to predict memory addresses."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "SKIP",
+      "reason": "IPv6 forwarding is not relevant for a personal laptop on trusted home networks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to servers and multi-user environments, not personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "SKIP",
+      "reason": "Core dumps are not a significant risk in a personal, home environment with trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to multi-user environments where file permissions are critical."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with low risk of physical tampering and only trusted networks, the requirement for re-authentication is not critical."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with low risk of physical tampering and only trusted networks, logging sudo commands is not critical."
+    },
+    "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed": {
+      "decision": "SKIP",
+      "reason": "AppArmor is more relevant for servers and high-security environments, not necessary for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering and only trusted networks."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with low risk of physical tampering and only trusted networks, enabling AppArmor in the bootloader is not critical."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "SKIP",
+      "reason": "FTP is not typically used in a personal home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "SKIP",
+      "reason": "Telnet is not typically used in a personal/home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "SKIP",
+      "reason": "rsync is not used in a personal laptop/home user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Even though the risk is low, disabling unnecessary services like rsyncd is a good security practice."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "SKIP",
+      "reason": "LDAP clients are not relevant to a personal laptop environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper permissions on cron.d is important for maintaining system security."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "SKIP",
+      "reason": "cramfs is not relevant for a personal laptop with low risk of physical tampering."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "SKIP",
+      "reason": "HFS is a file system used by Apple's macOS, and it is unlikely to be needed on an Ubuntu personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "SKIP",
+      "reason": "jffs2 is typically used for embedded systems, not relevant for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "SKIP",
+      "reason": "This rule is more relevant to servers and multi-user environments, not personal laptops."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "SKIP",
+      "reason": "As a personal laptop with low risk of physical tampering and only trusted networks, the benefit of this rule is minimal."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "SKIP",
+      "reason": "This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: SKIP\nREASON: This rule is more relevant to environments with multiple users and higher security requirements.",
+      "elapsed_seconds": 61.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: SKIP\nREASON: As a personal laptop with low risk of physical tampering and only trusted networks, the benefit of enabling pam_faillock is minimal.",
+      "elapsed_seconds": 26.0,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: SKIP\nREASON: This rule is more relevant to environments with multiple users and higher security requirements.",
+      "elapsed_seconds": 23.3,
+      "error": null,
+      "kept_count_after_batch": 0
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON: Even for a personal laptop, enforcing strong password policies is good practice.",
+      "elapsed_seconds": 21.5,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: KEEP\nREASON: Ensuring strong password requirements is always a good practice, even for personal use.",
+      "elapsed_seconds": 22.4,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: SKIP\nREASON: This rule is more relevant to enterprise environments with multiple users.",
+      "elapsed_seconds": 20.7,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: KEEP\nREASON: Password history is important for security even in a personal environment.",
+      "elapsed_seconds": 21.9,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: Even on a personal laptop, preventing login to accounts with empty passwords is a good security practice.",
+      "elapsed_seconds": 22.6,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: SKIP\nREASON: This rule is more relevant to servers and enterprise environments, not personal laptops on trusted networks.",
+      "elapsed_seconds": 26.0,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: SKIP\nREASON: Low risk of physical tampering and trusted home/private networks.",
+      "elapsed_seconds": 24.3,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop on trusted home networks.",
+      "elapsed_seconds": 24.1,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: SKIP\nREASON: Reverse Path Filtering is not necessary for a personal laptop on trusted home networks.",
+      "elapsed_seconds": 24.4,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: SKIP\nREASON: TCP Syncookies are more relevant for servers under high load or public exposure, not personal laptops on trusted networks.",
+      "elapsed_seconds": 27.0,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: SKIP\nREASON: IP forwarding is not relevant for a personal laptop on trusted home networks.",
+      "elapsed_seconds": 22.1,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: Enabling address space layout randomization (ASLR) enhances security by making it harder for attackers to predict memory addresses.",
+      "elapsed_seconds": 25.2,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: SKIP\nREASON: IPv6 forwarding is not relevant for a personal laptop on trusted home networks.",
+      "elapsed_seconds": 23.3,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: SKIP\nREASON: This rule is more relevant to servers and multi-user environments, not personal laptops.",
+      "elapsed_seconds": 23.1,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: SKIP\nREASON: Core dumps are not a significant risk in a personal, home environment with trusted networks.",
+      "elapsed_seconds": 22.5,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment.",
+      "elapsed_seconds": 23.5,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: SKIP\nREASON: This rule is more relevant to multi-user environments where file permissions are critical.",
+      "elapsed_seconds": 23.2,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: SKIP\nREASON: As a personal laptop with low risk of physical tampering and only trusted networks, the requirement for re-authentication is not critical.",
+      "elapsed_seconds": 25.1,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: SKIP\nREASON: As a personal laptop with low risk of physical tampering and only trusted networks, logging sudo commands is not critical.",
+      "elapsed_seconds": 24.1,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_apparmor-utils_installed\nDECISION: SKIP\nREASON: AppArmor is more relevant for servers and high-security environments, not necessary for a personal laptop.",
+      "elapsed_seconds": 21.3,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_all_apparmor_profiles_in_enforce_complain_mode\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering and only trusted networks.",
+      "elapsed_seconds": 25.9,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: SKIP\nREASON: As a personal laptop with low risk of physical tampering and only trusted networks, enabling AppArmor in the bootloader is not critical.",
+      "elapsed_seconds": 26.5,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed\nDECISION: SKIP\nREASON: FTP is not typically used in a personal home environment.",
+      "elapsed_seconds": 19.6,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: SKIP\nREASON: Telnet is not typically used in a personal/home environment.",
+      "elapsed_seconds": 18.6,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed\nDECISION: SKIP\nREASON: rsync is not used in a personal laptop/home user environment.",
+      "elapsed_seconds": 20.1,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: KEEP\nREASON: Even though the risk is low, disabling unnecessary services like rsyncd is a good security practice.",
+      "elapsed_seconds": 22.4,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: SKIP\nREASON: LDAP clients are not relevant to a personal laptop environment.",
+      "elapsed_seconds": 21.1,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering.",
+      "elapsed_seconds": 23.8,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d\nDECISION: KEEP\nREASON: Ensuring proper permissions on cron.d is important for maintaining system security.",
+      "elapsed_seconds": 20.4,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment.",
+      "elapsed_seconds": 22.9,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment.",
+      "elapsed_seconds": 23.8,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: SKIP\nREASON: cramfs is not relevant for a personal laptop with low risk of physical tampering.",
+      "elapsed_seconds": 23.4,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: SKIP\nREASON: HFS is a file system used by Apple's macOS, and it is unlikely to be needed on an Ubuntu personal laptop.",
+      "elapsed_seconds": 24.6,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: SKIP\nREASON: jffs2 is typically used for embedded systems, not relevant for a personal laptop.",
+      "elapsed_seconds": 23.4,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: SKIP\nREASON: This rule is more relevant to servers and multi-user environments, not personal laptops.",
+      "elapsed_seconds": 22.9,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: SKIP\nREASON: As a personal laptop with low risk of physical tampering and only trusted networks, the benefit of this rule is minimal.",
+      "elapsed_seconds": 25.2,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: SKIP\nREASON: This rule is not relevant for a personal laptop with low risk of physical tampering and trusted network environment.",
+      "elapsed_seconds": 24.8,
+      "error": null,
+      "kept_count_after_batch": 7
+    }
+  ],
+  "total_elapsed_seconds": 968.3,
+  "error": null
+}

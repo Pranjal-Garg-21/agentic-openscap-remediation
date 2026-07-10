@@ -1,0 +1,1158 @@
+{
+  "model": "gemma2:latest",
+  "backend": "lab",
+  "role": "Personal Laptop / Home User",
+  "profile": {
+    "physical_access": "Just me (Low risk of physical tampering)",
+    "network_environment": "Only trusted home/private networks (Standard firewall is fine)"
+  },
+  "batches_used": 58,
+  "total_batches_available": 64,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "AIDE provides system integrity monitoring which is beneficial for any system, even personal ones.",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "A separate partition for /tmp mitigates risk of malicious temporary files impacting the system even with limited physical access.",
+      "title": "Ensure /tmp Located On Separate Partition",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "A custom sudo log provides valuable auditing information regardless of user technical capability or complexity.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "The risk of privilege escalation via sudo !authenticate is real and applies to all sudo configurations, regardless of user technical expertise or environment.",
+      "title": "Ensure Users Re-Authenticate for Privilege Escalation - sudo !authenticate",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "A home user could still be vulnerable to privilege escalation attacks even in a trusted environment.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "While a personal laptop presents lower risk, it's good practice to ensure password security against potential vulnerabilities.",
+      "title": "Require use_authtok for pam_unix.so",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Failed login attempts are a theoretical risk to any system, regardless of user environment.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Failed authentication attempts can be exploited by attackers, and this rule helps mitigate that risk on any system.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Failed password attempts remain a theoretical risk even on a home network, necessitating lockout protection. Let me know if you'd like me to analyze another rule!",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "All systems, regardless of user skill or environment, should enforce strong password policies to mitigate common attack vectors.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Minimum password length is a fundamental security control applicable to all systems, regardless of user technical skill. Let me know if you have any other rules you'd like me to evaluate!",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Requiring uppercase letters in passwords helps mitigate brute-force attacks, a relevant risk for any system with user accounts.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "PAM configuration impacts password security regardless of physical access risk.",
+      "title": "Set PAM''s Password Hashing Algorithm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Storing past passwords in /etc/security/opasswd is a theoretical risk even on a personal laptop.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Empty passwords pose a theoretical risk to any system allowing password authentication.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Incorrect umask settings can lead to file permissions vulnerabilities, posing a theoretical risk to this system.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "A properly configured umask helps protect against unintended file permission changes, relevant to any system regardless of user technical skill.",
+      "title": "Ensure the Default Umask is Set Correctly in login.defs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "A set inactivity timeout mitigates the risk of unauthorized access if a user leaves their laptop unattended.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "AppArmor can enhance system security even on a personal laptop in a trusted environment, mitigating potential vulnerabilities.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "A UEFI boot loader password protects against unauthorized changes to boot settings, a relevant risk even for a personal laptop.",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "System logging, even on a personal laptop, can be valuable for security analysis and troubleshooting potential issues.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing journald logs mitigates disk fill risks applicable to any system, regardless of user technical skill.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "The potential for remote access to journald logs presents a risk even in a trusted home network, as sensitive information might be contained within them.",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Journald log loss on reboot poses a theoretical risk to understanding system activity, even in a personal environment.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "Systemd-journal-upload can be exploited, even on a personal system, given the potential for network intrusion and sensitive log data exposure.",
+      "title": "Configure systemd-journal-upload TLS parameters: ServerKeyFile, ServerCertificateFile and TrustedCertificateFile",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "Remote logging could be exploited, even on a trusted home network. Let me know if you'd like to analyze another rule!",
+      "title": "Configure systemd-journal-upload URL",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding reduces potential attack surface even in a trusted home network.",
+      "title": "Disable Kernel Parameter for IPv6 Forwarding",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Accepting ICMP redirects can be exploited, posing a theoretical risk to this system even within a trusted home network.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "A home user system can still be targeted by network attacks that might utilize \"Martian packets,\" so logging these could provide valuable insight.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering can mitigate spoofing attacks, relevant to a networked system regardless of user technical skill.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Syncookie protection mitigates a theoretical risk of SYN flood attacks, relevant to any network-connected system.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Sending ICMP redirects can be exploited, posing a theoretical risk even on a personal laptop in a trusted network.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "A home user's laptop, even on a trusted network, could be exploited as an intermediary in malicious traffic forwarding if IP forwarding is enabled.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Nftables provides enhanced firewall capabilities which are beneficial even in a trusted home network environment for improved security posture.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "A single active firewall service prevents conflicts and ensures consistent packet filtering, relevant to any system with a firewall.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "A compromised gshadow file could allow an attacker to gain control of user accounts, posing a significant risk even on a personal system.",
+      "title": "Verify Group Who Owns Backup gshadow File",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "While uncommon, cramfs could be exploited remotely and is not essential for a personal laptop.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfs module presents a theoretical risk even in a home environment, and disabling it is a straightforward security measure.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The risk of hfsplus vulnerability exploitation exists regardless of user technical capability or system usage profile.",
+      "title": "Disable Mounting of hfsplus",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "jffs2 is a filesystem used in embedded systems, and while unlikely on this system, it's a theoretical risk to disable a potentially exploitable module.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "A compromised system could abuse /dev/shm for malicious device file creation, posing a risk even in a home environment.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "A home user's system can still be vulnerable to exploitation even on a trusted network, and preventing executable code in /dev/shm adds an extra layer of protection.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "A home user's system can still be vulnerable to exploitation, even on a trusted network.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps can potentially leak sensitive information, posing a risk even in a home environment.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs mitigates a potential risk, even in a personal environment.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Randomized Address Space Layout Protection (ASLR) mitigates exploits targeting this system architecture.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The crontab group ownership is a standard security practice to limit access to scheduled tasks, which applies to all systems regardless of user technical capability.",
+      "title": "Verify Group Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a potential security risk by ensuring the /etc/cron.allow file is owned by root, which is important for controlling cron job execution on Ubuntu systems.",
+      "title": "Verify User Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The crontab system is a potential attack vector regardless of environment, and correct permissions are fundamental security hygiene.",
+      "title": "Verify Permissions on /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "A misconfigured cron.d directory could be exploited to execute arbitrary code, representing a theoretical risk to this system.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Crontab misconfiguration is a theoretical risk that could be exploited on any system, regardless of user profile.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Misconfigured crontab permissions can allow unauthorized access to system scheduling, posing a risk even on a personal laptop.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Unnecessary vsftpd services could be exploited even on a home network, posing a theoretical risk.",
+      "title": "Uninstall vsftpd Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "vsftpd can be exploited even on personal laptops, posing a theoretical risk to this system.",
+      "title": "Disable vsftpd Service",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "AIDE provides system integrity monitoring which is beneficial for any system, even personal ones."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "A separate partition for /tmp mitigates risk of malicious temporary files impacting the system even with limited physical access."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "A custom sudo log provides valuable auditing information regardless of user technical capability or complexity."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "The risk of privilege escalation via sudo !authenticate is real and applies to all sudo configurations, regardless of user technical expertise or environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "A home user could still be vulnerable to privilege escalation attacks even in a trusted environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "While a personal laptop presents lower risk, it's good practice to ensure password security against potential vulnerabilities."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "Failed login attempts are a theoretical risk to any system, regardless of user environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "Failed authentication attempts can be exploited by attackers, and this rule helps mitigate that risk on any system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "Failed password attempts remain a theoretical risk even on a home network, necessitating lockout protection. Let me know if you'd like me to analyze another rule!"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "All systems, regardless of user skill or environment, should enforce strong password policies to mitigate common attack vectors."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Minimum password length is a fundamental security control applicable to all systems, regardless of user technical skill. Let me know if you have any other rules you'd like me to evaluate!"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Requiring uppercase letters in passwords helps mitigate brute-force attacks, a relevant risk for any system with user accounts."
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "PAM configuration impacts password security regardless of physical access risk."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Storing past passwords in /etc/security/opasswd is a theoretical risk even on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Empty passwords pose a theoretical risk to any system allowing password authentication."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Incorrect umask settings can lead to file permissions vulnerabilities, posing a theoretical risk to this system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "A properly configured umask helps protect against unintended file permission changes, relevant to any system regardless of user technical skill."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "A set inactivity timeout mitigates the risk of unauthorized access if a user leaves their laptop unattended."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "AppArmor can enhance system security even on a personal laptop in a trusted environment, mitigating potential vulnerabilities."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "A UEFI boot loader password protects against unauthorized changes to boot settings, a relevant risk even for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "System logging, even on a personal laptop, can be valuable for security analysis and troubleshooting potential issues."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing journald logs mitigates disk fill risks applicable to any system, regardless of user technical skill."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "The potential for remote access to journald logs presents a risk even in a trusted home network, as sensitive information might be contained within them."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Journald log loss on reboot poses a theoretical risk to understanding system activity, even in a personal environment."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "Systemd-journal-upload can be exploited, even on a personal system, given the potential for network intrusion and sensitive log data exposure."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "Remote logging could be exploited, even on a trusted home network. Let me know if you'd like to analyze another rule!"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding reduces potential attack surface even in a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Accepting ICMP redirects can be exploited, posing a theoretical risk to this system even within a trusted home network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "A home user system can still be targeted by network attacks that might utilize \"Martian packets,\" so logging these could provide valuable insight."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "Reverse path filtering can mitigate spoofing attacks, relevant to a networked system regardless of user technical skill."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Syncookie protection mitigates a theoretical risk of SYN flood attacks, relevant to any network-connected system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Sending ICMP redirects can be exploited, posing a theoretical risk even on a personal laptop in a trusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "A home user's laptop, even on a trusted network, could be exploited as an intermediary in malicious traffic forwarding if IP forwarding is enabled."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "Nftables provides enhanced firewall capabilities which are beneficial even in a trusted home network environment for improved security posture."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "A single active firewall service prevents conflicts and ensures consistent packet filtering, relevant to any system with a firewall."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "A compromised gshadow file could allow attackers to gain control of user accounts, posing a significant risk even on a personal system."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "While uncommon, cramfs could be exploited remotely and is not essential for a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfs module presents a theoretical risk even in a home environment, and disabling it is a straightforward security measure."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The risk of hfsplus vulnerability exploitation exists regardless of user technical capability or system usage profile."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "jffs2 is a filesystem used in embedded systems, and while unlikely on this system, it's a theoretical risk to disable a potentially exploitable module."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "A compromised system could abuse /dev/shm for malicious device file creation, posing a risk even in a home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "A home user's system can still be vulnerable to exploitation even on a trusted network, and preventing executable code in /dev/shm adds an extra layer of protection."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "A home user's system can still be vulnerable to exploitation, even on a trusted network."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps can potentially leak sensitive information, posing a risk even in a home environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs mitigates a potential risk, even in a personal environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Randomized Address Space Layout Protection (ASLR) mitigates exploits targeting this system architecture."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The crontab group ownership is a standard security practice to limit access to scheduled tasks, which applies to all systems regardless of user technical capability."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a potential security risk by ensuring the /etc/cron.allow file is owned by root, which is important for controlling cron job execution on Ubuntu systems."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The crontab system is a potential attack vector regardless of environment, and correct permissions are fundamental security hygiene."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "A misconfigured cron.d directory could be exploited to execute arbitrary code, representing a theoretical risk to this system."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Crontab misconfiguration is a theoretical risk that could be exploited on any system, regardless of user profile."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Misconfigured crontab permissions can allow unauthorized access to system scheduling, posing a risk even on a personal laptop."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "SKIP",
+      "reason": "This rule addresses a theoretical risk not applicable to a personal laptop on a private network."
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Unnecessary vsftpd services could be exploited even on a home network, posing a theoretical risk."
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "vsftpd can be exploited even on personal laptops, posing a theoretical risk to this system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\nDECISION: KEEP\nREASON: AIDE provides system integrity monitoring which is beneficial for any system, even personal ones. \n\n\n",
+      "elapsed_seconds": 20.4,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: A separate partition for /tmp mitigates risk of malicious temporary files impacting the system even with limited physical access. \n",
+      "elapsed_seconds": 15.3,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: KEEP\nREASON:  A custom sudo log provides valuable auditing information regardless of user technical capability or complexity. \n\n\n",
+      "elapsed_seconds": 14.4,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate\nDECISION: KEEP\nREASON:  The risk of privilege escalation via sudo !authenticate is real and applies to all sudo configurations, regardless of user technical expertise or environment. \n\n\n",
+      "elapsed_seconds": 16.0,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication\nDECISION: KEEP\nREASON:  A home user could still be vulnerable to privilege escalation attacks even in a trusted environment. \n\n\n",
+      "elapsed_seconds": 14.8,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok\nDECISION: KEEP\nREASON:  While a personal laptop presents lower risk, it's good practice to ensure password security against potential vulnerabilities. \n\n\n",
+      "elapsed_seconds": 15.5,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: KEEP\nREASON:  Failed login attempts are a theoretical risk to any system, regardless of user environment. \n\n\n",
+      "elapsed_seconds": 15.3,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: KEEP\nREASON:  Failed authentication attempts can be exploited by attackers, and this rule helps mitigate that risk on any system. \n\n\n",
+      "elapsed_seconds": 30.5,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON:  Failed password attempts remain a theoretical risk even on a home network, necessitating lockout protection. \n\n\nLet me know if you'd like me to analyze another rule!",
+      "elapsed_seconds": 17.8,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: KEEP\nREASON:  All systems, regardless of user skill or environment, should enforce strong password policies to mitigate common attack vectors. \n",
+      "elapsed_seconds": 15.5,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON:  Minimum password length is a fundamental security control applicable to all systems, regardless of user technical skill. \n\n\nLet me know if you have any other rules you'd like me to evaluate!",
+      "elapsed_seconds": 17.4,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\nDECISION: KEEP\nREASON: Requiring uppercase letters in passwords helps mitigate brute-force attacks, a relevant risk for any system with user accounts. \n",
+      "elapsed_seconds": 15.9,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth\nDECISION: KEEP\nREASON:  PAM configuration impacts password security regardless of physical access risk. \n\n\n",
+      "elapsed_seconds": 15.0,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: KEEP\nREASON:  Storing past passwords in /etc/security/opasswd is a theoretical risk even on a personal laptop. \n\n\n",
+      "elapsed_seconds": 16.5,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON:  Empty passwords pose a theoretical risk to any system allowing password authentication. \n",
+      "elapsed_seconds": 14.4,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: KEEP\nREASON:  Incorrect umask settings can lead to file permissions vulnerabilities, posing a theoretical risk to this system. \n\n\n",
+      "elapsed_seconds": 15.2,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs\nDECISION: KEEP\nREASON:  A properly configured umask helps protect against unintended file permission changes, relevant to any system regardless of user technical skill. \n\n\n",
+      "elapsed_seconds": 16.1,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON:  A set inactivity timeout mitigates the risk of unauthorized access if a user leaves their laptop unattended. \n",
+      "elapsed_seconds": 15.0,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: KEEP\nREASON: AppArmor can enhance system security even on a personal laptop in a trusted environment, mitigating potential vulnerabilities. \n",
+      "elapsed_seconds": 15.3,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: KEEP\nREASON: A UEFI boot loader password protects against unauthorized changes to boot settings, a relevant risk even for a personal laptop. \n\n\n",
+      "elapsed_seconds": 15.6,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: KEEP\nREASON:  System logging, even on a personal laptop, can be valuable for security analysis and troubleshooting potential issues. \n\n\n",
+      "elapsed_seconds": 16.0,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Compressing journald logs mitigates disk fill risks applicable to any system, regardless of user technical skill.  \n",
+      "elapsed_seconds": 14.6,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: KEEP\nREASON:  The potential for remote access to journald logs presents a risk even in a trusted home network, as sensitive information might be contained within them. \n\n\n",
+      "elapsed_seconds": 16.2,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_storage"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Journald log loss on reboot poses a theoretical risk to understanding system activity, even in a personal environment. \n\n\n",
+      "elapsed_seconds": 14.6,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: KEEP\nREASON:  Systemd-journal-upload can be exploited, even on a personal system, given the potential for network intrusion and sensitive log data exposure. \n\n\n",
+      "elapsed_seconds": 17.2,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\nDECISION: KEEP\nREASON:  Remote logging could be exploited, even on a trusted home network. \n\n\nLet me know if you'd like to analyze another rule!",
+      "elapsed_seconds": 16.0,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: KEEP\nREASON: Disabling IPv6 forwarding reduces potential attack surface even in a trusted home network. \n\n\n",
+      "elapsed_seconds": 16.2,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: KEEP\nREASON: Accepting ICMP redirects can be exploited, posing a theoretical risk to this system even within a trusted home network. \n\n\n",
+      "elapsed_seconds": 16.9,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: KEEP\nREASON:  A home user system can still be targeted by network attacks that might utilize \"Martian packets,\" so logging these could provide valuable insight. \n\n\n",
+      "elapsed_seconds": 18.2,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: Reverse path filtering can mitigate spoofing attacks, relevant to a networked system regardless of user technical skill. \n\n\n",
+      "elapsed_seconds": 16.7,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: Syncookie protection mitigates a theoretical risk of SYN flood attacks, relevant to any network-connected system. \n\n\n",
+      "elapsed_seconds": 16.7,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: KEEP\nREASON:  Sending ICMP redirects can be exploited, posing a theoretical risk even on a personal laptop in a trusted network. \n\n\n",
+      "elapsed_seconds": 17.2,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: KEEP\nREASON:  A home user's laptop, even on a trusted network, could be exploited as an intermediary in malicious traffic forwarding if IP forwarding is enabled. \n\n\n",
+      "elapsed_seconds": 17.9,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\nDECISION: KEEP\nREASON:  Nftables provides enhanced firewall capabilities which are beneficial even in a trusted home network environment for improved security posture. \n",
+      "elapsed_seconds": 15.3,
+      "error": null,
+      "kept_count_after_batch": 34
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\nDECISION: KEEP\nREASON: A single active firewall service prevents conflicts and ensures consistent packet filtering, relevant to any system with a firewall. \n\n\n",
+      "elapsed_seconds": 15.1,
+      "error": null,
+      "kept_count_after_batch": 35
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON:  A compromised gshadow file could allow an attacker to gain control of user accounts, posing a significant risk even on a personal system. \n\n\n",
+      "elapsed_seconds": 16.7,
+      "error": null,
+      "kept_count_after_batch": 36
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: While uncommon, cramfs could be exploited remotely and is not essential for a personal laptop. \n",
+      "elapsed_seconds": 15.4,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: KEEP\nREASON:  The hfs module presents a theoretical risk even in a home environment, and disabling it is a straightforward security measure. \n\n\n",
+      "elapsed_seconds": 15.7,
+      "error": null,
+      "kept_count_after_batch": 38
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled\nDECISION: KEEP\nREASON:  The risk of hfsplus vulnerability exploitation exists regardless of user technical capability or system usage profile. \n\n\n",
+      "elapsed_seconds": 15.6,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: KEEP\nREASON: jffs2 is a filesystem used in embedded systems, and while unlikely on this system, it's a theoretical risk to disable a potentially exploitable module.  \n\n\n",
+      "elapsed_seconds": 17.2,
+      "error": null,
+      "kept_count_after_batch": 40
+    },
+    {
+      "batch_num": 41,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: KEEP\nREASON:  A compromised system could abuse /dev/shm for malicious device file creation, posing a risk even in a home environment. \n",
+      "elapsed_seconds": 16.4,
+      "error": null,
+      "kept_count_after_batch": 41
+    },
+    {
+      "batch_num": 42,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: KEEP\nREASON:  A home user's system can still be vulnerable to exploitation even on a trusted network, and preventing executable code in /dev/shm adds an extra layer of protection. \n\n\n",
+      "elapsed_seconds": 17.5,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 43,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: KEEP\nREASON:  A home user's system can still be vulnerable to exploitation, even on a trusted network. \n\n\n",
+      "elapsed_seconds": 15.7,
+      "error": null,
+      "kept_count_after_batch": 43
+    },
+    {
+      "batch_num": 44,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: KEEP\nREASON: Core dumps can potentially leak sensitive information, posing a risk even in a home environment. \n\n\n",
+      "elapsed_seconds": 14.8,
+      "error": null,
+      "kept_count_after_batch": 44
+    },
+    {
+      "batch_num": 45,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: KEEP\nREASON:  Disabling core dumps for SUID programs mitigates a potential risk, even in a personal environment. \n\n\n",
+      "elapsed_seconds": 15.9,
+      "error": null,
+      "kept_count_after_batch": 45
+    },
+    {
+      "batch_num": 46,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON:  Randomized Address Space Layout Protection (ASLR) mitigates exploits targeting this system architecture. \n",
+      "elapsed_seconds": 16.0,
+      "error": null,
+      "kept_count_after_batch": 46
+    },
+    {
+      "batch_num": 47,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON: A compromised gshadow file could allow attackers to gain control of user accounts, posing a significant risk even on a personal system.  ",
+      "elapsed_seconds": 16.2,
+      "error": null,
+      "kept_count_after_batch": 46
+    },
+    {
+      "batch_num": 48,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow\nDECISION: KEEP\nREASON:  The crontab group ownership is a standard security practice to limit access to scheduled tasks, which applies to all systems regardless of user technical capability. \n",
+      "elapsed_seconds": 16.9,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 49,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: KEEP\nREASON:  The rule addresses a potential security risk by ensuring the /etc/cron.allow file is owned by root, which is important for controlling cron job execution on Ubuntu systems. \n\n\n",
+      "elapsed_seconds": 17.5,
+      "error": null,
+      "kept_count_after_batch": 48
+    },
+    {
+      "batch_num": 50,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: KEEP\nREASON: The crontab system is a potential attack vector regardless of environment, and correct permissions are fundamental security hygiene. \n",
+      "elapsed_seconds": 15.5,
+      "error": null,
+      "kept_count_after_batch": 49
+    },
+    {
+      "batch_num": 51,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d\nDECISION: KEEP\nREASON:  A misconfigured cron.d directory could be exploited to execute arbitrary code, representing a theoretical risk to this system. \n\n\n",
+      "elapsed_seconds": 15.5,
+      "error": null,
+      "kept_count_after_batch": 50
+    },
+    {
+      "batch_num": 52,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: KEEP\nREASON: Crontab misconfiguration is a theoretical risk that could be exploited on any system, regardless of user profile.  \n",
+      "elapsed_seconds": 15.2,
+      "error": null,
+      "kept_count_after_batch": 51
+    },
+    {
+      "batch_num": 53,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON:  Misconfigured crontab permissions can allow unauthorized access to system scheduling, posing a risk even on a personal laptop. \n",
+      "elapsed_seconds": 15.6,
+      "error": null,
+      "kept_count_after_batch": 52
+    },
+    {
+      "batch_num": 54,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: SKIP\nREASON:  This rule addresses a theoretical risk not applicable to a personal laptop on a private network. \n",
+      "elapsed_seconds": 14.0,
+      "error": null,
+      "kept_count_after_batch": 52
+    },
+    {
+      "batch_num": 55,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_vsftpd_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_vsftpd_removed\nDECISION: KEEP\nREASON:  Unnecessary vsftpd services could be exploited even on a home network, posing a theoretical risk. \n",
+      "elapsed_seconds": 14.9,
+      "error": null,
+      "kept_count_after_batch": 53
+    },
+    {
+      "batch_num": 56,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled\nDECISION: KEEP\nREASON: vsftpd can be exploited even on personal laptops, posing a theoretical risk to this system.  \n",
+      "elapsed_seconds": 14.7,
+      "error": null,
+      "kept_count_after_batch": 54
+    },
+    {
+      "batch_num": 57,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 180.2,
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Read timed out. (read timeout=180)",
+      "kept_count_after_batch": 54
+    },
+    {
+      "batch_num": 58,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_tnftp_removed"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 426.4,
+      "error": "Connection failed (check VPN): HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x74e4e16d3b90>, 'Connection to 10.1.96.96 timed out. (connect timeout=180)'))",
+      "kept_count_after_batch": 54
+    }
+  ],
+  "total_elapsed_seconds": 1516.2,
+  "wall_time_seconds": 1501.11,
+  "resource_metrics": {
+    "peak_ram_mb": 54.6,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 2.27,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": null
+}
