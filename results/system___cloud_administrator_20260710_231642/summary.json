@@ -1,0 +1,157 @@
+{
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "timestamp": "20260710_231642",
+  "total_rules_available": 64,
+  "batch_size": 1,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "qwen2.5:7b",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 62,
+      "skip_count": 1,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 525.9,
+      "wall_time_seconds": 525.83,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.03,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "gpt-oss:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 60,
+      "skip_count": 2,
+      "unparsed_count": 1,
+      "total_elapsed_seconds": 2683.7,
+      "wall_time_seconds": 2462.4,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.04,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "granite4.1:8b",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 59,
+      "skip_count": 1,
+      "unparsed_count": 3,
+      "total_elapsed_seconds": 989.2,
+      "wall_time_seconds": 989.16,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.02,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "phi3:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 34,
+      "skip_count": 24,
+      "unparsed_count": 5,
+      "total_elapsed_seconds": 581.9,
+      "wall_time_seconds": 582.49,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.01,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "gemma2:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 63,
+      "skip_count": 0,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 1025.5,
+      "wall_time_seconds": 1025.4,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.01,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "mistral:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 62,
+      "skip_count": 0,
+      "unparsed_count": 1,
+      "total_elapsed_seconds": 737.7,
+      "wall_time_seconds": 737.63,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.13,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "llama3.2:latest",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 49,
+      "skip_count": 0,
+      "unparsed_count": 14,
+      "total_elapsed_seconds": 277.1,
+      "wall_time_seconds": 277.15,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.04,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    },
+    {
+      "model": "deepseek-r1:7b",
+      "backend": "lab",
+      "batches_used": 64,
+      "total_batches_available": 64,
+      "kept_count": 42,
+      "skip_count": 21,
+      "unparsed_count": 1,
+      "total_elapsed_seconds": 3107.6,
+      "wall_time_seconds": 3107.73,
+      "resource_metrics": {
+        "peak_ram_mb": 55.3,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 3.08,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    }
+  ]
+}

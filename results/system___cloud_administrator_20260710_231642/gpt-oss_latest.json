@@ -1,0 +1,1278 @@
+{
+  "model": "gpt-oss:latest",
+  "backend": "lab",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 64,
+  "total_batches_available": 64,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "Building an AIDE database lets you detect unauthorized file changes, a real threat on any production Ubuntu system.",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "Separating /tmp protects against attacks that exploit its world\u2011writable nature, a real risk on Ubuntu 24.04 in public cloud environments.",
+      "title": "Ensure /tmp Located On Separate Partition",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Provides an audit trail of sudo activity, mitigating privilege\u2011escalation misuse risk in this publicly exposed production system.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Disabling !authenticate stops users from running sudo commands without re\u2011authenticating, mitigating a direct privilege\u2011escalation risk on this Ubuntu production system exposed to the public cloud.",
+      "title": "Ensure Users Re-Authenticate for Privilege Escalation - sudo !authenticate",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "It mitigates the risk that an attacker could exploit a cached sudo session within the default 5\u2011minute timeout on Ubuntu 24.04 in a critical, publicly exposed environment.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule stops repeated login attempts that could be used in brute\u2011force attacks on a publicly exposed Ubuntu 24.04 server, addressing a real vulnerability.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "The rule protects against brute\u2011force authentication attempts on a publicly exposed Ubuntu 24.04 LTS system, a real risk to this environment.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule mitigates brute\u2011force login attempts on an internet\u2011exposed Ubuntu system by configuring PAM lockout, a real theoretical risk for the target environment.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforces digit requirement to prevent weak passwords that could be brute\u2011forced on this Ubuntu 24.04 system exposed to internet scanning.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces password minimum length, mitigating brute\u2011force credential compromise on a publicly exposed Ubuntu system.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Requires passwords to include uppercase characters, reducing the chance of weak credentials being guessed on a public\u2011cloud, critical production system.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Enforces strong password hashing (e.g., SHA\u2011512), mitigating offline cracking of stored passwords on a public cloud Linux system.",
+      "title": "Set PAM''s Password Hashing Algorithm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Enabling the remember option can create password\u2011history storage errors that may allow authentication bypass or denial of service on Ubuntu 24.04, which is a critical public\u2011cloud system.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "It blocks logins (local or SSH) to any account with an empty password, a valid risk on Ubuntu 24.04 LTS systems.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "It prevents unintentional world\u2011writable or readable files from being created by Bash users, a risk that exists on Ubuntu 24.04 in public cloud environments.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "Setting UMASK limits file permissions for new files, mitigating risk of unintended exposure in a public\u2011cloud Ubuntu environment.",
+      "title": "Ensure the Default Umask is Set Correctly in login.defs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "TMOUT mitigates unattended interactive session risk on Ubuntu 24.04 in a public cloud, addressing the relevant threat model.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor via grub protects against kernel exploitation risks relevant to Ubuntu 24.04 running in a critical public\u2011cloud environment.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Setting a GRUB2 UEFI password protects boot\u2011time configuration from tampering, which is a realistic risk for any Ubuntu 24.04 system regardless of its cloud deployment.",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling systemd\u2011journal\u2011upload ensures critical logs are transmitted to a remote collector, mitigating risk of local log loss or tampering in this production public\u2011cloud environment.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing journald logs prevents disk\u2011space exhaustion, which could disable logging and disrupt service availability on a public\u2011cloud Ubuntu system.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Forwarding journald logs to rsyslog centralizes and protects logs, mitigating risk of local tampering or loss in a public\u2011cloud production environment.",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "On Ubuntu 24.04 LTS the systemd journal defaults to volatile storage unless configured otherwise; persistent logs are essential for auditing and incident response in a production cloud environment.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "Securing journal upload with TLS prevents eavesdropping or tampering of logs over the public network, which is a real risk for this production system.",
+      "title": "Configure systemd-journal-upload TLS parameters: ServerKeyFile, ServerCertificateFile and TrustedCertificateFile",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "The rule mitigates the risk of losing critical audit logs by requiring remote upload, which applies to this production public\u2011cloud Ubuntu 24.04 system.",
+      "title": "Configure systemd-journal-upload URL",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding stops the host from inadvertently routing packets, mitigating potential internal\u2011network exposure in a publicly exposed production system.",
+      "title": "Disable Kernel Parameter for IPv6 Forwarding",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects mitigates potential routing\u2011man\u2011in\u2011the\u2011middle attacks on a publicly exposed Ubuntu 24.04 server.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enables logging of spoofed/malformed packets, providing visibility into potential spoofing attacks on a public\u2011cloud server.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "It mitigates IPv4 IP\u2011spoofing attacks, which are a real risk for a publicly exposed Ubuntu server.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enabling TCP syncookies mitigates SYN flood attacks on an internet\u2011exposed production server.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects prevents a class of routing\u2011spoofing attacks that could be exploited by an attacker scanning your public cloud host.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding stops the host from inadvertently routing traffic, mitigating potential misuse as an unintended gateway in a publicly exposed production system.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "The Ubuntu 24.04 environment uses nftables for firewall rule loading at boot; disabling its service would leave default rules absent, directly exposing the publicly\u2011accessible instance.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Prevents conflicting packet\u2011filtering behavior by ensuring only a single firewall service runs on the Ubuntu 24.04 system exposed to public cloud traffic.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "Ensures only the shadow group can modify /etc/gshadow-, guarding against tampering on Ubuntu 24.04 in a public\u2011cloud environment.",
+      "title": "Verify Group Who Owns Backup gshadow File",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling cramfs prevents loading a rarely\u2011used, potentially vulnerable filesystem module that could be exploited in an exposed public\u2011cloud Ubuntu 24.04 environment.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rarely used HFS kernel module removes a potential attack surface for kernel exploits, even if its practical impact is low.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfsplus module is an optional filesystem driver that can be exploited via crafted images, so disabling it removes unnecessary kernel code and reduces attack surface in a public\u2011cloud production environment.",
+      "title": "Disable Mounting of hfsplus",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The jffs2 kernel module can be loaded on this Ubuntu kernel and may contain exploitable bugs; disabling it removes a theoretical but real attack surface.",
+      "title": "Disable Mounting of jffs2",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Mounting /dev/shm with nodev stops the creation of device files in a shared memory namespace, which is a relevant mitigation for Ubuntu 24.04 running on public cloud infrastructure.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "/dev/shm is a world\u2011writable tmpfs that can be used to execute code; preventing exec mitigates a real privilege escalation risk on this Ubuntu 24.04 system.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Prevents execution of setuid binaries in the world\u2011writable /dev/shm tmpfs, reducing privilege escalation risk on Ubuntu 24.04 LTS.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps may expose sensitive memory contents, reducing risk by disabling them on this production Ubuntu server.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enables kernel ASLR, mitigating address\u2011space exploitation risks on Ubuntu 24.04 running a public cloud instance.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists, improper group ownership can let unauthorized users create or modify crontabs, enabling potential scheduled privilege escalation on a public\u2011cloud production system.",
+      "title": "Verify Group Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures /etc/cron.allow cannot be tampered by non\u2011root users, preventing potential privilege\u2011escalation via rogue cron jobs.",
+      "title": "Verify User Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists with too\u2011permissive permissions it could allow unauthorized users to schedule cron jobs, posing a real risk on an internet\u2011exposed Ubuntu system.",
+      "title": "Verify Permissions on /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.d is accessible to users other than root, they could create or modify cron jobs that run with elevated privileges; restricting it to 0700 mitigates this risk.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Restricting /etc/cron.daily to root-only access mitigates the risk of non\u2011privileged users adding malicious cron jobs that could execute with root privileges.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Setting /etc/crontab to 0600 stops non\u2011root users from tampering with system\u2011wide cron jobs, which could be used for privilege escalation or persistence in a production public cloud environment.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Removing the obsolete NIS package eliminates a legacy authentication service that could be exploited if present on a public\u2011cloud, production Ubuntu system.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Removing vsftpd eliminates a legacy FTP daemon that presents an unnecessary plaintext authentication surface in a publicly exposed production environment.",
+      "title": "Uninstall vsftpd Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling vsftpd removes a known FTP daemon attack surface on an internet\u2011exposed Ubuntu 24.04 LTS system.",
+      "title": "Disable vsftpd Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "An installed FTP daemon offers unauthenticated, plaintext file transfer capabilities that expose the system to remote data theft or manipulation in a publicly reachable environment.",
+      "title": "Remove ftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The openldap\u2011clients package contains libraries and utilities that could be abused through known LDAP vulnerabilities, thereby reducing the attack surface on a public cloud production system.",
+      "title": "Ensure LDAP client is not installed",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind can expose RPC services and is subject to known remote exploits on Ubuntu 24.04, thus removing it mitigates a real theoretical risk for a publicly\u2011exposed production system.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv exposes legacy NIS functionality that can be exploited in a publicly exposed environment, so removing it eliminates that potential vulnerability.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "Eliminating the telnet client removes an insecure outbound channel that could be used for credential leakage or lateral movement if an attacker gains local access.",
+      "title": "Remove telnet Clients",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsyncd service can expose a remote code execution vector on an internet\u2011exposed Ubuntu 24.04 host, so removing it mitigates that risk.",
+      "title": "Uninstall rsync Package",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "rsyncd can expose file transfer capabilities to attackers on a public\u2011cloud Ubuntu 24.04 server, so disabling it removes that attack surface.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "Building an AIDE database lets you detect unauthorized file changes, a real threat on any production Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "Separating /tmp protects against attacks that exploit its world\u2011writable nature, a real risk on Ubuntu 24.04 in public cloud environments."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Provides an audit trail of sudo activity, mitigating privilege\u2011escalation misuse risk in this publicly exposed production system."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Disabling !authenticate stops users from running sudo commands without re\u2011authenticating, mitigating a direct privilege\u2011escalation risk on this Ubuntu production system exposed to the public cloud."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "It mitigates the risk that an attacker could exploit a cached sudo session within the default 5\u2011minute timeout on Ubuntu 24.04 in a critical, publicly exposed environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "SKIP",
+      "reason": "The absence of use_authtok does not create a substantive vulnerability on Ubuntu 24.04 LTS; it only affects how the pam_unix module retrieves the new password token during user changes, which is not a theoretical security risk in this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "The rule stops repeated login attempts that could be used in brute\u2011force attacks on a publicly exposed Ubuntu 24.04 server, addressing a real vulnerability."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "The rule protects against brute\u2011force authentication attempts on a publicly exposed Ubuntu 24.04 LTS system, a real risk to this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule mitigates brute\u2011force login attempts on an internet\u2011exposed Ubuntu system by configuring PAM lockout, a real theoretical risk for the target environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Enforces digit requirement to prevent weak passwords that could be brute\u2011forced on this Ubuntu 24.04 system exposed to internet scanning."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Enforces password minimum length, mitigating brute\u2011force credential compromise on a publicly exposed Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "Requires passwords to include uppercase characters, reducing the chance of weak credentials being guessed on a public\u2011cloud, critical production system."
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Enforces strong password hashing (e.g., SHA\u2011512), mitigating offline cracking of stored passwords on a public cloud Linux system."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "Enabling the remember option can create password\u2011history storage errors that may allow authentication bypass or denial of service on Ubuntu 24.04, which is a critical public\u2011cloud system."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "It blocks logins (local or SSH) to any account with an empty password, a valid risk on Ubuntu 24.04 LTS systems."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "It prevents unintentional world\u2011writable or readable files from being created by Bash users, a risk that exists on Ubuntu 24.04 in public cloud environments."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "Setting UMASK limits file permissions for new files, mitigating risk of unintended exposure in a public\u2011cloud Ubuntu environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "TMOUT mitigates unattended interactive session risk on Ubuntu 24.04 in a public cloud, addressing the relevant threat model."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Enabling AppArmor via grub protects against kernel exploitation risks relevant to Ubuntu 24.04 running in a critical public\u2011cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Setting a GRUB2 UEFI password protects boot\u2011time configuration from tampering, which is a realistic risk for any Ubuntu 24.04 system regardless of its cloud deployment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "Enabling systemd\u2011journal\u2011upload ensures critical logs are transmitted to a remote collector, mitigating risk of local log loss or tampering in this production public\u2011cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing journald logs prevents disk\u2011space exhaustion, which could disable logging and disrupt service availability on a public\u2011cloud Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Forwarding journald logs to rsyslog centralizes and protects logs, mitigating risk of local tampering or loss in a public\u2011cloud production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "On Ubuntu 24.04 LTS the systemd journal defaults to volatile storage unless configured otherwise; persistent logs are essential for auditing and incident response in a production cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "Securing journal upload with TLS prevents eavesdropping or tampering of logs over the public network, which is a real risk for this production system."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "The rule mitigates the risk of losing critical audit logs by requiring remote upload, which applies to this production public\u2011cloud Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "Disabling IPv6 forwarding stops the host from inadvertently routing packets, mitigating potential internal\u2011network exposure in a publicly exposed production system."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects mitigates potential routing\u2011man\u2011in\u2011the\u2011middle attacks on a publicly exposed Ubuntu 24.04 server."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Enables logging of spoofed/malformed packets, providing visibility into potential spoofing attacks on a public\u2011cloud server."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "It mitigates IPv4 IP\u2011spoofing attacks, which are a real risk for a publicly exposed Ubuntu server."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "Enabling TCP syncookies mitigates SYN flood attacks on an internet\u2011exposed production server."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "Disabling ICMP redirects prevents a class of routing\u2011spoofing attacks that could be exploited by an attacker scanning your public cloud host."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding stops the host from inadvertently routing traffic, mitigating potential misuse as an unintended gateway in a publicly exposed production system."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "The Ubuntu 24.04 environment uses nftables for firewall rule loading at boot; disabling its service would leave default rules absent, directly exposing the publicly\u2011accessible instance."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Prevents conflicting packet\u2011filtering behavior by ensuring only a single firewall service runs on the Ubuntu 24.04 system exposed to public cloud traffic."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "A mis\u2011grouped /etc/gshadow- backup could expose sensitive group passwords or enable tampering, presenting a real theoretical risk on Ubuntu 24.04."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling cramfs prevents loading a rarely\u2011used, potentially vulnerable filesystem module that could be exploited in an exposed public\u2011cloud Ubuntu 24.04 environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling the rarely used HFS kernel module removes a potential attack surface for kernel exploits, even if its practical impact is low."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfsplus module is an optional filesystem driver that can be exploited via crafted images, so disabling it removes unnecessary kernel code and reduces attack surface in a public\u2011cloud production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "KEEP",
+      "reason": "The jffs2 kernel module can be loaded on this Ubuntu kernel and may contain exploitable bugs; disabling it removes a theoretical but real attack surface."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "Mounting /dev/shm with nodev stops the creation of device files in a shared memory namespace, which is a relevant mitigation for Ubuntu 24.04 running on public cloud infrastructure."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "/dev/shm is a world\u2011writable tmpfs that can be used to execute code; preventing exec mitigates a real privilege escalation risk on this Ubuntu 24.04 system."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "Prevents execution of setuid binaries in the world\u2011writable /dev/shm tmpfs, reducing privilege escalation risk on Ubuntu 24.04 LTS."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Core dumps may expose sensitive memory contents, reducing risk by disabling them on this production Ubuntu server."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "UNPARSED",
+      "reason": "No parseable decision."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "Enables kernel ASLR, mitigating address\u2011space exploitation risks on Ubuntu 24.04 running a public cloud instance."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists, improper group ownership can let unauthorized users create or modify crontabs, enabling potential scheduled privilege escalation on a public\u2011cloud production system."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensures /etc/cron.allow cannot be tampered by non\u2011root users, preventing potential privilege\u2011escalation via rogue cron jobs."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.allow exists with too\u2011permissive permissions it could allow unauthorized users to schedule cron jobs, posing a real risk on an internet\u2011exposed Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "If /etc/cron.d is accessible to users other than root, they could create or modify cron jobs that run with elevated privileges; restricting it to 0700 mitigates this risk."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "Restricting /etc/cron.daily to root-only access mitigates the risk of non\u2011privileged users adding malicious cron jobs that could execute with root privileges."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Setting /etc/crontab to 0600 stops non\u2011root users from tampering with system\u2011wide cron jobs, which could be used for privilege escalation or persistence in a production public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "Removing the obsolete NIS package eliminates a legacy authentication service that could be exploited if present on a public\u2011cloud, production Ubuntu system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Removing vsftpd eliminates a legacy FTP daemon that presents an unnecessary plaintext authentication surface in a publicly exposed production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling vsftpd removes a known FTP daemon attack surface on an internet\u2011exposed Ubuntu 24.04 LTS system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "An installed FTP daemon offers unauthenticated, plaintext file transfer capabilities that expose the system to remote data theft or manipulation in a publicly reachable environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "SKIP",
+      "reason": "The tnftp package is not part of the default Ubuntu 24.04 LTS installation, so no immediate risk exists on this system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The openldap\u2011clients package contains libraries and utilities that could be abused through known LDAP vulnerabilities, thereby reducing the attack surface on a public cloud production system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "rpcbind can expose RPC services and is subject to known remote exploits on Ubuntu 24.04, thus removing it mitigates a real theoretical risk for a publicly\u2011exposed production system."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "ypserv exposes legacy NIS functionality that can be exploited in a publicly exposed environment, so removing it eliminates that potential vulnerability."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "Eliminating the telnet client removes an insecure outbound channel that could be used for credential leakage or lateral movement if an attacker gains local access."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsyncd service can expose a remote code execution vector on an internet\u2011exposed Ubuntu 24.04 host, so removing it mitigates that risk."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "rsyncd can expose file transfer capabilities to attackers on a public\u2011cloud Ubuntu 24.04 server, so disabling it removes that attack surface."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database  \nDECISION: KEEP  \nREASON: Building an AIDE database lets you detect unauthorized file changes, a real threat on any production Ubuntu system.",
+      "elapsed_seconds": 43.7,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: Separating /tmp protects against attacks that exploit its world\u2011writable nature, a real risk on Ubuntu 24.04 in public cloud environments.",
+      "elapsed_seconds": 24.1,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: KEEP\nREASON: Provides an audit trail of sudo activity, mitigating privilege\u2011escalation misuse risk in this publicly exposed production system.",
+      "elapsed_seconds": 17.7,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate  \nDECISION: KEEP  \nREASON: Disabling !authenticate stops users from running sudo commands without re\u2011authenticating, mitigating a direct privilege\u2011escalation risk on this Ubuntu production system exposed to the public cloud.",
+      "elapsed_seconds": 20.0,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication  \nDECISION: KEEP  \nREASON: It mitigates the risk that an attacker could exploit a cached sudo session within the default 5\u2011minute timeout on Ubuntu 24.04 in a critical, publicly exposed environment.",
+      "elapsed_seconds": 21.8,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok  \nDECISION: SKIP  \nREASON: The absence of use_authtok does not create a substantive vulnerability on Ubuntu 24.04 LTS; it only affects how the pam_unix module retrieves the new password token during user changes, which is not a theoretical security risk in this environment.",
+      "elapsed_seconds": 105.7,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: KEEP\nREASON: The rule stops repeated login attempts that could be used in brute\u2011force attacks on a publicly exposed Ubuntu 24.04 server, addressing a real vulnerability.",
+      "elapsed_seconds": 22.2,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled  \nDECISION: KEEP  \nREASON: The rule protects against brute\u2011force authentication attempts on a publicly exposed Ubuntu\u202f24.04 LTS system, a real risk to this environment.",
+      "elapsed_seconds": 21.0,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON: This rule mitigates brute\u2011force login attempts on an internet\u2011exposed Ubuntu system by configuring PAM lockout, a real theoretical risk for the target environment.",
+      "elapsed_seconds": 24.6,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\nDECISION: KEEP\nREASON: Enforces digit requirement to prevent weak passwords that could be brute\u2011forced on this Ubuntu 24.04 system exposed to internet scanning.",
+      "elapsed_seconds": 41.4,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON: Enforces password minimum length, mitigating brute\u2011force credential compromise on a publicly exposed Ubuntu system.",
+      "elapsed_seconds": 23.8,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit  \nDECISION: KEEP  \nREASON: Requires passwords to include uppercase characters, reducing the chance of weak credentials being guessed on a public\u2011cloud, critical production system.",
+      "elapsed_seconds": 34.9,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth  \nDECISION: KEEP  \nREASON: Enforces strong password hashing (e.g., SHA\u2011512), mitigating offline cracking of stored passwords on a public cloud Linux system.",
+      "elapsed_seconds": 23.4,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember  \nDECISION: KEEP  \nREASON: Enabling the remember option can create password\u2011history storage errors that may allow authentication bypass or denial of service on Ubuntu 24.04, which is a critical public\u2011cloud system.",
+      "elapsed_seconds": 96.2,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: It blocks logins (local or SSH) to any account with an empty password, a valid risk on Ubuntu 24.04 LTS systems.",
+      "elapsed_seconds": 33.0,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: KEEP\nREASON: It prevents unintentional world\u2011writable or readable files from being created by Bash users, a risk that exists on Ubuntu 24.04 in public cloud environments.",
+      "elapsed_seconds": 39.2,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs\nDECISION: KEEP\nREASON: Setting UMASK limits file permissions for new files, mitigating risk of unintended exposure in a public\u2011cloud Ubuntu environment.",
+      "elapsed_seconds": 28.2,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON: TMOUT mitigates unattended interactive session risk on Ubuntu 24.04 in a public cloud, addressing the relevant threat model.",
+      "elapsed_seconds": 22.3,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: KEEP\nREASON: Enabling AppArmor via grub protects against kernel exploitation risks relevant to Ubuntu 24.04 running in a critical public\u2011cloud environment.",
+      "elapsed_seconds": 14.8,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: KEEP\nREASON: Setting a GRUB2 UEFI password protects boot\u2011time configuration from tampering, which is a realistic risk for any Ubuntu 24.04 system regardless of its cloud deployment.",
+      "elapsed_seconds": 68.5,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: KEEP\nREASON: Enabling systemd\u2011journal\u2011upload ensures critical logs are transmitted to a remote collector, mitigating risk of local log loss or tampering in this production public\u2011cloud environment.",
+      "elapsed_seconds": 49.4,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress  \nDECISION: KEEP  \nREASON: Compressing journald logs prevents disk\u2011space exhaustion, which could disable logging and disrupt service availability on a public\u2011cloud Ubuntu system.",
+      "elapsed_seconds": 15.9,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog  \nDECISION: KEEP  \nREASON: Forwarding journald logs to rsyslog centralizes and protects logs, mitigating risk of local tampering or loss in a public\u2011cloud production environment.",
+      "elapsed_seconds": 19.1,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_storage"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_storage  \nDECISION: KEEP  \nREASON: On Ubuntu 24.04 LTS the systemd journal defaults to volatile storage unless configured otherwise; persistent logs are essential for auditing and incident response in a production cloud environment.",
+      "elapsed_seconds": 23.2,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: KEEP\nREASON: Securing journal upload with TLS prevents eavesdropping or tampering of logs over the public network, which is a real risk for this production system.",
+      "elapsed_seconds": 32.1,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\nDECISION: KEEP\nREASON: The rule mitigates the risk of losing critical audit logs by requiring remote upload, which applies to this production public\u2011cloud Ubuntu 24.04 system.",
+      "elapsed_seconds": 24.7,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding  \nDECISION: KEEP  \nREASON: Disabling IPv6 forwarding stops the host from inadvertently routing packets, mitigating potential internal\u2011network exposure in a publicly exposed production system.",
+      "elapsed_seconds": 25.2,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects  \nDECISION: KEEP  \nREASON: Disabling ICMP redirects mitigates potential routing\u2011man\u2011in\u2011the\u2011middle attacks on a publicly exposed Ubuntu 24.04 server.",
+      "elapsed_seconds": 22.5,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: KEEP\nREASON: Enables logging of spoofed/malformed packets, providing visibility into potential spoofing attacks on a public\u2011cloud server.",
+      "elapsed_seconds": 18.8,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: It mitigates IPv4 IP\u2011spoofing attacks, which are a real risk for a publicly exposed Ubuntu server.",
+      "elapsed_seconds": 16.3,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: Enabling TCP syncookies mitigates SYN flood attacks on an internet\u2011exposed production server.",
+      "elapsed_seconds": 25.9,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects  \nDECISION: KEEP  \nREASON: Disabling ICMP redirects prevents a class of routing\u2011spoofing attacks that could be exploited by an attacker scanning your public cloud host.",
+      "elapsed_seconds": 21.9,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: KEEP\nREASON: Disabling IP forwarding stops the host from inadvertently routing traffic, mitigating potential misuse as an unintended gateway in a publicly exposed production system.",
+      "elapsed_seconds": 23.4,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled  \nDECISION: KEEP  \nREASON: The Ubuntu 24.04 environment uses nftables for firewall rule loading at boot; disabling its service would leave default rules absent, directly exposing the publicly\u2011accessible instance.",
+      "elapsed_seconds": 29.1,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active  \nDECISION: KEEP  \nREASON: Prevents conflicting packet\u2011filtering behavior by ensuring only a single firewall service runs on the Ubuntu 24.04 system exposed to public cloud traffic.",
+      "elapsed_seconds": 25.1,
+      "error": null,
+      "kept_count_after_batch": 34
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON: Ensures only the shadow group can modify /etc/gshadow-, guarding against tampering on Ubuntu 24.04 in a public\u2011cloud environment.",
+      "elapsed_seconds": 39.3,
+      "error": null,
+      "kept_count_after_batch": 35
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: Disabling cramfs prevents loading a rarely\u2011used, potentially vulnerable filesystem module that could be exploited in an exposed public\u2011cloud Ubuntu 24.04 environment.",
+      "elapsed_seconds": 30.4,
+      "error": null,
+      "kept_count_after_batch": 36
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled  \nDECISION: KEEP  \nREASON: Disabling the rarely used HFS kernel module removes a potential attack surface for kernel exploits, even if its practical impact is low.",
+      "elapsed_seconds": 29.3,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled\nDECISION: KEEP\nREASON: The hfsplus module is an optional filesystem driver that can be exploited via crafted images, so disabling it removes unnecessary kernel code and reduces attack surface in a public\u2011cloud production environment.",
+      "elapsed_seconds": 51.0,
+      "error": null,
+      "kept_count_after_batch": 38
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled  \nDECISION: KEEP  \nREASON: The jffs2 kernel module can be loaded on this Ubuntu kernel and may contain exploitable bugs; disabling it removes a theoretical but real attack surface.",
+      "elapsed_seconds": 58.7,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 41,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev  \nDECISION: KEEP  \nREASON: Mounting /dev/shm with nodev stops the creation of device files in a shared memory namespace, which is a relevant mitigation for Ubuntu 24.04 running on public cloud infrastructure.",
+      "elapsed_seconds": 43.6,
+      "error": null,
+      "kept_count_after_batch": 40
+    },
+    {
+      "batch_num": 42,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\nDECISION: KEEP\nREASON: /dev/shm is a world\u2011writable tmpfs that can be used to execute code; preventing exec mitigates a real privilege escalation risk on this Ubuntu 24.04 system.",
+      "elapsed_seconds": 39.5,
+      "error": null,
+      "kept_count_after_batch": 41
+    },
+    {
+      "batch_num": 43,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: KEEP\nREASON: Prevents execution of setuid binaries in the world\u2011writable /dev/shm tmpfs, reducing privilege escalation risk on Ubuntu 24.04 LTS.",
+      "elapsed_seconds": 55.6,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 44,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: KEEP\nREASON: Core dumps may expose sensitive memory contents, reducing risk by disabling them on this production Ubuntu server.",
+      "elapsed_seconds": 21.2,
+      "error": null,
+      "kept_count_after_batch": 43
+    },
+    {
+      "batch_num": 45,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "",
+      "elapsed_seconds": 400.4,
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Read timed out. (read timeout=180)",
+      "kept_count_after_batch": 43
+    },
+    {
+      "batch_num": 46,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: Enables kernel ASLR, mitigating address\u2011space exploitation risks on Ubuntu 24.04 running a public cloud instance.",
+      "elapsed_seconds": 174.0,
+      "error": null,
+      "kept_count_after_batch": 44
+    },
+    {
+      "batch_num": 47,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow\nDECISION: KEEP\nREASON: A mis\u2011grouped /etc/gshadow- backup could expose sensitive group passwords or enable tampering, presenting a real theoretical risk on Ubuntu 24.04.",
+      "elapsed_seconds": 58.7,
+      "error": null,
+      "kept_count_after_batch": 44
+    },
+    {
+      "batch_num": 48,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow  \nDECISION: KEEP  \nREASON: If /etc/cron.allow exists, improper group ownership can let unauthorized users create or modify crontabs, enabling potential scheduled privilege escalation on a public\u2011cloud production system.",
+      "elapsed_seconds": 60.5,
+      "error": null,
+      "kept_count_after_batch": 45
+    },
+    {
+      "batch_num": 49,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow  \nDECISION: KEEP  \nREASON: Ensures /etc/cron.allow cannot be tampered by non\u2011root users, preventing potential privilege\u2011escalation via rogue cron jobs.",
+      "elapsed_seconds": 56.5,
+      "error": null,
+      "kept_count_after_batch": 46
+    },
+    {
+      "batch_num": 50,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: KEEP\nREASON: If /etc/cron.allow exists with too\u2011permissive permissions it could allow unauthorized users to schedule cron jobs, posing a real risk on an internet\u2011exposed Ubuntu system.",
+      "elapsed_seconds": 38.6,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 51,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d  \nDECISION: KEEP  \nREASON: If /etc/cron.d is accessible to users other than root, they could create or modify cron jobs that run with elevated privileges; restricting it to 0700 mitigates this risk.",
+      "elapsed_seconds": 35.5,
+      "error": null,
+      "kept_count_after_batch": 48
+    },
+    {
+      "batch_num": 52,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: KEEP\nREASON: Restricting /etc/cron.daily to root-only access mitigates the risk of non\u2011privileged users adding malicious cron jobs that could execute with root privileges.",
+      "elapsed_seconds": 22.8,
+      "error": null,
+      "kept_count_after_batch": 49
+    },
+    {
+      "batch_num": 53,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON: Setting /etc/crontab to 0600 stops non\u2011root users from tampering with system\u2011wide cron jobs, which could be used for privilege escalation or persistence in a production public cloud environment.",
+      "elapsed_seconds": 34.2,
+      "error": null,
+      "kept_count_after_batch": 50
+    },
+    {
+      "batch_num": 54,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\nDECISION: KEEP\nREASON: Removing the obsolete NIS package eliminates a legacy authentication service that could be exploited if present on a public\u2011cloud, production Ubuntu system.",
+      "elapsed_seconds": 23.2,
+      "error": null,
+      "kept_count_after_batch": 51
+    },
+    {
+      "batch_num": 55,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_vsftpd_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_vsftpd_removed  \nDECISION: KEEP  \nREASON: Removing vsftpd eliminates a legacy FTP daemon that presents an unnecessary plaintext authentication surface in a publicly exposed production environment.",
+      "elapsed_seconds": 25.3,
+      "error": null,
+      "kept_count_after_batch": 52
+    },
+    {
+      "batch_num": 56,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled\nDECISION: KEEP\nREASON: Disabling vsftpd removes a known FTP daemon attack surface on an internet\u2011exposed Ubuntu 24.04 LTS system.",
+      "elapsed_seconds": 36.5,
+      "error": null,
+      "kept_count_after_batch": 53
+    },
+    {
+      "batch_num": 57,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed  \nDECISION: KEEP  \nREASON: An installed FTP daemon offers unauthenticated, plaintext file transfer capabilities that expose the system to remote data theft or manipulation in a publicly reachable environment.",
+      "elapsed_seconds": 25.0,
+      "error": null,
+      "kept_count_after_batch": 54
+    },
+    {
+      "batch_num": 58,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_tnftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_tnftp_removed  \nDECISION: SKIP  \nREASON: The tnftp package is not part of the default Ubuntu 24.04 LTS installation, so no immediate risk exists on this system.",
+      "elapsed_seconds": 50.7,
+      "error": null,
+      "kept_count_after_batch": 54
+    },
+    {
+      "batch_num": 59,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed  \nDECISION: KEEP  \nREASON: The openldap\u2011clients package contains libraries and utilities that could be abused through known LDAP vulnerabilities, thereby reducing the attack surface on a public cloud production system.",
+      "elapsed_seconds": 36.2,
+      "error": null,
+      "kept_count_after_batch": 55
+    },
+    {
+      "batch_num": 60,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed  \nDECISION: KEEP  \nREASON: rpcbind can expose RPC services and is subject to known remote exploits on Ubuntu 24.04, thus removing it mitigates a real theoretical risk for a publicly\u2011exposed production system.",
+      "elapsed_seconds": 35.2,
+      "error": null,
+      "kept_count_after_batch": 56
+    },
+    {
+      "batch_num": 61,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed  \nDECISION: KEEP  \nREASON: ypserv exposes legacy NIS functionality that can be exploited in a publicly exposed environment, so removing it eliminates that potential vulnerability.",
+      "elapsed_seconds": 24.7,
+      "error": null,
+      "kept_count_after_batch": 57
+    },
+    {
+      "batch_num": 62,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: KEEP\nREASON: Eliminating the telnet client removes an insecure outbound channel that could be used for credential leakage or lateral movement if an attacker gains local access.",
+      "elapsed_seconds": 31.9,
+      "error": null,
+      "kept_count_after_batch": 58
+    },
+    {
+      "batch_num": 63,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed  \nDECISION: KEEP  \nREASON: The rsyncd service can expose a remote code execution vector on an internet\u2011exposed Ubuntu 24.04 host, so removing it mitigates that risk.",
+      "elapsed_seconds": 30.9,
+      "error": null,
+      "kept_count_after_batch": 59
+    },
+    {
+      "batch_num": 64,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: KEEP\nREASON: rsyncd can expose file transfer capabilities to attackers on a public\u2011cloud Ubuntu 24.04 server, so disabling it removes that attack surface.",
+      "elapsed_seconds": 15.2,
+      "error": null,
+      "kept_count_after_batch": 60
+    }
+  ],
+  "total_elapsed_seconds": 2683.7,
+  "wall_time_seconds": 2462.4,
+  "resource_metrics": {
+    "peak_ram_mb": 55.3,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 3.04,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": null
+}

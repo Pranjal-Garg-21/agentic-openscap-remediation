@@ -1,0 +1,1290 @@
+{
+  "model": "qwen2.5:7b",
+  "backend": "lab",
+  "role": "System / Cloud Administrator",
+  "profile": {
+    "downtime_sensitivity": "Production / Critical (Use extreme caution. Do not suggest live service restarts.)",
+    "infrastructure_location": "Public Cloud (AWS, GCP, etc. - highly exposed to internet scanning)"
+  },
+  "batches_used": 64,
+  "total_batches_available": 64,
+  "kept_rules": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk related to file integrity monitoring, which is crucial in a public cloud environment to detect potential compromise.",
+      "title": "Build and Test AIDE Database",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "The /tmp directory is a critical location for temporary files and should be separated to enhance security and prevent potential attacks. This rule addresses a theoretical risk relevant to the given OS/kernel and environment.",
+      "title": "Ensure /tmp Located On Separate Partition",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Ensuring a custom logfile for sudo commands is important for auditing and monitoring, even if implementation might be complex.",
+      "title": "Ensure Sudo Logfile Exists - sudo logfile",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Ensuring users re-authenticate for privilege escalation is crucial to prevent unauthorized command execution.",
+      "title": "Ensure Users Re-Authenticate for Privilege Escalation - sudo !authenticate",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk of unauthorized sudo command usage, especially in a production/critical environment.",
+      "title": "Require Re-Authentication When Using the sudo Command",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a critical security aspect by ensuring that the pam_unix.so module properly handles password changes, which is essential for maintaining the integrity of user authentication.",
+      "title": "Require use_authtok for pam_unix.so",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing brute-force attacks, which is critical in a public cloud environment.",
+      "title": "Lock Accounts After Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by mitigating brute-force attacks, which is critical in a public cloud environment.",
+      "title": "Ensure pam_faillock module is enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by mitigating brute-force attacks through account lockout after failed login attempts.",
+      "title": "Set Lockout Time for Failed Password Attempts",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Ensures password complexity by requiring digit usage, critical for protecting against common brute-force attacks.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Digit Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Ensuring a minimum password length is critical for defending against common brute-force attacks in a highly exposed public cloud environment.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Length",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by enforcing password complexity, which is critical for protecting against common brute-force attacks.",
+      "title": "Ensure PAM Enforces Password Requirements - Minimum Uppercase Characters",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Protecting password hashing algorithms is critical for maintaining account security in a production environment.",
+      "title": "Set PAM''s Password Hashing Algorithm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "The remember feature can lead to password reuse issues, which is a real risk for production/critical systems.",
+      "title": "Avoid using remember in pam_unix module",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Preventing login to accounts with empty passwords is a critical security measure, especially in a production environment.",
+      "title": "Prevent Login to Accounts With Empty Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper umask settings in /etc/bash.bashrc is crucial for maintaining file permissions and can prevent potential security risks, which aligns with the critical filtering posture.",
+      "title": "Ensure the Default Bash Umask is Set Correctly",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a security best practice for file and directory permissions, which is critical to prevent unauthorized access and data leakage.",
+      "title": "Ensure the Default Umask is Set Correctly in login.defs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "Ensuring session timeouts help mitigate risk of unauthorized access due to idle sessions.",
+      "title": "Set Interactive Session Timeout",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensuring AppArmor is enabled in the bootloader configuration addresses a theoretical risk for this environment, especially given its production-critical nature.",
+      "title": "Ensure AppArmor is enabled in the bootloader configuration",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Protecting against unauthorized changes to boot-time settings is critical, especially in a production environment.",
+      "title": "Set the UEFI Boot Loader Password",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk related to offloading rsyslog messages for networked systems, which is critical in a highly exposed public cloud environment.",
+      "title": "Enable systemd-journal-upload Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing large log files helps prevent system disk from being filled, which is crucial for a production/critical environment.",
+      "title": "Ensure journald is configured to compress large log files",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Ensuring journald logs are forwarded to rsyslog enhances security by mitigating risks associated with local log storage, which is crucial in a highly exposed environment.",
+      "title": "Ensure journald is configured to send logs to rsyslog",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensuring journald logs are written to persistent disk is crucial for maintaining log integrity and availability, especially in a production/critical environment.",
+      "title": "Ensure journald is configured to write log files to persistent disk",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "This rule addresses real, theoretical risks related to secure transmission of journal logs over a network, which is crucial given the system's production and critical nature.",
+      "title": "Configure systemd-journal-upload TLS parameters: ServerKeyFile, ServerCertificateFile and TrustedCertificateFile",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk related to offloading rsyslog messages, which is critical for networked systems in this public cloud environment.",
+      "title": "Configure systemd-journal-upload URL",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a theoretical risk related to IPv6 forwarding, which is relevant given the public cloud environment and need for security.",
+      "title": "Disable Kernel Parameter for IPv6 Forwarding",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel and environment by mitigating potential attacks like ICMP redirect attacks.",
+      "title": "Disable Accepting ICMP Redirects for All IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Addresses a theoretical risk of unauthorized network traffic, which is crucial in a production/critical environment.",
+      "title": "Enable Kernel Parameter to Log Martian Packets on all IPv4 Interfaces",
+      "severity": "unknown"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a critical security measure to prevent IP spoofing, which is relevant for a production/critical environment and public cloud infrastructure.",
+      "title": "Enable Kernel Parameter to Use Reverse Path Filtering on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk of SYN flood attacks in a public cloud environment.",
+      "title": "Enable Kernel Parameter to Use TCP Syncookies on Network Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk in an environment that is highly exposed to internet scanning, as it helps prevent potential attacks like ICMP redirect attacks.",
+      "title": "Disable Kernel Parameter for Sending ICMP Redirects on all IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding is crucial for security, especially in a highly exposed cloud environment.",
+      "title": "Disable Kernel Parameter for IP Forwarding on IPv4 Interfaces",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "nftables is a critical service for managing firewall rules, and ensuring it is enabled aligns with best practices for network security.",
+      "title": "Verify nftables Service is Enabled",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Given the critical nature of production environments and the potential for firewall conflicts, ensuring only one active firewall service is in use aligns with best practices to maintain system security and stability.",
+      "title": "Ensure Only One Firewall Service is Active",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk related to file permissions and ownership, which is critical for maintaining system security. Given the public cloud environment and production-critical nature of the infrastructure, it's essential to ensure proper group ownership to mitigate potential vulnerabilities.",
+      "title": "Verify Group Who Owns Backup gshadow File",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The cramfs file system is not commonly used and disabling its kernel module adds an unnecessary layer of security. Given the production environment, it's better to follow strict security guidelines even if the risk seems low.",
+      "title": "Disable Mounting of cramfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfs kernel module is not typically required in a production environment, and disabling it helps reduce potential attack surfaces.",
+      "title": "Disable Mounting of hfs",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a theoretical risk related to preventing unauthorized access through the hfsplus file system, which is relevant given the production-critical nature of the environment.",
+      "title": "Disable Mounting of hfsplus",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing unauthorized device files in /dev/shm, which is critical for security and prevents potential exploitation.",
+      "title": "Add nodev Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing the execution of binaries from /dev/shm, which is a world-writable temporary storage directory. Given the production-critical nature and public cloud exposure of the system, this rule is crucial to mitigate potential security risks.",
+      "title": "Add noexec Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing setuid programs from executing in /dev/shm, which is a critical security measure for the given environment.",
+      "title": "Add nosuid Option to /dev/shm",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps can prevent potential information leakage, which is a real risk in a production environment.",
+      "title": "Disable Core Dumps for All Users",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs helps mitigate risks associated with potential exploits, which is critical in a production environment.",
+      "title": "Disable Core Dumps for SUID programs",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by mitigating code execution attacks through randomized memory layout.",
+      "title": "Enable Randomized Layout of Virtual Address Space",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk to the system's security by ensuring proper group ownership of a critical file. Even though it may be complex or disruptive, it is essential for maintaining security standards.",
+      "title": "Verify Group Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper ownership of critical cron files is crucial for maintaining system security, even in a cloud environment.",
+      "title": "Verify User Who Owns /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk to the system by ensuring that sensitive cron.allow file permissions are properly set, which is critical for maintaining system security in a public cloud environment.",
+      "title": "Verify Permissions on /etc/cron.allow file",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk to file permissions security, which is critical in a production environment.",
+      "title": "Verify Permissions on cron.d",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a critical security aspect by ensuring proper permission settings on /etc/cron.daily, which is essential to prevent unauthorized access and ensure the integrity of scheduled tasks.",
+      "title": "Verify Permissions on cron.daily",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper permissions on critical configuration files like /etc/crontab is crucial to prevent unauthorized modifications, which aligns with the production/critical environment and strict filtering posture.",
+      "title": "Verify Permissions on crontab",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "The nis package is not required in a production/critical environment and its removal addresses a theoretical risk.",
+      "title": "Uninstall the nis package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Given the public cloud environment and the critical role, removing vsftpd addresses a theoretical risk of potential unauthorized access through FTP services.",
+      "title": "Uninstall vsftpd Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "The vsftpd service poses a potential risk in a highly exposed environment, and disabling it aligns with the critical filtering posture.",
+      "title": "Disable vsftpd Service",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "Despite the low severity, FTP can pose security risks, especially in a public cloud environment.",
+      "title": "Remove ftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "KEEP",
+      "reason": "The tnftp package is not relevant to a production/critical environment and its removal addresses a low-severity risk, making it appropriate for this configuration.",
+      "title": "Remove tnftp Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The system is in a production/critical environment, and removing unnecessary packages reduces potential attack surfaces.",
+      "title": "Ensure LDAP client is not installed",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "The rpcbind package can pose a security risk by exposing RPC services, which are often unnecessary in modern setups and can be removed to reduce attack surfaces.",
+      "title": "Uninstall rpcbind Package",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "The ypserv package, which is related toYellow Pages services, poses a potential security risk in a highly exposed public cloud environment. Even if removing it might be disruptive, the strict filtering posture requires addressing all theoretical risks.",
+      "title": "Uninstall ypserv Package",
+      "severity": "high"
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The risk of using telnet, which transmits data in plain text and can be easily intercepted, is significant even with a critical downtime sensitivity.",
+      "title": "Remove telnet Clients",
+      "severity": "low"
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsync service, even if not actively used, poses a risk of unauthorized file synchronization over network links. Given the production-critical nature of the environment and potential exposure to internet scanning, it's prudent to remove this package to mitigate any associated risks.",
+      "title": "Uninstall rsync Package",
+      "severity": "medium"
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling rsyncd service reduces the attack surface in a production/critical environment.",
+      "title": "Ensure rsyncd service is disabled",
+      "severity": "medium"
+    }
+  },
+  "all_decisions": {
+    "xccdf_org.ssgproject.content_rule_aide_build_database": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk related to file integrity monitoring, which is crucial in a public cloud environment to detect potential compromise."
+    },
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "decision": "KEEP",
+      "reason": "The /tmp directory is a critical location for temporary files and should be separated to enhance security and prevent potential attacks. This rule addresses a theoretical risk relevant to the given OS/kernel and environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "decision": "KEEP",
+      "reason": "Ensuring a custom logfile for sudo commands is important for auditing and monitoring, even if implementation might be complex."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "decision": "KEEP",
+      "reason": "Ensuring users re-authenticate for privilege escalation is crucial to prevent unauthorized command execution."
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk of unauthorized sudo command usage, especially in a production/critical environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a critical security aspect by ensuring that the pam_unix.so module properly handles password changes, which is essential for maintaining the integrity of user authentication."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing brute-force attacks, which is critical in a public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by mitigating brute-force attacks, which is critical in a public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by mitigating brute-force attacks through account lockout after failed login attempts."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "decision": "KEEP",
+      "reason": "Ensures password complexity by requiring digit usage, critical for protecting against common brute-force attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "decision": "KEEP",
+      "reason": "Ensuring a minimum password length is critical for defending against common brute-force attacks in a highly exposed public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk by enforcing password complexity, which is critical for protecting against common brute-force attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "decision": "KEEP",
+      "reason": "Protecting password hashing algorithms is critical for maintaining account security in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember": {
+      "decision": "KEEP",
+      "reason": "The remember feature can lead to password reuse issues, which is a real risk for production/critical systems."
+    },
+    "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix": {
+      "decision": "KEEP",
+      "reason": "Preventing login to accounts with empty passwords is a critical security measure, especially in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper umask settings in /etc/bash.bashrc is crucial for maintaining file permissions and can prevent potential security risks, which aligns with the critical filtering posture."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a security best practice for file and directory permissions, which is critical to prevent unauthorized access and data leakage."
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "decision": "KEEP",
+      "reason": "Ensuring session timeouts help mitigate risk of unauthorized access due to idle sessions."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "decision": "KEEP",
+      "reason": "Ensuring AppArmor is enabled in the bootloader configuration addresses a theoretical risk for this environment, especially given its production-critical nature."
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "decision": "KEEP",
+      "reason": "Protecting against unauthorized changes to boot-time settings is critical, especially in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk related to offloading rsyslog messages for networked systems, which is critical in a highly exposed public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "decision": "KEEP",
+      "reason": "Compressing large log files helps prevent system disk from being filled, which is crucial for a production/critical environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog": {
+      "decision": "KEEP",
+      "reason": "Ensuring journald logs are forwarded to rsyslog enhances security by mitigating risks associated with local log storage, which is crucial in a highly exposed environment."
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "decision": "KEEP",
+      "reason": "Ensuring journald logs are written to persistent disk is crucial for maintaining log integrity and availability, especially in a production/critical environment."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls": {
+      "decision": "KEEP",
+      "reason": "This rule addresses real, theoretical risks related to secure transmission of journal logs over a network, which is crucial given the system's production and critical nature."
+    },
+    "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk related to offloading rsyslog messages, which is critical for networked systems in this public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a theoretical risk related to IPv6 forwarding, which is relevant given the public cloud environment and need for security."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "decision": "KEEP",
+      "reason": "Addresses a real, theoretical risk to this OS/kernel and environment by mitigating potential attacks like ICMP redirect attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "decision": "KEEP",
+      "reason": "Addresses a theoretical risk of unauthorized network traffic, which is crucial in a production/critical environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a critical security measure to prevent IP spoofing, which is relevant for a production/critical environment and public cloud infrastructure."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk of SYN flood attacks in a public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk in an environment that is highly exposed to internet scanning, as it helps prevent potential attacks like ICMP redirect attacks."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "decision": "KEEP",
+      "reason": "Disabling IP forwarding is crucial for security, especially in a highly exposed cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "decision": "KEEP",
+      "reason": "nftables is a critical service for managing firewall rules, and ensuring it is enabled aligns with best practices for network security."
+    },
+    "xccdf_org.ssgproject.content_rule_firewall_single_service_active": {
+      "decision": "KEEP",
+      "reason": "Given the critical nature of production environments and the potential for firewall conflicts, ensuring only one active firewall service is in use aligns with best practices to maintain system security and stability."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a security vulnerability related to file permissions and ownership, which is relevant for this environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The cramfs file system is not commonly used and disabling its kernel module adds an unnecessary layer of security. Given the production environment, it's better to follow strict security guidelines even if the risk seems low."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "decision": "KEEP",
+      "reason": "The hfs kernel module is not typically required in a production environment, and disabling it helps reduce potential attack surfaces."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a theoretical risk related to preventing unauthorized access through the hfsplus file system, which is relevant given the production-critical nature of the environment."
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled": {
+      "decision": "SKIP",
+      "reason": "The jffs2 filesystem is not typically used in a public cloud environment with Ubuntu 24.04 LTS, and disabling this module does not address any immediate risk to the system architecture or user profile specified."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing unauthorized device files in /dev/shm, which is critical for security and prevents potential exploitation."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing the execution of binaries from /dev/shm, which is a world-writable temporary storage directory. Given the production-critical nature and public cloud exposure of the system, this rule is crucial to mitigate potential security risks."
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real risk by preventing setuid programs from executing in /dev/shm, which is a critical security measure for the given environment."
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps can prevent potential information leakage, which is a real risk in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "decision": "KEEP",
+      "reason": "Disabling core dumps for SUID programs helps mitigate risks associated with potential exploits, which is critical in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "decision": "KEEP",
+      "reason": "This rule addresses a real, theoretical risk by mitigating code execution attacks through randomized memory layout."
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real, theoretical risk to the system's security by ensuring proper group ownership of a critical file. Even though it may be complex or disruptive, it is essential for maintaining security standards."
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper ownership of critical cron files is crucial for maintaining system security, even in a cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk to the system by ensuring that sensitive cron.allow file permissions are properly set, which is critical for maintaining system security in a public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a real risk to file permissions security, which is critical in a production environment."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "decision": "KEEP",
+      "reason": "The rule addresses a critical security aspect by ensuring proper permission settings on /etc/cron.daily, which is essential to prevent unauthorized access and ensure the integrity of scheduled tasks."
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "decision": "KEEP",
+      "reason": "Ensuring proper permissions on critical configuration files like /etc/crontab is crucial to prevent unauthorized modifications, which aligns with the production/critical environment and strict filtering posture."
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "decision": "KEEP",
+      "reason": "The nis package is not required in a production/critical environment and its removal addresses a theoretical risk."
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "decision": "KEEP",
+      "reason": "Given the public cloud environment and the critical role, removing vsftpd addresses a theoretical risk of potential unauthorized access through FTP services."
+    },
+    "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled": {
+      "decision": "KEEP",
+      "reason": "The vsftpd service poses a potential risk in a highly exposed environment, and disabling it aligns with the critical filtering posture."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ftp_removed": {
+      "decision": "KEEP",
+      "reason": "Despite the low severity, FTP can pose security risks, especially in a public cloud environment."
+    },
+    "xccdf_org.ssgproject.content_rule_package_tnftp_removed": {
+      "decision": "KEEP",
+      "reason": "The tnftp package is not relevant to a production/critical environment and its removal addresses a low-severity risk, making it appropriate for this configuration."
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "decision": "KEEP",
+      "reason": "The system is in a production/critical environment, and removing unnecessary packages reduces potential attack surfaces."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "decision": "KEEP",
+      "reason": "The rpcbind package can pose a security risk by exposing RPC services, which are often unnecessary in modern setups and can be removed to reduce attack surfaces."
+    },
+    "xccdf_org.ssgproject.content_rule_package_ypserv_removed": {
+      "decision": "KEEP",
+      "reason": "The ypserv package, which is related toYellow Pages services, poses a potential security risk in a highly exposed public cloud environment. Even if removing it might be disruptive, the strict filtering posture requires addressing all theoretical risks."
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "decision": "KEEP",
+      "reason": "The risk of using telnet, which transmits data in plain text and can be easily intercepted, is significant even with a critical downtime sensitivity."
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "decision": "KEEP",
+      "reason": "The rsync service, even if not actively used, poses a risk of unauthorized file synchronization over network links. Given the production-critical nature of the environment and potential exposure to internet scanning, it's prudent to remove this package to mitigate any associated risks."
+    },
+    "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled": {
+      "decision": "KEEP",
+      "reason": "Disabling rsyncd service reduces the attack surface in a production/critical environment."
+    }
+  },
+  "batch_calls": [
+    {
+      "batch_num": 1,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_aide_build_database"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_aide_build_database\nDECISION: KEEP\nREASON: This rule addresses a real risk related to file integrity monitoring, which is crucial in a public cloud environment to detect potential compromise.",
+      "elapsed_seconds": 17.4,
+      "error": null,
+      "kept_count_after_batch": 1
+    },
+    {
+      "batch_num": 2,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_partition_for_tmp"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_partition_for_tmp\nDECISION: KEEP\nREASON: The /tmp directory is a critical location for temporary files and should be separated to enhance security and prevent potential attacks. This rule addresses a theoretical risk relevant to the given OS/kernel and environment.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 2
+    },
+    {
+      "batch_num": 3,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_custom_logfile"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_custom_logfile\nDECISION: KEEP\nREASON: Ensuring a custom logfile for sudo commands is important for auditing and monitoring, even if implementation might be complex.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 3
+    },
+    {
+      "batch_num": 4,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate\nDECISION: KEEP\nREASON: Ensuring users re-authenticate for privilege escalation is crucial to prevent unauthorized command execution.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 4
+    },
+    {
+      "batch_num": 5,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sudo_require_reauthentication  \nDECISION: KEEP  \nREASON: This rule addresses a real risk of unauthorized sudo command usage, especially in a production/critical environment.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 5
+    },
+    {
+      "batch_num": 6,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_authtok\nDECISION: KEEP\nREASON: This rule addresses a critical security aspect by ensuring that the pam_unix.so module properly handles password changes, which is essential for maintaining the integrity of user authentication.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 6
+    },
+    {
+      "batch_num": 7,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny\nDECISION: KEEP\nREASON: This rule addresses a real risk by preventing brute-force attacks, which is critical in a public cloud environment.",
+      "elapsed_seconds": 7.7,
+      "error": null,
+      "kept_count_after_batch": 7
+    },
+    {
+      "batch_num": 8,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_enabled\nDECISION: KEEP\nREASON: This rule addresses a real risk by mitigating brute-force attacks, which is critical in a public cloud environment.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 8
+    },
+    {
+      "batch_num": 9,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk by mitigating brute-force attacks through account lockout after failed login attempts.",
+      "elapsed_seconds": 8.0,
+      "error": null,
+      "kept_count_after_batch": 9
+    },
+    {
+      "batch_num": 10,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit\n DECISION: KEEP\n REASON: Ensures password complexity by requiring digit usage, critical for protecting against common brute-force attacks.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 10
+    },
+    {
+      "batch_num": 11,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen\nDECISION: KEEP\nREASON: Ensuring a minimum password length is critical for defending against common brute-force attacks in a highly exposed public cloud environment.",
+      "elapsed_seconds": 7.7,
+      "error": null,
+      "kept_count_after_batch": 11
+    },
+    {
+      "batch_num": 12,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit\n DECISION: KEEP\n REASON: The rule addresses a real risk by enforcing password complexity, which is critical for protecting against common brute-force attacks.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 12
+    },
+    {
+      "batch_num": 13,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth  \nDECISION: KEEP  \nREASON: Protecting password hashing algorithms is critical for maintaining account security in a production environment.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 13
+    },
+    {
+      "batch_num": 14,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_password_pam_unix_no_remember\nDECISION: KEEP\nREASON: The remember feature can lead to password reuse issues, which is a real risk for production/critical systems.",
+      "elapsed_seconds": 7.8,
+      "error": null,
+      "kept_count_after_batch": 14
+    },
+    {
+      "batch_num": 15,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_no_empty_passwords_unix"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_no_empty_passwords_unix\nDECISION: KEEP\nREASON: Preventing login to accounts with empty passwords is a critical security measure, especially in a production environment.",
+      "elapsed_seconds": 7.2,
+      "error": null,
+      "kept_count_after_batch": 15
+    },
+    {
+      "batch_num": 16,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc\nDECISION: KEEP\nREASON: Ensuring proper umask settings in /etc/bash.bashrc is crucial for maintaining file permissions and can prevent potential security risks, which aligns with the critical filtering posture.",
+      "elapsed_seconds": 9.1,
+      "error": null,
+      "kept_count_after_batch": 16
+    },
+    {
+      "batch_num": 17,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs\nDECISION: KEEP\nREASON: This rule addresses a security best practice for file and directory permissions, which is critical to prevent unauthorized access and data leakage.",
+      "elapsed_seconds": 7.8,
+      "error": null,
+      "kept_count_after_batch": 17
+    },
+    {
+      "batch_num": 18,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_accounts_tmout"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_accounts_tmout\nDECISION: KEEP\nREASON: Ensuring session timeouts help mitigate risk of unauthorized access due to idle sessions.",
+      "elapsed_seconds": 6.7,
+      "error": null,
+      "kept_count_after_batch": 18
+    },
+    {
+      "batch_num": 19,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_grub2_enable_apparmor\nDECISION: KEEP\nREASON: Ensuring AppArmor is enabled in the bootloader configuration addresses a theoretical risk for this environment, especially given its production-critical nature.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 19
+    },
+    {
+      "batch_num": 20,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_grub2_uefi_password"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_grub2_uefi_password\nDECISION: KEEP\nREASON: Protecting against unauthorized changes to boot-time settings is critical, especially in a production environment.",
+      "elapsed_seconds": 7.1,
+      "error": null,
+      "kept_count_after_batch": 20
+    },
+    {
+      "batch_num": 21,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_systemd-journal-upload_enabled\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk related to offloading rsyslog messages for networked systems, which is critical in a highly exposed public cloud environment.",
+      "elapsed_seconds": 8.8,
+      "error": null,
+      "kept_count_after_batch": 21
+    },
+    {
+      "batch_num": 22,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_compress"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_compress\nDECISION: KEEP\nREASON: Compressing large log files helps prevent system disk from being filled, which is crucial for a production/critical environment.",
+      "elapsed_seconds": 7.2,
+      "error": null,
+      "kept_count_after_batch": 22
+    },
+    {
+      "batch_num": 23,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_forward_to_syslog"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_journald_forward_to_syslog\nDECISION: KEEP\nREASON: Ensuring journald logs are forwarded to rsyslog enhances security by mitigating risks associated with local log storage, which is crucial in a highly exposed environment.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 23
+    },
+    {
+      "batch_num": 24,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_journald_storage"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_journald_storage\nDECISION: KEEP\nREASON: Ensuring journald logs are written to persistent disk is crucial for maintaining log integrity and availability, especially in a production/critical environment.",
+      "elapsed_seconds": 7.8,
+      "error": null,
+      "kept_count_after_batch": 24
+    },
+    {
+      "batch_num": 25,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_server_tls\nDECISION: KEEP\nREASON: This rule addresses real, theoretical risks related to secure transmission of journal logs over a network, which is crucial given the system's production and critical nature.",
+      "elapsed_seconds": 8.4,
+      "error": null,
+      "kept_count_after_batch": 25
+    },
+    {
+      "batch_num": 26,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_systemd_journal_upload_url"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_systemd_journal_upload_url\n DECISION: KEEP\n REASON: The rule addresses a real, theoretical risk related to offloading rsyslog messages, which is critical for networked systems in this public cloud environment.",
+      "elapsed_seconds": 9.1,
+      "error": null,
+      "kept_count_after_batch": 26
+    },
+    {
+      "batch_num": 27,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding\nDECISION: KEEP\nREASON: This rule addresses a theoretical risk related to IPv6 forwarding, which is relevant given the public cloud environment and need for security.",
+      "elapsed_seconds": 8.3,
+      "error": null,
+      "kept_count_after_batch": 27
+    },
+    {
+      "batch_num": 28,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects\nDECISION: KEEP\nREASON: Addresses a real, theoretical risk to this OS/kernel and environment by mitigating potential attacks like ICMP redirect attacks.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 28
+    },
+    {
+      "batch_num": 29,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians\nDECISION: KEEP\nREASON: Addresses a theoretical risk of unauthorized network traffic, which is crucial in a production/critical environment.",
+      "elapsed_seconds": 8.3,
+      "error": null,
+      "kept_count_after_batch": 29
+    },
+    {
+      "batch_num": 30,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter\nDECISION: KEEP\nREASON: This rule addresses a critical security measure to prevent IP spoofing, which is relevant for a production/critical environment and public cloud infrastructure.",
+      "elapsed_seconds": 8.4,
+      "error": null,
+      "kept_count_after_batch": 30
+    },
+    {
+      "batch_num": 31,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk of SYN flood attacks in a public cloud environment.",
+      "elapsed_seconds": 7.6,
+      "error": null,
+      "kept_count_after_batch": 31
+    },
+    {
+      "batch_num": 32,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects\nDECISION: KEEP\nREASON: This rule addresses a real risk in an environment that is highly exposed to internet scanning, as it helps prevent potential attacks like ICMP redirect attacks.",
+      "elapsed_seconds": 9.0,
+      "error": null,
+      "kept_count_after_batch": 32
+    },
+    {
+      "batch_num": 33,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward\nDECISION: KEEP\nREASON: Disabling IP forwarding is crucial for security, especially in a highly exposed cloud environment.",
+      "elapsed_seconds": 7.3,
+      "error": null,
+      "kept_count_after_batch": 33
+    },
+    {
+      "batch_num": 34,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_nftables_enabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_service_nftables_enabled\n DECISION: KEEP\n REASON: nftables is a critical service for managing firewall rules, and ensuring it is enabled aligns with best practices for network security.",
+      "elapsed_seconds": 7.9,
+      "error": null,
+      "kept_count_after_batch": 34
+    },
+    {
+      "batch_num": 35,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_firewall_single_service_active"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_firewall_single_service_active\nDECISION: KEEP\nREASON: Given the critical nature of production environments and the potential for firewall conflicts, ensuring only one active firewall service is in use aligns with best practices to maintain system security and stability.",
+      "elapsed_seconds": 8.7,
+      "error": null,
+      "kept_count_after_batch": 35
+    },
+    {
+      "batch_num": 36,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow  \nDECISION: KEEP  \nREASON: This rule addresses a real risk related to file permissions and ownership, which is critical for maintaining system security. Given the public cloud environment and production-critical nature of the infrastructure, it's essential to ensure proper group ownership to mitigate potential vulnerabilities.",
+      "elapsed_seconds": 10.2,
+      "error": null,
+      "kept_count_after_batch": 36
+    },
+    {
+      "batch_num": 37,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_cramfs_disabled\nDECISION: KEEP\nREASON: The cramfs file system is not commonly used and disabling its kernel module adds an unnecessary layer of security. Given the production environment, it's better to follow strict security guidelines even if the risk seems low.",
+      "elapsed_seconds": 9.6,
+      "error": null,
+      "kept_count_after_batch": 37
+    },
+    {
+      "batch_num": 38,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled\nDECISION: KEEP\nREASON: The hfs kernel module is not typically required in a production environment, and disabling it helps reduce potential attack surfaces.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 38
+    },
+    {
+      "batch_num": 39,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_hfsplus_disabled\nDECISION: KEEP\nREASON: This rule addresses a theoretical risk related to preventing unauthorized access through the hfsplus file system, which is relevant given the production-critical nature of the environment.",
+      "elapsed_seconds": 8.7,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 40,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_kernel_module_jffs2_disabled\nDECISION: SKIP\nREASON: The jffs2 filesystem is not typically used in a public cloud environment with Ubuntu 24.04 LTS, and disabling this module does not address any immediate risk to the system architecture or user profile specified.",
+      "elapsed_seconds": 10.1,
+      "error": null,
+      "kept_count_after_batch": 39
+    },
+    {
+      "batch_num": 41,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev\nDECISION: KEEP\nREASON: This rule addresses a real risk by preventing unauthorized device files in /dev/shm, which is critical for security and prevents potential exploitation.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 40
+    },
+    {
+      "batch_num": 42,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec\n DECISION: KEEP\n REASON: This rule addresses a real risk by preventing the execution of binaries from /dev/shm, which is a world-writable temporary storage directory. Given the production-critical nature and public cloud exposure of the system, this rule is crucial to mitigate potential security risks.",
+      "elapsed_seconds": 10.8,
+      "error": null,
+      "kept_count_after_batch": 41
+    },
+    {
+      "batch_num": 43,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid\nDECISION: KEEP\nREASON: This rule addresses a real risk by preventing setuid programs from executing in /dev/shm, which is a critical security measure for the given environment.",
+      "elapsed_seconds": 8.7,
+      "error": null,
+      "kept_count_after_batch": 42
+    },
+    {
+      "batch_num": 44,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_disable_users_coredumps"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_disable_users_coredumps\nDECISION: KEEP\nREASON: Disabling core dumps can prevent potential information leakage, which is a real risk in a production environment.",
+      "elapsed_seconds": 7.2,
+      "error": null,
+      "kept_count_after_batch": 43
+    },
+    {
+      "batch_num": 45,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable\nDECISION: KEEP\nREASON: Disabling core dumps for SUID programs helps mitigate risks associated with potential exploits, which is critical in a production environment.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 44
+    },
+    {
+      "batch_num": 46,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space\nDECISION: KEEP\nREASON: This rule addresses a real, theoretical risk by mitigating code execution attacks through randomized memory layout.",
+      "elapsed_seconds": 7.4,
+      "error": null,
+      "kept_count_after_batch": 45
+    },
+    {
+      "batch_num": 47,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow  \nDECISION: KEEP  \nREASON: The rule addresses a security vulnerability related to file permissions and ownership, which is relevant for this environment.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 45
+    },
+    {
+      "batch_num": 48,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow\nDECISION: KEEP\nREASON: The rule addresses a real, theoretical risk to the system's security by ensuring proper group ownership of a critical file. Even though it may be complex or disruptive, it is essential for maintaining security standards.",
+      "elapsed_seconds": 9.6,
+      "error": null,
+      "kept_count_after_batch": 46
+    },
+    {
+      "batch_num": 49,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_owner_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_owner_cron_allow\nDECISION: KEEP\nREASON: Ensuring proper ownership of critical cron files is crucial for maintaining system security, even in a cloud environment.",
+      "elapsed_seconds": 7.4,
+      "error": null,
+      "kept_count_after_batch": 47
+    },
+    {
+      "batch_num": 50,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_allow\nDECISION: KEEP\nREASON: The rule addresses a real risk to the system by ensuring that sensitive cron.allow file permissions are properly set, which is critical for maintaining system security in a public cloud environment.",
+      "elapsed_seconds": 8.9,
+      "error": null,
+      "kept_count_after_batch": 48
+    },
+    {
+      "batch_num": 51,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_d"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_d  \nDECISION: KEEP  \nREASON: The rule addresses a real risk to file permissions security, which is critical in a production environment.",
+      "elapsed_seconds": 6.7,
+      "error": null,
+      "kept_count_after_batch": 49
+    },
+    {
+      "batch_num": 52,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_cron_daily\nDECISION: KEEP\nREASON: The rule addresses a critical security aspect by ensuring proper permission settings on `/etc/cron.daily`, which is essential to prevent unauthorized access and ensure the integrity of scheduled tasks.",
+      "elapsed_seconds": 8.6,
+      "error": null,
+      "kept_count_after_batch": 50
+    },
+    {
+      "batch_num": 53,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_file_permissions_crontab"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_file_permissions_crontab\nDECISION: KEEP\nREASON: Ensuring proper permissions on critical configuration files like /etc/crontab is crucial to prevent unauthorized modifications, which aligns with the production/critical environment and strict filtering posture.",
+      "elapsed_seconds": 8.5,
+      "error": null,
+      "kept_count_after_batch": 51
+    },
+    {
+      "batch_num": 54,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_nis_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_nis_removed\n DECISION: KEEP\n REASON: The nis package is not required in a production/critical environment and its removal addresses a theoretical risk.",
+      "elapsed_seconds": 6.8,
+      "error": null,
+      "kept_count_after_batch": 52
+    },
+    {
+      "batch_num": 55,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_vsftpd_removed"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_package_vsftpd_removed\nDECISION: KEEP\nREASON: Given the public cloud environment and the critical role, removing vsftpd addresses a theoretical risk of potential unauthorized access through FTP services.",
+      "elapsed_seconds": 7.5,
+      "error": null,
+      "kept_count_after_batch": 53
+    },
+    {
+      "batch_num": 56,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_vsftpd_disabled"
+      ],
+      "raw_response": " RULE ID: xccdf_org.ssgproject.content_rule_service_vsftpd_disabled\nDECISION: KEEP\nREASON: The vsftpd service poses a potential risk in a highly exposed environment, and disabling it aligns with the critical filtering posture.",
+      "elapsed_seconds": 7.6,
+      "error": null,
+      "kept_count_after_batch": 54
+    },
+    {
+      "batch_num": 57,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ftp_removed\nDECISION: KEEP\nREASON: Despite the low severity, FTP can pose security risks, especially in a public cloud environment.",
+      "elapsed_seconds": 6.7,
+      "error": null,
+      "kept_count_after_batch": 55
+    },
+    {
+      "batch_num": 58,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_tnftp_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_tnftp_removed\nDECISION: KEEP\nREASON: The tnftp package is not relevant to a production/critical environment and its removal addresses a low-severity risk, making it appropriate for this configuration.",
+      "elapsed_seconds": 8.2,
+      "error": null,
+      "kept_count_after_batch": 56
+    },
+    {
+      "batch_num": 59,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_openldap-clients_removed\nDECISION: KEEP\nREASON: The system is in a production/critical environment, and removing unnecessary packages reduces potential attack surfaces.",
+      "elapsed_seconds": 7.2,
+      "error": null,
+      "kept_count_after_batch": 57
+    },
+    {
+      "batch_num": 60,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rpcbind_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rpcbind_removed\nDECISION: KEEP\nREASON: The rpcbind package can pose a security risk by exposing RPC services, which are often unnecessary in modern setups and can be removed to reduce attack surfaces.",
+      "elapsed_seconds": 8.1,
+      "error": null,
+      "kept_count_after_batch": 58
+    },
+    {
+      "batch_num": 61,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_ypserv_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_ypserv_removed\nDECISION: KEEP\nREASON: The ypserv package, which is related toYellow Pages services, poses a potential security risk in a highly exposed public cloud environment. Even if removing it might be disruptive, the strict filtering posture requires addressing all theoretical risks.",
+      "elapsed_seconds": 9.3,
+      "error": null,
+      "kept_count_after_batch": 59
+    },
+    {
+      "batch_num": 62,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_telnet_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_telnet_removed\nDECISION: KEEP\nREASON: The risk of using telnet, which transmits data in plain text and can be easily intercepted, is significant even with a critical downtime sensitivity.",
+      "elapsed_seconds": 9.1,
+      "error": null,
+      "kept_count_after_batch": 60
+    },
+    {
+      "batch_num": 63,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_package_rsync_removed"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_package_rsync_removed\nDECISION: KEEP\nREASON: The rsync service, even if not actively used, poses a risk of unauthorized file synchronization over network links. Given the production-critical nature of the environment and potential exposure to internet scanning, it's prudent to remove this package to mitigate any associated risks.",
+      "elapsed_seconds": 9.8,
+      "error": null,
+      "kept_count_after_batch": 61
+    },
+    {
+      "batch_num": 64,
+      "rule_ids_in_batch": [
+        "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
+      ],
+      "raw_response": "RULE ID: xccdf_org.ssgproject.content_rule_service_rsyncd_disabled\nDECISION: KEEP\nREASON: Disabling rsyncd service reduces the attack surface in a production/critical environment.",
+      "elapsed_seconds": 6.7,
+      "error": null,
+      "kept_count_after_batch": 62
+    }
+  ],
+  "total_elapsed_seconds": 525.9,
+  "wall_time_seconds": 525.83,
+  "resource_metrics": {
+    "peak_ram_mb": 55.3,
+    "avg_cpu_percent": null,
+    "cpu_time_seconds": 3.03,
+    "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+  },
+  "error": null
+}
