@@ -1,0 +1,31 @@
+{
+  "role": "Software Developer",
+  "profile": {
+    "dev_stack": "Containerized Apps (Docker/Podman - relies on virtual networking)",
+    "network_exposure": "Yes, I run local servers/APIs that teammates or external tools connect to"
+  },
+  "timestamp": "20260721_190910",
+  "total_rules_available": 49,
+  "batch_size": 1,
+  "keep_target": null,
+  "models_run": [
+    {
+      "model": "qwen2.5:7b",
+      "backend": "lab",
+      "batches_used": 49,
+      "total_batches_available": 49,
+      "kept_count": 46,
+      "skip_count": 2,
+      "unparsed_count": 0,
+      "total_elapsed_seconds": 387.4,
+      "wall_time_seconds": 387.28,
+      "resource_metrics": {
+        "peak_ram_mb": 65.0,
+        "avg_cpu_percent": null,
+        "cpu_time_seconds": 2.63,
+        "method": "resource module fallback (install psutil for live sampling: pip install psutil --break-system-packages)"
+      },
+      "error": null
+    }
+  ]
+}
