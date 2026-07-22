@@ -6,11 +6,5 @@ echo '=== Resetting rules to failing state ==='
 
 echo '  Breaking: kernel_module_hfs_disabled'
 sudo rm -f /etc/modprobe.d/hfs.conf 2>/dev/null || true
-echo '  Breaking: file_groupowner_cron_allow'
-sudo chgrp root /etc/cron.allow 2>/dev/null || true
-echo '  Breaking: file_owner_cron_allow'
-sudo chown nobody:nogroup /etc/cron.allow 2>/dev/null || true
-echo '  Breaking: file_permissions_cron_allow'
-sudo chmod 0644 /etc/cron.allow 2>/dev/null || true
 
 echo '=== Reset complete ==='

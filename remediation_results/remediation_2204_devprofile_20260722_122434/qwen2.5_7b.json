@@ -1,0 +1,27 @@
+{
+  "model": "qwen2.5:7b",
+  "started": "2026-07-22T12:22:17.442821",
+  "rules": {
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "matched_in_scan": true,
+      "status": "query_error",
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<HTTPSConnection(host='10.1.96.96', port=8443) at 0x7cdfa728f9a0>, 'Connection to 10.1.96.96 timed out. (connect timeout=900)'))",
+      "passes": []
+    }
+  },
+  "summary": {
+    "attempted": 0,
+    "approved": 0,
+    "script_ok": 0,
+    "oscap_pass": 0,
+    "oscap_fail": 0,
+    "query_error": 1,
+    "script_error": 0,
+    "rejected": 0,
+    "clarifications_asked": 0,
+    "sudoers_rollback": 0,
+    "permission_denied": 0,
+    "passes_exhausted": 0
+  },
+  "finished": "2026-07-22T12:24:34.476080"
+}
