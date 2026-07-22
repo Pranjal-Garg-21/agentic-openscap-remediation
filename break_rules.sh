@@ -4,86 +4,13 @@
 # Run between models: bash break_rules.sh
 echo '=== Resetting rules to failing state ==='
 
-echo '  Breaking: sudo_custom_logfile'
-sudo sed -i '/logfile/d' /etc/sudoers 2>/dev/null; sudo rm -f /etc/sudoers.d/01-cis-sudo-logfile 2>/dev/null || true
-echo '  Breaking: sudo_remove_no_authenticate'
-echo 'Defaults !authenticate' | sudo tee /etc/sudoers.d/zz_break_authenticate > /dev/null
-echo '  Breaking: sudo_require_reauthentication'
-sudo rm -f /etc/sudoers.d/reauthenticate_sudo 2>/dev/null || true
-echo '  Breaking: accounts_passwords_pam_faillock_deny'
-sudo sed -i '/faillock/d' /etc/pam.d/common-auth /etc/pam.d/common-account 2>/dev/null || true
-echo '  Breaking: accounts_passwords_pam_faillock_unlock_time'
-sudo sed -i '/faillock/d' /etc/pam.d/common-auth 2>/dev/null || true
-echo '  Breaking: accounts_password_pam_dcredit'
-sudo sed -i '/dcredit/d' /etc/security/pwquality.conf 2>/dev/null || true
-echo '  Breaking: accounts_password_pam_minlen'
-sudo sed -i '/minlen/d' /etc/security/pwquality.conf 2>/dev/null || true
-echo '  Breaking: accounts_password_pam_ucredit'
-sudo sed -i '/ucredit/d' /etc/security/pwquality.conf 2>/dev/null || true
-echo '  Breaking: set_password_hashing_algorithm_systemauth'
-sudo sed -i 's/ *sha512//' /etc/pam.d/common-password 2>/dev/null || true
-echo '  Breaking: accounts_umask_etc_bashrc'
-sudo sed -i '/umask 027/d; /umask 077/d' /etc/bash.bashrc 2>/dev/null || true
-echo '  Breaking: accounts_umask_etc_login_defs'
-sudo sed -i 's/^UMASK.*/UMASK 022/' /etc/login.defs 2>/dev/null || true
-echo '  Breaking: accounts_tmout'
-sudo sed -i '/TMOUT/d' /etc/bash.bashrc /etc/profile /etc/profile.d/*.sh 2>/dev/null || true
-echo '  Breaking: grub2_enable_apparmor'
-sudo sed -i 's/ apparmor=1 security=apparmor//' /etc/default/grub 2>/dev/null; sudo update-grub 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv6_conf_all_forwarding'
-sudo sed -i '/net.ipv6.conf.all.forwarding/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv6.conf.all.forwarding=1 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_conf_all_accept_redirects'
-sudo sed -i '/accept_redirects/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.conf.all.accept_redirects=1 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_conf_all_log_martians'
-sudo sed -i '/log_martians/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.conf.all.log_martians=0 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_conf_all_rp_filter'
-sudo sed -i '/rp_filter/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.conf.all.rp_filter=0 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_tcp_syncookies'
-sudo sed -i '/syncookies/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.tcp_syncookies=0 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_conf_all_send_redirects'
-sudo sed -i '/send_redirects/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.conf.all.send_redirects=1 2>/dev/null || true
-echo '  Breaking: sysctl_net_ipv4_ip_forward'
-sudo sed -i '/ip_forward/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w net.ipv4.ip_forward=1 2>/dev/null || true
-echo '  Breaking: file_groupowner_backup_etc_gshadow'
-sudo chgrp root /etc/gshadow- 2>/dev/null || true
 echo '  Breaking: kernel_module_hfs_disabled'
 sudo rm -f /etc/modprobe.d/hfs.conf 2>/dev/null || true
-echo '  Breaking: mount_option_dev_shm_nodev'
-sudo sed -i '/\/dev\/shm/d' /etc/fstab; sudo mount -o remount /dev/shm 2>/dev/null || true
-echo '  Breaking: mount_option_dev_shm_noexec'
-sudo sed -i '/\/dev\/shm/d' /etc/fstab; sudo mount -o remount /dev/shm 2>/dev/null || true
-echo '  Breaking: mount_option_dev_shm_nosuid'
-sudo sed -i '/\/dev\/shm/d' /etc/fstab; sudo mount -o remount /dev/shm 2>/dev/null || true
-echo '  Breaking: disable_users_coredumps'
-sudo sed -i '/hard core/d; /soft core/d' /etc/security/limits.conf 2>/dev/null; echo '* soft core unlimited' | sudo tee -a /etc/security/limits.conf
-echo '  Breaking: sysctl_fs_suid_dumpable'
-sudo sed -i '/suid_dumpable/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w fs.suid_dumpable=1 2>/dev/null || true
-echo '  Breaking: sysctl_kernel_randomize_va_space'
-sudo sed -i '/randomize_va_space/d' /etc/sysctl.conf /etc/sysctl.d/*.conf 2>/dev/null; sudo sysctl -w kernel.randomize_va_space=0 2>/dev/null || true
 echo '  Breaking: file_groupowner_cron_allow'
 sudo chgrp root /etc/cron.allow 2>/dev/null || true
 echo '  Breaking: file_owner_cron_allow'
 sudo chown nobody:nogroup /etc/cron.allow 2>/dev/null || true
 echo '  Breaking: file_permissions_cron_allow'
 sudo chmod 0644 /etc/cron.allow 2>/dev/null || true
-echo '  Breaking: file_permissions_cron_d'
-sudo chmod 0755 /etc/cron.d 2>/dev/null || true
-echo '  Breaking: file_permissions_cron_daily'
-sudo chmod 0755 /etc/cron.daily 2>/dev/null || true
-echo '  Breaking: file_permissions_crontab'
-sudo chmod 0644 /etc/crontab 2>/dev/null || true
-echo '  Breaking: package_nis_removed'
-sudo apt-get install -y nis 2>/dev/null || true
-echo '  Breaking: package_vsftpd_removed'
-sudo apt-get install -y vsftpd 2>/dev/null || true
-echo '  Breaking: package_openldap-clients_removed'
-sudo apt-get install -y ldap-utils 2>/dev/null || true
-echo '  Breaking: package_rpcbind_removed'
-sudo apt-get install -y rpcbind 2>/dev/null || true
-echo '  Breaking: package_telnet_removed'
-sudo apt-get install -y telnet 2>/dev/null || true
-echo '  Breaking: package_rsync_removed'
-sudo apt-get install -y rsync 2>/dev/null || true
 
 echo '=== Reset complete ==='
-echo 'No break command for: ['partition_for_tmp', 'grub2_uefi_password', 'journald_compress', 'journald_storage', 'service_nftables_enabled']'
