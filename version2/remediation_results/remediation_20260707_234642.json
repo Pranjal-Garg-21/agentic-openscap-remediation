@@ -1,0 +1,536 @@
+[
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_build_database",
+    "script": "if dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \"aide\"\n    AIDE_CONFIG=/etc/aide/aide.conf\n    DEFAULT_DB_PATH=/var/lib/aide/aide.db\n    if [ -f \"$AIDE_CONFIG\" ]; then\n        if ! grep -q '^database=file:' \"${AIDE_CONFIG}\"; then\n            echo \"database=file:${DEFAULT_DB_PATH}\" >> \"${AIDE_CONFIG}\"\n        fi\n        if ! grep -q '^database_out=file:' \"${AIDE_CONFIG}\"; then\n            echo \"database_out=file:${DEFAULT_DB_PATH}.new\" >> \"${AIDE_CONFIG}\"\n        fi\n    fi\n    /usr/sbin/aideinit -y -f\nelse\n    echo 'Remediation is not applicable, nothing was done' >&2\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:49:45.706929",
+    "exit_code": 1,
+    "stdout": "Reading package lists...\n",
+    "stderr": "E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)\nE: Unable to lock directory /var/lib/apt/lists/\nW: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)\nW: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)\nbash: line 7: /etc/aide/aide.conf: Permission denied\nRunning aide --init...\nUnable to set capabilities [--caps=cap_dac_read_search,cap_audit_write+eip cap_setpcap,cap_setuid,cap_setgid+ep]\n/usr/sbin/aideinit: 127: cannot create /var/log/aide/aideinit.log: Permission denied\n/usr/sbin/aideinit: 129: cannot create /var/log/aide/aideinit.errors: Permission denied\nAIDE --init return code 1\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_build_database",
+    "script": "#!/bin/bash\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    DEBIAN_FRONTEND=noninteractive apt-get install -y \"aide\"\n    AIDE_CONFIG=/etc/aide/aide.conf\n    DEFAULT_DB_PATH=/var/lib/aide/aide.db\n\n    if ! grep -q '^database=file:' ${AIDE_CONFIG}; then\n        echo \"database=file:${DEFAULT_DB_PATH}\" >> ${AIDE_CONFIG}\n    fi\n\n    if ! grep -q '^database_out=file:' ${AIDE_CONFIG}; then\n        echo \"database_out=file:${DEFAULT_DB_PATH}.new\" >> ${AIDE_CONFIG}\n    fi\n\n    /usr/sbin/aideinit -y -f\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:49:54.857591",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\nbash: line 9: /etc/aide/aide.conf: Permission denied\nRunning aide --init...\nUnable to set capabilities [--caps=cap_dac_read_search,cap_audit_write+eip cap_setpcap,cap_setuid,cap_setgid+ep]\n/usr/sbin/aideinit: 127: cannot create /var/log/aide/aideinit.log: Permission denied\n/usr/sbin/aideinit: 129: cannot create /var/log/aide/aideinit.errors: Permission denied\nAIDE --init return code 1\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_build_database",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status}\\n' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    DEBIAN_FRONTEND=noninteractive apt-get install -y \"aide\"\n\n    AIDE_CONFIG=/etc/aide/aide.conf\n    DEFAULT_DB_PATH=/var/lib/aide/aide.db\n\n    # Fix db path in the config file, if necessary\n # replace_or_append gets confused by 'database=file' as a key, so should not be used.\n    #replace_or_append \"${AIDE_CONFIG}\" '^database=file' \"${DEFAULT_DB_PATH}\" '@CCENUM@' '%s:%s'\n        echo \"database=file:${DEFAULT_DB_PATH}\" >> ${AIDE_CONFIG}\n    fi\n\n    # Fix db out path in the config file, if necessary\n    if ! grep -q '^database_out=file:' ${AIDE_CONFIG}; then\n        echo \"database_out=file:${DEFAULT_DB_PATH}.new\" >> ${AIDE_CONFIG}\n    fi\n\n    /usr/sbin/aideinit -y -f\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:50:05.102700",
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\nbash: line 13: /etc/aide/aide.conf: Permission denied\nRunning aide --init...\nUnable to set capabilities [--caps=cap_dac_read_search,cap_audit_write+eip cap_setpcap,cap_setuid,cap_setgid+ep]\n/usr/sbin/aideinit: 127: cannot create /var/log/aide/aideinit.log: Permission denied\n/usr/sbin/aideinit: 129: cannot create /var/log/aide/aideinit.errors: Permission denied\nAIDE --init return code 1\nbash: -c: line 22: syntax error near unexpected token `else'\nbash: -c: line 22: `else'\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_build_database",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Apply only on systems with the linux-base package (e.g., Ubuntu/Debian)\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    # Ensure AIDE is installed\n    if ! dpkg -s aide >/dev/null 2>&1; then\n        DEBIAN_FRONTEND=noninteractive apt-get update -qq\n        DEBIAN_FRONTEND=noninteractive apt-get install -y aide\n    fi\n\n    AIDE_CONFIG=\"/etc/aide/aide.conf\"\n    DEFAULT_DB_PATH=\"/var/lib/aide/aide.db\"\n\n    # Fallback if the expected config location does not exist\n    if [ ! -f \"$AIDE_CONFIG\" ]; then\n        if [ -",
+    "approved": true,
+    "timestamp": "2026-07-07T23:50:14.465703",
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "bash: -c: line 18: syntax error: unexpected end of file\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+    "script": "#!/bin/bash\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed && \\\n   { ( dpkg-query --show --showformat='${db:Status-Status}\\n' 'aide' 2>/dev/null | grep -q '^installed' || \\\n       dpkg-query --show --showformat='${db:Status-Status}\\n' 'systemd' 2>/dev/null | grep -q '^installed' ); }; then\n\n    DEBIAN_FRONTEND=noninteractive apt-get install -y \"aide-common\" \"aide\"\n\n    cat > /etc/systemd/system/dailyaidecheck.service <<EOF\n[Unit]\nDescription=AIDE Check\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/aide.wrapper --config /etc/aide/aide.conf --check\nEOF\n\n    cat > /etc/systemd/system/dailyaidecheck.timer <<EOF\n[Unit]\nDescription=Daily AIDE Check\n\n[Timer]\nOnCalendar=*-*-* 05:00:00\nUnit=dailyaidecheck.service\n\n[Install]\nWantedBy=timers.target\nEOF\n\n    systemctl daemon-reload\n    systemctl unmask dailyaidecheck.service\n    systemctl unmask dailyaidecheck.timer\n    systemctl --now enable dailyaidecheck.timer\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:53:47.090600",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\nbash: line 9: /etc/systemd/system/dailyaidecheck.service: Permission denied\nbash: line 18: /etc/systemd/system/dailyaidecheck.timer: Permission denied\nReload daemon failed: Method call timed out\nFailed to enable unit: Access denied\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+    "script": "#!/bin/bash\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed && { ( dpkg-query --show --showformat='${db:Status-Status}\\n' 'aide' 2>/dev/null | grep -q '^installed' && dpkg-query --show --showformat='${db:Status-Status}\\n' 'systemd' 2>/dev/null | grep -q '^installed' ); }; then\n\nDEBIAN_FRONTEND=noninteractive apt-get install -y \"aide\"\n\n# Create the AIDE check service unit\ncat > /etc/systemd/system/dailyaidecheck.service << 'EOF'\n[Unit]\nDescription=AIDE Daily Check\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/aide --check\nEOF\n\n# Create the AIDE check timer unit\ncat > /etc/systemd/system/dailyaidecheck.timer << 'EOF'\n[Unit]\nDescription=AIDE Daily Check Timer\n\n[Timer]\nOnCalendar=*-*-* 05:00:00\nPersistent=true\n\n[Install]\nWantedBy=timers.target\nEOF\n\nsystemctl daemon-reload\nsystemctl unmask dailyaidecheck.service\nsystemctl unmask dailyaidecheck.timer\nsystemctl --now enable dailyaidecheck.timer\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:55:02.407213",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\nbash: line 8: /etc/systemd/system/dailyaidecheck.service: Permission denied\nbash: line 18: /etc/systemd/system/dailyaidecheck.timer: Permission denied\nReload daemon failed: Access denied\nFailed to unmask unit: Access denied\nFailed to unmask unit: Access denied\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_aide_periodic_checking_systemd_timer",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Ensure script is run as root\nif [[ \"$(id -u)\" -ne 0 ]]; then\n    echo \"This script must be run as root.\" >&2\n    exit 1\nfi\n\n# Helper to check if a package is installed\nis_installed() {\n    dpkg-query -W -f='${Status}' \"$1\" 2>/dev/null | grep -q '^install ok installed$'\n}\n\n# Verify required base packages\nif ! is_installed linux-base || ! is_installed systemd; then\n    echo \"Required packages 'linux-base' or 'systemd' are not installed. Exiting.\" >&2\n    exit 1\nfi\n\n# Install AIDE if missing\nif ! is_installed aide; then\n    echo \"Installing AIDE...\"\n    DEBIAN_FRONTEND=noninteractive apt-get update -qq\n    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq aide\nfi\n\n# Define unit file paths\nSERVICE_PATH=\"/etc/systemd/system/dailyaidecheck.service\"\nTIMER_PATH=\"/etc/systemd/system/dailyaidecheck.timer\"\n\n# Create/overwrite the systemd service unit\ncat > \"$SERVICE_PATH\" <<'EOF'\n[Unit]\nDescription=Daily AIDE integrity check\nDocumentation=man:aide(8)\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/aide --check\nEOF\n\n# Create/overwrite the systemd timer unit\ncat > \"$TIMER_PATH\" <<'EOF'\n[Unit]\nDescription=Run daily AIDE integrity check\n\n[Timer]\nOnCalendar=*-*-* 05:00:00\nPersistent=true\n\n[Install]\nWanted",
+    "approved": true,
+    "timestamp": "2026-07-07T23:55:37.472907",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "This script must be run as root.\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_compress",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_compress",
+    "script": "#!/bin/bash\n\n# Remediation script for xccdf_org.ssgproject.content_rule_journald_compress\n# Ensure journald is configured to compress large log files\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*Compress\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    # Ensure file ends with a newline\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\n    # Backup the original file\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    # Find the line number of the commented Compress directive\n    line_number=\"$(LC_ALL=C grep -n \"^#\\s*Compress\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\n\n    if [ -z \"$line_number\" ]; then\n        # No commented Compress directive found, append to end of file\n        printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\n    else\n        # Insert the uncommented directive before the commented one\n        head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    # Clean up backup file\n    rm \"/etc/systemd/journald.conf.bak\"\n\n    # Restart journald to apply changes\n    systemctl restart systemd-journald\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:57:19.446620",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sedWlW25y: Permission denied\nsed: couldn't open temporary file /etc/systemd/sed9D04oC: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 24: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_compress",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*Compress\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    # make sure file has newline at the end\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    # Insert before the line matching the regex '^#\\s*Compress'.\n    line_number=\"$(LC_ALL=C grep -n \"^#\\s*Compress\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\n    if [ -z \"$line_number\" ]; then\n        # There was no match of '^#\\s*Compress', insert at\n        # the end of the file.\n        printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\n    else\n        head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    # Clean up after ourselves.\n    rm \"/etc/systemd/journald.conf.bak\"\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:57:48.649606",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sed9cpzVD: Permission denied\nsed: couldn't open temporary file /etc/systemd/seda3bnxd: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 21: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_compress",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Apply only on systems with the 'linux-base' package installed\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    CONF=\"/etc/systemd/journald.conf\"\n\n    # Ensure the configuration file exists\n    if [ ! -e \"$CONF\" ]; then\n        touch \"$CONF\"\n    fi\n\n    # Remove any existing Compress setting (commented or not)\n    LC_ALL=C sed -i '/^\\s*Compress\\s*=\\s*/d' \"$CONF\"\n\n    # Guarantee the file ends with a newline\n    sed -i -e '$a\\' \"$CONF\"\n\n    # Backup the current file\n    cp \"$CONF\" \"${CONF}.bak\"\n\n    # Locate the first commented default line for Compress\n    line_number=$(LC_ALL=C grep -n '^#\\s*Compress' \"${CONF}.bak\" | cut -d: -f1)\n\n    if [ -z \"$line_number\" ]; then\n        # No commented line found; append the setting\n        printf 'Compress=yes\\n' >> \"$CONF\"\n    else\n        # Insert the setting before the commented line\n        head -n $((line_number - 1)) \"${CONF}.bak\" > \"$CONF\"\n        printf 'Compress=yes\\n' >> \"$CONF\"\n        tail -n +\"$line_number\" \"${CONF}.bak\" >> \"$CONF\"\n    fi\n\n    # Clean up backup\n    rm -f \"${CONF}.bak\"\nelse\n    echo \"Remediation is not applicable, nothing was done\" >&2\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:57:59.678577",
+    "exit_code": 4,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sedQBYuGn: Permission denied\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+    "script": "#!/bin/bash\n\n# Remediation script for CIS rule: Ensure journald ForwardToSyslog is disabled\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed && \\\n   dpkg-query --show --showformat='${db:Status-Status}\\n' 'systemd' 2>/dev/null | grep -q '^installed'; then\n\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*ForwardToSyslog\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    # Ensure file ends with newline\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\n    # Backup original file\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    # Find line number of commented ForwardToSyslog directive\n    line_number=$(LC_ALL=C grep -n \"^#\\s*ForwardToSyslog\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\n\n    if [ -z \"$line_number\" ]; then\n        # No existing ForwardToSyslog directive, append to end\n        printf '%s\\n' \"ForwardToSyslog=no\" >> \"/etc/systemd/journald.conf\"\n    else\n        # Insert new directive before the commented one\n        head -n \"$((line_number - 1))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"ForwardToSyslog=no\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$((line_number))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    # Clean up backup file\n    rm \"/etc/systemd/journald.conf.bak\"\n\n    # Restart journald service to apply changes\n    systemctl restart systemd-journald\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-07T23:59:39.847019",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sedLuPVmI: Permission denied\nsed: couldn't open temporary file /etc/systemd/sedA2PR0n: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 25: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed && { dpkg-query --show --showformat='${db:Status-Status}\\n' 'systemd' 2>/dev/null | grep -q '^installed'; }; then\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*ForwardToSyslog\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    # make sure file has newline at the end\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    # Insert before the line matching the regex '^#\\s*ForwardToSyslog'.\n    line_number=\"$(LC_ALL=C grep -n \"^#\\s*ForwardToSyslog\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\n\n    if [ -z \"$line_number\" ]; then\n        # There was no match of '^#\\s*ForwardToSyslog', insert at\n        # the end of the file.\n        printf '%s\\n' \"ForwardToSyslog=no\" >> \"/etc/systemd/journald.conf\"\n    else\n        head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"ForwardToSyslog=no\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    # Clean up after ourselves.\n    rm \"/etc/systemd/journald.conf.bak\"\n\n    # Restart systemd-journald to apply changes\n    systemctl restart systemd-journald\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:00:00.497783",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sed7rDx3p: Permission denied\nsed: couldn't open temporary file /etc/systemd/sedb5g84m: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 22: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_disable_forward_to_syslog",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Verify required packages are installed\nif ! dpkg-query -W -f='${Status}' linux-base",
+    "approved": true,
+    "timestamp": "2026-07-08T00:00:18.046088",
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "bash: -c: line 6: syntax error: unexpected end of file\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_storage",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_storage",
+    "script": "#!/bin/bash\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*Storage\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    line_number=\"$(LC_ALL=C grep -n \"^#\\s*Storage\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\n    if [ -z \"$line_number\" ]; then\n        printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\n    else\n        head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    rm \"/etc/systemd/journald.conf.bak\"\n    systemctl restart systemd-journald\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:03:33.679542",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sedbjH2DF: Permission denied\nsed: couldn't open temporary file /etc/systemd/seduVZhoP: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 15: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_storage",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    if [ -e \"/etc/systemd/journald.conf\" ]; then\n        LC_ALL=C sed -i \"/^\\s*Storage\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\n    else\n        touch \"/etc/systemd/journald.conf\"\n    fi\n\n    # make sure file has newline at the end\n    sed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\n    cp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n\n    # Insert before the line matching the regex '^#\\s*Storage'.\n    line_number=\"$(LC_ALL=C grep -n \"^#\\s*Storage\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\n\n    if [ -z \"$line_number\" ]; then\n        # There was no match of '^#\\s*Storage', insert at\n        # the end of the file.\n        printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\n    else\n        head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n        printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\n        tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\n    fi\n\n    # Clean up after ourselves.\n    rm \"/etc/systemd/journald.conf.bak\"\n\n    # Restart journald to apply changes\n    systemctl restart systemd-journald\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:03:56.653986",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "sed: couldn't open temporary file /etc/systemd/sed0navBb: Permission denied\nsed: couldn't open temporary file /etc/systemd/sedxxCDWS: Permission denied\ncp: cannot create regular file '/etc/systemd/journald.conf.bak': Permission denied\ngrep: /etc/systemd/journald.conf.bak: No such file or directory\nbash: line 22: /etc/systemd/journald.conf: Permission denied\nrm: cannot remove '/etc/systemd/journald.conf.bak': No such file or directory\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_journald_storage",
+    "script": "#!/usr/bin/env bash\n# Ensure journald writes logs to persistent storage on Ubuntu systems\n\n# Apply only if the 'linux-base' package is installed (Ubuntu/Debian platforms)\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q '^installed'; then\n    CONF=\"/etc/systemd/journald.conf\"\n\n    # Ensure the configuration file exists\n    if [ ! -e \"$CONF\" ]; then\n        touch \"$CONF\"\n    fi\n\n    # Remove any existing (uncommented) Storage= lines to avoid duplicates\n    LC_ALL=C sed -i '/^\\s*Storage\\s*=/d' \"$CONF\"\n\n    # Ensure the file ends with a newline\n    sed -i -e '$a\\' \"$CONF\"\n\n    # Insert Storage=persistent before the first commented Storage line if present,\n    # otherwise append it to the end of the file\n    if grep -q '^#\\s*Storage' \"$CONF\"; then\n        line_num=$(grep -n '^#\\s*Storage' \"$CONF\" | head -n1 | cut -d: -f1)\n        sed -i \"${line_num}iStorage=persistent\" \"$CONF\"\n    else\n        printf 'Storage=persistent\\n' >> \"$CONF\"\n    fi\n\n    # Reload journald to apply the new configuration\n    if command -v systemctl >/dev/null 2>&1; then\n        system",
+    "approved": true,
+    "timestamp": "2026-07-08T00:04:13.197053",
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "bash: -c: line 31: syntax error: unexpected end of file\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled",
+    "script": "if dpkg-query --show --showformat='${db:Status-Status} ' 'systemd-journal-remote' 2>/dev/null | grep -q ^installed; then\n    SOCKET_NAME=\"systemd-journal-remote.socket\"\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files --type socket | grep -q \"$SOCKET_NAME\"; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop \"$SOCKET_NAME\"\n        fi\n        \"$SYSTEMCTL_EXEC\" mask \"$SOCKET_NAME\"\n    fi\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:04:28.817627",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled",
+    "script": "#!/bin/bash\n\nSOCKET_NAME=\"systemd-journal-remote.socket\"\nSYSTEMCTL_EXEC='/usr/bin/systemctl'\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files --type socket | grep -q \"$SOCKET_NAME\"; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop \"$SOCKET_NAME\"\n        fi\n        \"$SYSTEMCTL_EXEC\" mask \"$SOCKET_NAME\"\n    fi\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:05:00.893362",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled",
+    "script": "#!/bin/bash\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    SOCKET_NAME=\"systemd-journal-remote.socket\"\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files --type socket | grep -q \"$SOCKET_NAME\"; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop \"$SOCKET_NAME\"\n        fi\n        \"$SYSTEMCTL_EXEC\" mask \"$SOCKET_NAME\"\n    fi\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:05:26.918343",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_socket_systemd-journal-remote_disabled",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Verify that the required package is installed\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    SOCKET_NAME=\"systemd-journal-remote.socket\"\n    SYSTEMCTL=\"/usr/bin/systemctl\"\n\n    # Check if the socket unit exists\n    if $SYSTEMCTL -q list-unit-files --type socket | grep -q \"^${SOCKET_NAME}\"; then\n        # Stop the socket if the system is not offline\n        if [[ $($SYSTEMCTL is-system-running) != \"offline\" ]]; then\n            $SYSTEMCTL stop \"$SOCKET_NAME\" || true\n        fi\n        # Mask the socket to prevent it from being started\n        $SYSTEMCTL mask \"$SOCKET_NAME\"\n    fi\nelse\n    echo \"Remediation is not applicable, nothing was done\" >&2\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:05:50.101361",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+    "script": "#!/bin/bash\n\n# Target: Ubuntu 24.04 LTS\n# Goal: Ensure only one firewall service is active. \n# For Ubuntu Home User, 'ufw' is the recommended standard.\n\n# Define services to check\nSERVICES=(\"ufw\" \"nftables\" \"iptables\")\n\n# 1. Ensure UFW is installed and enabled\napt-get update -qq\napt-get install -y ufw > /dev/null 2>&1\nsystemctl enable ufw > /dev/null 2>&1\nsystemctl start ufw > /dev/null 2>&1\nufw --force enable > /dev/null 2>&1\n\n# 2. Disable and stop conflicting services\n# We prioritize UFW. If nftables or iptables services are running as standalone systemd units, stop them.\nfor svc in \"nftables\" \"iptables\"; do\n    if systemctl is-active --quiet \"$svc\"; then\n        systemctl stop \"$svc\" > /dev/null 2>&1\n    fi\n    if systemctl is-enabled --quiet \"$svc\"; then\n        systemctl disable \"$svc\" > /dev/null 2>&1\n    fi\ndone\n\n# 3. Mask conflicting services to prevent accidental activation\nsystemctl mask nftables > /dev/null 2>&1\nsystemctl mask iptables > /dev/null 2>&1\n\n# Final verification: Ensure UFW is the sole active manager\nsystemctl enable --now ufw > /dev/null 2>&1",
+    "approved": true,
+    "timestamp": "2026-07-08T00:06:52.394725",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)\nE: Unable to lock directory /var/lib/apt/lists/\nW: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)\nW: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+    "script": "#!/bin/bash\n\n# Ensure only one firewall service is active\n\n# List of firewall services to check\nSERVICES=(\"ufw\" \"iptables\" \"nftables\")\n\n# Function to check if a service is active\nis_active() {\n    systemctl is-active --quiet \"$1\"\n}\n\n# Function to check if a service is enabled\nis_enabled() {\n    systemctl is-enabled --quiet \"$1\"\n}\n\n# Identify which firewall service is currently active\nACTIVE_SERVICE=\"\"\nfor service in \"${SERVICES[@]}\"; do\n    if is_active \"$service\"; then\n        ACTIVE_SERVICE=\"$service\"\n        break\n    fi\ndone\n\n# If no firewall service is active, enable ufw (default for Ubuntu)\nif [ -z \"$ACTIVE_SERVICE\" ]; then\n    echo \"No active firewall service found. Enabling ufw...\"\n    systemctl enable --now ufw\n    ufw enable\n    exit 0\nfi\n\n# If multiple services are active, disable all but the first one found\nfor service in \"${SERVICES[@]}\"; do\n    if [ \"$service\" != \"$ACTIVE_SERVICE\" ] && is_active \"$service\"; then\n        echo \"Disabling conflicting firewall service: $service\"\n        systemctl stop \"$service\"\n        systemctl disable \"$service\"\n    fi\ndone\n\n# Ensure the active service is enabled\nif ! is_enabled \"$ACTIVE_SERVICE\"; then\n    echo \"Enabling $ACTIVE_SERVICE...\"\n    systemctl enable \"$ACTIVE_SERVICE\"\nfi\n\n# Special handling for ufw (enable if it's the active service)\nif [ \"$ACTIVE_SERVICE\" = \"ufw\" ]; then\n    if ! ufw status | grep -q \"Status: active\"; then\n        echo \"Enabling ufw...\"\n        ufw enable\n    fi\nfi\n\necho \"Firewall service remediation complete. Active service: $ACTIVE_SERVICE\"",
+    "approved": true,
+    "timestamp": "2026-07-08T00:07:52.299230",
+    "exit_code": 0,
+    "stdout": "No active firewall service found. Enabling ufw...\n",
+    "stderr": "ufw.service is not a native service, redirecting to systemd-sysv-install.\nExecuting: /usr/lib/systemd/systemd-sysv-install enable ufw\nupdate-rc.d: error: Permission denied\nbash: line 31: ufw: command not found\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+    "script": "#!/bin/bash\nset -euo pipefail\n\n# Ensure only one firewall service is active (ufw for personal laptop)\n\n# Check current firewall status\necho \"Checking current firewall services...\"\n\n# Function to check if a service is active\nis_active() {\n    systemctl is-active --quiet \"$1\" 2>/dev/null\n}\n\n# Function to check if a service is enabled\nis_enabled() {\n    systemctl is-enabled --quiet \"$1\" 2>/dev/null\n}\n\n# Count active firewalls\nactive_count=0\nufw_active=false\niptables_active=false\nnftables_active=false\n\nif is_active \"ufw\"; then\n    ufw_active=true\n    ((active_count++)) || true\nfi\n\nif is_active \"iptables\"; then\n    iptables_active=true\n    ((active_count++)) || true\nfi\n\nif is_active \"nftables\"; then\n    nftables_active=true\n    ((active_count++)) || true\nfi\n\necho \"Active firewalls found: $active_count\"\necho \"ufw: $ufw_active, iptables: $iptables_active, nftables: $nftables_active\"\n\n# If ufw is already the only active firewall, ensure it's enabled and exit\nif [[ \"$ufw_active\" == true && \"$active_count\" -eq 1 ]]; then\n    echo \"ufw is already the only active firewall. Ensuring it is enabled...\"\n    systemctl enable ufw\n    exit 0\nfi\n\n# Disable and stop unwanted firewalls\nif [[ \"$iptables_active\" == true ]]; then\n    echo \"Disabling iptables...\"\n    systemctl stop iptables 2>/dev/null || true\n    systemctl disable iptables 2>/dev/null || true\nfi\n\nif [[ \"$nftables_active\" == true ]]; then\n    echo \"Disabling nftables...\"\n    systemctl stop nftables 2>/dev/null || true\n    systemctl disable nftables 2>/dev/null || true\nfi\n\n# If ufw was not active, install and configure it\nif [[ \"$ufw_active\" == false ]]; then\n    echo \"Installing/ensuring ufw is available...\"\n    apt-get update -qq\n    apt-get install -y ufw\n    \n    # Reset ufw to default state\n    ufw --force reset\n    \n    # Set default policies\n    ufw default deny incoming\n    ufw default allow outgoing\n    \n    # Enable ufw\n    ufw --force enable\nfi\n\n# Ensure ufw is enabled and started\nsystemctl enable ufw\nsystemctl start ufw\n\n# Verify final state\necho \"Verifying final firewall state...\"\nsystemctl status ufw --no-pager || true\n\n# Final check\nfinal_active=0\nsystemctl is-active --quiet ufw && ((final_active++)) || true\nsystemctl is-active --quiet iptables && ((final_active++)) || true\nsystemctl is-active --quiet nftables && ((final_active++)) || true\n\nif [[ \"$final_active\" -eq 1 && \"$(systemctl is-active ufw)\" == \"active\" ]]; then\n    echo \"SUCCESS: Only ufw is active.\"\n    exit 0\nelse\n    echo \"ERROR: Firewall state is not as expected. Active firewalls: $final_active\"\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:08:22.958711",
+    "exit_code": 100,
+    "stdout": "Checking current firewall services...\nActive firewalls found: 0\nufw: false, iptables: false, nftables: false\nInstalling/ensuring ufw is available...\n",
+    "stderr": "E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)\nE: Unable to lock directory /var/lib/apt/lists/\nW: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)\nW: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_firewall_single_service_active",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Define firewall services to consider\ndeclare -a FIREWALL_SERVICES=(\n    \"ufw\"\n    \"netfilter-persistent\"   # iptables-persistent service\n    \"nftables\"\n)\n\n# Helper to check if a systemd unit exists\nunit_exists() {\n    systemctl list-unit-files \"$1\" &>/dev/null\n}\n\n# Determine which services are active\ndeclare -A ACTIVE_SERVICES\nactive_count=0\nfor svc in \"${FIREWALL_SERVICES[@]}\"; do\n    if unit_exists \"$svc.service\"; then\n        if systemctl is-active --quiet \"$svc.service\"; then\n            ACTIVE_SERVICES[\"$svc\"]=1\n            ((active_count++))\n        fi\n    fi\ndone\n\n# Desired primary firewall\nPRIMARY=\"ufw\"\n\n# Ensure the primary firewall service exists; if not, fall back to the first active one\nif ! unit_exists \"$PRIMARY.service\"; then\n    # pick first active service as primary\n    for svc in \"${!ACTIVE_SERVICES[@]}\"; do\n        PRIMARY=\"$svc\"\n        break\n    done\nfi\n\n# If no firewall is active, enable the primary\nif (( active_count == 0 )); then\n    if unit_exists \"$PRIMARY.service\"; then\n        echo \"No firewall active. Enabling and starting $PRIMARY.\"\n        systemctl enable --now \"$PRIMARY.service\"\n    else\n        echo \"Error: No firewall service found to enable.\" >&2\n        exit 1\n    fi\n    exit 0\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:08:38.484035",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Error: No firewall service found to enable.\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_file_permissions_crontab",
+    "script": "if dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    chmod 0600 /etc/crontab\nelse\n    echo 'Remediation is not applicable, nothing was done' >&2\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:09:28.011087",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "chmod: changing permissions of '/etc/crontab': Operation not permitted\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_file_permissions_crontab",
+    "script": "chmod 0600 /etc/crontab",
+    "approved": true,
+    "timestamp": "2026-07-08T00:09:36.745700",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "chmod: changing permissions of '/etc/crontab': Operation not permitted\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_file_permissions_crontab",
+    "script": "#!/bin/bash\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    chmod u-xs,g-xwrs,o-xwrt /etc/crontab\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:10:11.700785",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "chmod: changing permissions of '/etc/crontab': Operation not permitted\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_file_permissions_crontab",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Ensure script is run as root\nif [[ \"$(id -u)\" -ne 0 ]]; then\n    echo \"Error: this script must be run as root.\" >&2\n    exit 1\nfi\n\n# Apply remediation only if the 'linux-base' package is installed\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    if [[ -e /etc/crontab ]]; then\n        chmod 0600 /etc/crontab\n        chown root:root /etc/crontab\n    else\n        echo \"Error: /etc/crontab not found.\" >&2\n        exit 1\n    fi\nelse\n    echo \"Remediation not applicable: 'linux-base' package not installed.\" >&2\n    exit 0\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:10:22.307347",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Error: this script must be run as root.\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_nis_removed",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_nis_removed",
+    "script": "#!/bin/bash\n\n# Ensure nis package is removed\nDEBIAN_FRONTEND=noninteractive apt-get remove -y \"nis\"",
+    "approved": true,
+    "timestamp": "2026-07-08T00:12:00.135975",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_nis_removed",
+    "script": "#!/bin/bash\nDEBIAN_FRONTEND=noninteractive apt-get remove -y \"nis\"",
+    "approved": true,
+    "timestamp": "2026-07-08T00:12:07.758252",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_nis_removed",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\nif dpkg -l | awk '/^ii/ && $2==\"nis\"/{found=1} END{exit !found}'; then\n    echo \"Removing nis package...\"\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y nis\nelse\n    echo \"nis package not installed; nothing to do.\"\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:12:14.082737",
+    "exit_code": 0,
+    "stdout": "nis package not installed; nothing to do.\n",
+    "stderr": "awk: line 1: syntax error at or near {\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+    "script": "if dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y \"rpcbind\"\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:13:11.182590",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    # CAUTION: This remediation script will remove rpcbind\n    # from the system, and may remove any packages\n    # that depend on rpcbind. Execute this\n    # remediation AFTER testing on a non-production\n    # system!\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y \"rpcbind\"\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:13:16.921635",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    # CAUTION: This remediation script will remove rpcbind\n    # from the system, and may remove any packages\n    # that depend on rpcbind. Execute this\n    # remediation AFTER testing on a non-production\n    # system!\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y \"rpcbind\"\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:13:23.032271",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_rpcbind_removed",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Ensure we are on a Debian\u2011based system\nif ! command -v dpkg-query >/dev/null 2>&1; then\n    echo \"dpkg not found \u2013 not a Debian/Ubuntu system. Exiting.\"\n    exit 0\nfi\n\n# Check if rpcbind is installed\nif dpkg-query -W -f='${Status}' rpcbind 2>/dev/null | grep -q '^install'; then\n    # Stop and disable the service if it exists\n    if systemctl list-unit-files | grep -q '^rpcbind.service'; then\n        systemctl stop rpcbind.service || true\n        systemctl disable rpcbind.service || true\n        systemctl mask rpcbind.service || true\n    fi\n\n    # Remove the package (purge to also delete config files)\n    DEBIAN_FRONTEND=noninteractive apt-get purge -y rpcbind\nelse\n    echo \"rpcbind package not installed \u2013 nothing to remediate.\"\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:13:30.969134",
+    "exit_code": 0,
+    "stdout": "rpcbind package not installed \u2013 nothing to remediate.\n",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+    "script": "#!/bin/bash\n\n# Remediation script for disabling rpcbind service\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n    if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n        \"$SYSTEMCTL_EXEC\" stop 'rpcbind.service' 2>/dev/null || true\n    fi\n    \"$SYSTEMCTL_EXEC\" disable 'rpcbind.service' 2>/dev/null || true\n    \"$SYSTEMCTL_EXEC\" mask 'rpcbind.service' 2>/dev/null || true\n\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files rpcbind.socket; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop 'rpcbind.socket' 2>/dev/null || true\n        fi\n        \"$SYSTEMCTL_EXEC\" mask 'rpcbind.socket' 2>/dev/null || true\n    fi\n\n    \"$SYSTEMCTL_EXEC\" reset-failed 'rpcbind.service' 2>/dev/null || true\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\n    exit 1\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:15:08.165121",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+    "script": "#!/bin/bash\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n    if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n        \"$SYSTEMCTL_EXEC\" stop 'rpcbind.service'\n    fi\n    \"$SYSTEMCTL_EXEC\" disable 'rpcbind.service'\n    \"$SYSTEMCTL_EXEC\" mask 'rpcbind.service'\n    # Disable socket activation if we have a unit file for it\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files rpcbind.socket; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop 'rpcbind.socket'\n        fi\n        \"$SYSTEMCTL_EXEC\" mask 'rpcbind.socket'\n    fi\n    # The service may not be running because it has been started and failed,\n    # so let's reset the state so OVAL checks pass.\n    # Service should be 'inactive', not 'failed' after reboot though.\n    \"$SYSTEMCTL_EXEC\" reset-failed 'rpcbind.service' || true\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:15:42.536609",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Unit /etc/systemd/system/rpcbind.service is masked, ignoring.\nThe unit files have no installation config (WantedBy=, RequiredBy=, UpheldBy=,\nAlso=, or Alias= settings in the [Install] section, and DefaultInstance= for\ntemplate units). This means they are not meant to be enabled or disabled using systemctl.\n \nPossible reasons for having these kinds of units are:\n\u2022 A unit may be statically enabled by being symlinked from another unit's\n  .wants/, .requires/, or .upholds/ directory.\n\u2022 A unit's purpose may be to act as a helper for some other unit which has\n  a requirement dependency on it.\n\u2022 A unit may be started when needed via activation (socket, path, timer,\n  D-Bus, udev, scripted systemctl call, ...).\n\u2022 In case of template units, the unit is meant to be enabled with some\n  instance name specified.\nFailed to reset failed state of unit rpcbind.service: Unit rpcbind.service not loaded.\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_rpcbind_disabled",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Apply only on systems where the 'linux-base' package is installed\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    SYSTEMCTL=\"/usr/bin/systemctl\"\n\n    # Stop the service if the system is not offline\n    if [[ $(\"$SYSTEMCTL\" is-system-running) != \"offline\" ]]; then\n        \"$SYSTEMCTL\" stop rpcbind.service || true\n    fi\n\n    # Disable and mask the service\n    \"$SYSTEMCTL\" disable rpcbind.service\n    \"$SYSTEMCTL\" mask rpcbind.service\n\n    # If a socket unit exists, stop, mask it as well\n    if \"$SYSTEMCTL\" -q list-unit-files rpcbind.socket; then\n        if [[ $(\"$SYSTEMCTL\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL\" stop rpcbind.socket || true\n        fi\n        \"$SYSTEMCTL\" mask rpcbind.socket\n    fi\n\n    # Reset any failed state so OVAL checks pass\n    \"$SYSTEMCTL\" reset-failed rpcbind.service || true\nelse\n    echo \"Remediation not applicable: 'linux-base' package not installed\" >&2\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:16:11.583583",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Unit /etc/systemd/system/rpcbind.service is masked, ignoring.\nThe unit files have no installation config (WantedBy=, RequiredBy=, UpheldBy=,\nAlso=, or Alias= settings in the [Install] section, and DefaultInstance= for\ntemplate units). This means they are not meant to be enabled or disabled using systemctl.\n \nPossible reasons for having these kinds of units are:\n\u2022 A unit may be statically enabled by being symlinked from another unit's\n  .wants/, .requires/, or .upholds/ directory.\n\u2022 A unit's purpose may be to act as a helper for some other unit which has\n  a requirement dependency on it.\n\u2022 A unit may be started when needed via activation (socket, path, timer,\n  D-Bus, udev, scripted systemctl call, ...).\n\u2022 In case of template units, the unit is meant to be enabled with some\n  instance name specified.\nFailed to reset failed state of unit rpcbind.service: Unit rpcbind.service not loaded.\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+    "script": "DEBIAN_FRONTEND=noninteractive apt-get remove -y \"ypserv\"",
+    "approved": false,
+    "timestamp": "2026-07-08T00:16:59.301215",
+    "status": "rejected"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+    "script": "DEBIAN_FRONTEND=noninteractive apt-get remove -y \"ypserv\"",
+    "approved": true,
+    "timestamp": "2026-07-08T00:17:05.660559",
+    "exit_code": 100,
+    "stdout": "",
+    "stderr": "E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?\n",
+    "status": "applied_failed"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+    "script": "#!/bin/bash\nset -e\n\n# Check if ypserv is installed before attempting removal\nif dpkg -l ypserv 2>/dev/null | grep -q \"^ii\"; then\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y \"ypserv\"\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:17:10.470419",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_package_ypserv_removed",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Function to log messages\nlog() {\n    echo \"$(date +\"%Y-%m-%d %H:%M:%S\") - $*\"\n}\n\n# Check if ypserv is installed\nif dpkg -s ypserv >/dev/null 2>&1; then\n    log \"ypserv package detected. Proceeding with removal.\"\n\n    # Remove the package without prompting\n    DEBIAN_FRONTEND=noninteractive apt-get purge -y ypserv\n\n    # Clean up any automatically installed dependencies that are no longer needed\n    DEBIAN_FRONTEND=noninteractive apt-get autoremove -y\n\n    log \"ypserv package successfully removed.\"\nelse\n    log \"ypserv package is not installed. No action required.\"\nfi\n\nexit 0",
+    "approved": true,
+    "timestamp": "2026-07-08T00:17:16.337684",
+    "exit_code": 0,
+    "stdout": "2026-07-08 00:17:16 - ypserv package is not installed. No action required.\n",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "google/gemma-4-31b-it",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_ypserv_disabled",
+    "status": "query_failed",
+    "error": "HTTPSConnectionPool(host='integrate.api.nvidia.com', port=443): Read timed out. (read timeout=90)"
+  },
+  {
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_ypserv_disabled",
+    "script": "#!/bin/bash\n\n# Remediation script for disabling ypserv service\n\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n    if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n        \"$SYSTEMCTL_EXEC\" stop 'ypserv.service' >/dev/null 2>&1 || true\n    fi\n    \"$SYSTEMCTL_EXEC\" disable 'ypserv.service' >/dev/null 2>&1 || true\n    \"$SYSTEMCTL_EXEC\" mask 'ypserv.service' >/dev/null 2>&1 || true\n\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files ypserv.socket; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop 'ypserv.socket' >/dev/null 2>&1 || true\n        fi\n        \"$SYSTEMCTL_EXEC\" mask 'ypserv.socket' >/dev/null 2>&1 || true\n    fi\n\n    \"$SYSTEMCTL_EXEC\" reset-failed 'ypserv.service' >/dev/null 2>&1 || true\nelse\n    exit 0\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:18:58.644150",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "applied_success"
+  },
+  {
+    "model": "moonshotai/kimi-k2.6",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_ypserv_disabled",
+    "script": "#!/bin/bash\n\n# Remediation is applicable only in certain platforms\nif dpkg-query --show --showformat='${db:Status-Status} ' 'linux-base' 2>/dev/null | grep -q ^installed; then\n    SYSTEMCTL_EXEC='/usr/bin/systemctl'\n    \n    if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n        \"$SYSTEMCTL_EXEC\" stop 'ypserv.service'\n    fi\n    \n    \"$SYSTEMCTL_EXEC\" disable 'ypserv.service'\n    \"$SYSTEMCTL_EXEC\" mask 'ypserv.service'\n    \n    # Disable socket activation if we have a unit file for it\n    if \"$SYSTEMCTL_EXEC\" -q list-unit-files ypserv.socket; then\n        if [[ $(\"$SYSTEMCTL_EXEC\" is-system-running) != \"offline\" ]]; then\n            \"$SYSTEMCTL_EXEC\" stop 'ypserv.socket'\n        fi\n        \"$SYSTEMCTL_EXEC\" mask 'ypserv.socket'\n    fi\n    \n    # The service may not be running because it has been started and failed,\n    # so let's reset the state so OVAL checks pass.\n    # Service should be 'inactive', not 'failed' after reboot though.\n    \"$SYSTEMCTL_EXEC\" reset-failed 'ypserv.service' || true\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+    "approved": true,
+    "timestamp": "2026-07-08T00:20:15.031554",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Unit /etc/systemd/system/ypserv.service is masked, ignoring.\nThe unit files have no installation config (WantedBy=, RequiredBy=, UpheldBy=,\nAlso=, or Alias= settings in the [Install] section, and DefaultInstance= for\ntemplate units). This means they are not meant to be enabled or disabled using systemctl.\n \nPossible reasons for having these kinds of units are:\n\u2022 A unit may be statically enabled by being symlinked from another unit's\n  .wants/, .requires/, or .upholds/ directory.\n\u2022 A unit's purpose may be to act as a helper for some other unit which has\n  a requirement dependency on it.\n\u2022 A unit may be started when needed via activation (socket, path, timer,\n  D-Bus, udev, scripted systemctl call, ...).\n\u2022 In case of template units, the unit is meant to be enabled with some\n  instance name specified.\nFailed to reset failed state of unit ypserv.service: Unit ypserv.service not loaded.\n",
+    "status": "applied_success"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "rule_id": "xccdf_org.ssgproject.content_rule_service_ypserv_disabled",
+    "script": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Helper to run commands with sudo if not already root\nrun() {\n    if [ \"$(id -u)\" -eq 0 ]; then\n        \"$@\"\n    else\n        sudo \"$@\"\n    fi\n}\n\n# Apply only on platforms where the 'linux-base' package is installed\nif dpkg-query -W -f='${Status}' linux-base 2>/dev/null | grep -q '^install'; then\n    SYSTEMCTL=\"/usr/bin/systemctl\"\n\n    # Stop the service if the system is online\n    if $SYSTEMCTL is-system-running >/dev/null 2>&1 && [ \"$($SYSTEMCTL is-system-running)\" != \"offline\" ]; then\n        run $SYSTEMCTL stop ypserv.service || true\n    fi\n\n    # Disable and mask the service\n    run $SYSTEMCTL disable ypserv.service || true\n    run $SYSTEMCTL mask ypserv.service || true\n\n    # Handle possible socket activation unit\n    if $SYSTEMCTL -q list-unit-files ypserv.socket >/dev/null 2>&1; then\n        if [ \"$($SYSTEMCTL is-system-running)\" != \"offline\" ]; then\n            run $SYSTEMCTL stop ypserv.socket || true\n        fi\n        run $SYSTEMCTL mask ypserv.socket || true\n    fi\n\n    # Reset any failed state so OVAL checks pass\n    run $SYSTEMCTL reset-failed ypserv.service || true\nelse\n    echo \"Remediation not applicable: 'linux-base' package not",
+    "approved": true,
+    "timestamp": "2026-07-08T00:20:57.811639",
+    "exit_code": 2,
+    "stdout": "",
+    "stderr": "bash: -c: line 37: unexpected EOF while looking for matching `\"'\n",
+    "status": "applied_failed"
+  }
+]
