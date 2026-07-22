@@ -1,0 +1,910 @@
+{
+  "model": "qwen2.5:7b",
+  "started": "2026-07-22T10:32:28.293597",
+  "rules": {
+    "xccdf_org.ssgproject.content_rule_partition_for_tmp": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if systemctl list-unit-files tmp.mount &>/dev/null; then\n    systemctl unmask tmp.mount\n    systemctl enable --now tmp.mount\nelse\n    grep -qE '^tmpfs[[:space:]]+/tmp[[:space:]]' /etc/fstab || \\\n        echo 'tmpfs /tmp tmpfs defaults,rw,nosuid,nodev,noexec,relatime,size=2G 0 0' >> /etc/fstab\n    mount /tmp 2>/dev/null || mount -a\nfi\nmount | grep ' /tmp '\n",
+      "exit_code": 0,
+      "stdout": "tmpfs on /tmp type tmpfs (rw,nosuid,nodev,noexec,relatime,size=2097152k,inode64)\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_custom_logfile": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if dpkg-query --show --showformat='${db:Status-Status}\\n' 'sudo' 2>/dev/null | grep -q '^installed'; then\n    mkdir -p /var/log/sudo\n    touch /var/log/sudo.log\n    chmod 640 /var/log/sudo.log\n    chown root:adm /var/log/sudo.log\n    echo 'Defaults logfile=\"/var/log/sudo.log\"' > /etc/sudoers.d/01-cis-sudo-logfile\n    chmod 0440 /etc/sudoers.d/01-cis-sudo-logfile\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_remove_no_authenticate": {
+      "matched_in_scan": true,
+      "status": "query_error",
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<HTTPSConnection(host='10.1.96.96', port=8443) at 0x79ab4c1070a0>, 'Connection to 10.1.96.96 timed out. (connect timeout=900)'))",
+      "passes": []
+    },
+    "xccdf_org.ssgproject.content_rule_sudo_require_reauthentication": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if dpkg-query --show --showformat='${db:Status-Status}\\n' 'sudo' 2>/dev/null | grep -q '^installed'; then\n    echo 'Defaults timestamp_timeout=15' > /etc/sudoers.d/reauthenticate_sudo\n    chmod 0440 /etc/sudoers.d/reauthenticate_sudo\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_deny": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if grep -qE '^deny[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then\n    sed -i -E 's/^deny[[:space:]]*=.*/deny = 4/' /etc/security/faillock.conf\nelse\n    echo 'deny = 4' >> /etc/security/faillock.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "fail",
+      "status": "query_error",
+      "error": "HTTPSConnectionPool(host='10.1.96.96', port=8443): Max retries exceeded with url: /chat (Caused by ConnectTimeoutError(<HTTPSConnection(host='10.1.96.96', port=8443) at 0x79ab4b24eef0>, 'Connection to 10.1.96.96 timed out. (connect timeout=900)'))",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_passwords_pam_faillock_unlock_time": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if grep -qE '^unlock_time[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then\n    sed -i -E 's/^unlock_time[[:space:]]*=.*/unlock_time = 900/' /etc/security/faillock.conf\nelse\n    echo 'unlock_time = 900' >> /etc/security/faillock.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "fail",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_fail"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_dcredit": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if grep -qE '^dcredit[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then\n    sed -i -E 's/^dcredit[[:space:]]*=.*/dcredit = -1/' /etc/security/pwquality.conf\nelse\n    echo 'dcredit = -1' >> /etc/security/pwquality.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_minlen": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if grep -qE '^[[:space:]]*minlen[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then\n    sed -i -E 's/^[[:space:]]*minlen[[:space:]]*=.*/minlen = 14/' /etc/security/pwquality.conf\nelse\n    echo 'minlen = 14' >> /etc/security/pwquality.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_password_pam_ucredit": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if grep -qE '^[[:space:]]*ucredit[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then\n    sed -i -E 's/^[[:space:]]*ucredit[[:space:]]*=.*/ucredit = -1/' /etc/security/pwquality.conf\nelse\n    echo 'ucredit = -1' >> /etc/security/pwquality.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_set_password_hashing_algorithm_systemauth": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup the original file before editing it\ncp /etc/pam.d/common-password /etc/pam.d/common-password.bak\n\n# Edit the common-password file to set the password hashing algorithm\nsed -i '/^password\\s.*pam_unix.so/s/$/ sha512/' /etc/pam.d/common-password\n\n# Verify that the change was made correctly\ngrep '^[[:space:]]*password[[:space:]]*\\[success=1[[:space:]]*default=ignore\\][[:space:]]*pam_unix\\.so[[:space:]]*sha512' /etc/pam.d/common-password",
+      "exit_code": 0,
+      "stdout": "password    [success=1 default=ignore]    pam_unix.so sha512/ sha512\n",
+      "stderr": "",
+      "oscap_result": "error",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_error"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_error"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_error"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_bashrc": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup /etc/bashrc before editing\nif [ -e /etc/bashrc ]; then\n    cp /etc/bashrc /etc/bashrc.bak\nfi\n\n# Ensure umask is set correctly in /etc/bashrc only if it's missing\ngrep -q '^umask' /etc/bashrc || echo \"umask\" >> /etc/bashrc\n\n# Make sure the file permissions are correct for /etc/bashrc\nchmod 644 /etc/bashrc",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "fail",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "clarify",
+          "question": "How should I handle the scenario where `/etc/bashrc` does not already contain an `umask` line, and what is the best way to ensure the umask setting is correctly applied without disrupting existing configurations?",
+          "answer": "Append `umask` only if it's missing."
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_fail"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_umask_etc_login_defs": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup /etc/login.defs before modifying\ncp -p /etc/login.defs /etc/login.defs.bak\n\n# Add or correct UMASK setting in /etc/login.defs\nif ! grep -q \"^UMASK\" /etc/login.defs; then\n    echo \"UMASK 027\" >> /etc/login.defs\nfi\n\n# Make sure the file is owned by root and has proper permissions\nchown root:root /etc/login.defs\nchmod 644 /etc/login.defs",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "fail",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_fail"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_accounts_tmout": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "for f in /etc/profile.d/*.sh; do\n    [ -f \"$f\" ] || continue\n    [ \"$f\" = \"/etc/profile.d/tmout.sh\" ] && continue\n    if grep -qE 'TMOUT[[:space:]]*=' \"$f\" 2>/dev/null; then\n        sed -i -E '/TMOUT/d' \"$f\"\n    fi\ndone\ncat > /etc/profile.d/tmout.sh << 'EOF'\nTMOUT=900\nreadonly TMOUT\nexport TMOUT\nEOF\nchmod 644 /etc/profile.d/tmout.sh",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_enable_apparmor": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup original file before editing\ncp /etc/default/grub /etc/default/grub.bak\n\n# Check if the file has been modified already\nif ! grep -q 'apparmor=1' /etc/default/grub; then\n    # Correct the form of default kernel command line in GRUB\n    if grep -q '^\\s*GRUB_CMDLINE_LINUX=.*\"'  '/etc/default/grub' ; then\n        # modify the GRUB command-line if an apparmor= arg already exists\n        sed -i \"s/\\(^\\s*GRUB_CMDLINE_LINUX=\\\".*\\)apparmor=[^[:space:]]\\+\\(.*\\\"\\)/\\1apparmor=1\\2/\"  '/etc/default/grub'\n    elif grep -q '^\\s*GRUB_CMDLINE_LINUX='  '/etc/default/grub' ; then\n        # no apparmor=arg is present, append it\n        sed -i \"s/\\(^\\s*GRUB_CMDLINE_LINUX=\\\".*\\)\\\"/\\1 apparmor=1\\\"/\"  '/etc/default/grub'\n    else\n        echo \"GRUB_CMDLINE_LINUX=\\\"apparmor=1\\\"\" >> '/etc/default/grub'\n    fi\n\n    # Correct the form of default kernel command line in GRUB\n    if grep -q '^\\s*GRUB_CMDLINE_LINUX=.*security=.*\"'  '/etc/default/grub' ; then\n        # modify the GRUB command-line if an security= arg already exists\n        sed -i \"s/\\(^\\s*GRUB_CMDLINE_LINUX=\\\".*\\)security=[^[:space:]]\\+\\(.*\\\"\\)/\\1security=apparmor\\2/\"  '/etc/default/grub'\n    elif grep -q '^\\s*GRUB_CMDLINE_LINUX='  '/etc/default/grub' ; then\n        # no security=arg is present, append it\n        sed -i \"s/\\(^\\s*GRUB_CMDLINE_LINUX=\\\".*\\)\\\"/\\1 security=apparmor\\\"/\"  '/etc/default/grub'\n    else\n        echo \"GRUB_CMDLINE_LINUX=\\\"security=apparmor\\\"\" >> '/etc/default/grub'\n    fi\n\n    # Update GRUB configuration\n    update-grub\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "fail",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_fail"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_grub2_uefi_password": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "grub_pw='ChangeMe123!Cis'\npassword_hash=$(printf '%s\\n%s\\n' \"$grub_pw\" \"$grub_pw\" | grub-mkpasswd-pbkdf2 | grep -oP '(?<=is ).*')\nif [ -z \"$password_hash\" ]; then\n    echo \"Failed to generate password hash.\" >&2\n    exit 1\nfi\n\nbackup_file=\"/etc/grub.d/40_custom.bak\"\ncp /etc/grub.d/40_custom \"$backup_file\"\n\ncat > /etc/grub.d/40_custom << 'HEADER'\n#!/bin/sh\nexec tail -n +3 $0\nHEADER\necho 'set superusers=\"boot\"' >> /etc/grub.d/40_custom\necho \"password_pbkdf2 boot $password_hash\" >> /etc/grub.d/40_custom\nchmod 755 /etc/grub.d/40_custom\nupdate-grub",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Sourcing file `/etc/default/grub'\nSourcing file `/etc/default/grub.d/init-select.cfg'\nGenerating grub configuration file ...\nFound linux image: /boot/vmlinuz-6.8.0-40-generic\nFound initrd image: /boot/initrd.img-6.8.0-40-generic\nFound memtest86+ image: /boot/memtest86+.elf\nFound memtest86+ image: /boot/memtest86+.bin\nWarning: os-prober will not be executed to detect other bootable partitions.\nSystems on them will not be added to the GRUB boot configuration.\nCheck GRUB_DISABLE_OS_PROBER documentation entry.\ndone\n",
+      "oscap_result": "notapplicable",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_notapplicable"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_notapplicable"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_notapplicable"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_journald_compress": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Remediation is applicable only in certain platforms\nif [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\nif [ -e \"/etc/systemd/journald.conf\" ]; then\n    LC_ALL=C sed -i \"/^\\s*Compress\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\nelse\n    touch \"/etc/systemd/journald.conf\"\nfi\n# make sure file has newline at the end\nsed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\ncp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n# Insert before the line matching the regex '^#\\s*Compress'.\nline_number=$(LC_ALL=C grep -n \"^#\\s*Compress\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\nif [ -z \"$line_number\" ]; then\n    # There was no match of '^#\\s*Compress', insert at the end of the file.\n    printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\nelse\n    head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n    printf '%s\\n' \"Compress=yes\" >> \"/etc/systemd/journald.conf\"\n    tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\nfi\n# Clean up after ourselves.\nrm \"/etc/systemd/journald.conf.bak\"\n\nelse\n    echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_journald_storage": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\nif [ -e \"/etc/systemd/journald.conf\" ]; then\n    \n    LC_ALL=C sed -i \"/^\\s*Storage\\s*=\\s*/d\" \"/etc/systemd/journald.conf\"\nelse\n    touch \"/etc/systemd/journald.conf\"\nfi\n# make sure file has newline at the end\nsed -i -e '$a\\' \"/etc/systemd/journald.conf\"\n\ncp \"/etc/systemd/journald.conf\" \"/etc/systemd/journald.conf.bak\"\n# Insert before the line matching the regex '^#\\s*Storage'.\nline_number=\"$(LC_ALL=C grep -n \"^#\\s*Storage\" \"/etc/systemd/journald.conf.bak\" | LC_ALL=C sed 's/:.*//g')\"\nif [ -z \"$line_number\" ]; then\n    # There was no match of '^#\\s*Storage', insert at\n    # the end of the file.\n    printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\nelse\n    head -n \"$(( line_number - 1 ))\" \"/etc/systemd/journald.conf.bak\" > \"/etc/systemd/journald.conf\"\n    printf '%s\\n' \"Storage=persistent\" >> \"/etc/systemd/journald.conf\"\n    tail -n \"+$(( line_number ))\" \"/etc/systemd/journald.conf.bak\" >> \"/etc/systemd/journald.conf\"\nfi\n# Clean up after ourselves.\nrm \"/etc/systemd/journald.conf.bak\"\n\nelse\n    echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv6_conf_all_forwarding": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup original sysctl.conf before editing\nif [ -f /etc/sysctl.conf ]; then\n  cp -p /etc/sysctl.conf /etc/sysctl.conf.backup.$(date +%s)\nfi\n\n# Comment out any occurrences of net.ipv6.conf.all.forwarding from /etc/sysctl.d/*.conf files\nfor f in /etc/sysctl.d/*.conf; do\n  if [[ \"$(readlink -f \"$f\")\" != \"/etc/sysctl.conf\" ]]; then\n    matching_list=$(grep -P '^(?!#).*[\\s]*net.ipv6.conf.all.forwarding.*$' $f | uniq )\n    if ! test -z \"$matching_list\"; then\n      while IFS= read -r entry; do\n        escaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"$entry\")\n        sed -i --follow-symlinks \"s/^${escaped_entry}$/# &/g\" $f\n      done <<< \"$matching_list\"\n    fi\n  fi\ndone\n\n# Set sysctl config file to save the desired value\necho 'net.ipv6.conf.all.forwarding = 0' > /etc/sysctl.d/99-disable-ipv6-forwarding.conf\n\n# Apply changes\nsysctl -p /etc/sysctl.d/99-disable-ipv6-forwarding.conf",
+      "exit_code": 0,
+      "stdout": "net.ipv6.conf.all.forwarding = 0\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_accept_redirects": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup existing sysctl.d files before editing\nfor f in /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  # Skip systemd-sysctl symlink (/etc/sysctl.d/99-sysctl.conf -> /etc/sysctl.conf)\n  if [[ \"$(readlink -f \"$f\")\" == \"/etc/sysctl.conf\" ]]; then continue; fi\n\n  matching_list=$(grep -P '^(?!#).*[\\s]*net\\.ipv4\\.conf\\.all\\.accept_redirects.*$' $f | uniq )\n  if ! test -z \"$matching_list\"; then\n    while IFS= read -r entry; do\n      escaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"$entry\")\n      # Comment out \"net.ipv4.conf.all.accept_redirects\" matches to preserve user data\n      sed -i.bak --follow-symlinks \"s/^${escaped_entry}$/# &/g\" $f\n    done <<< \"$matching_list\"\n  fi\ndone\n\n# Backup sysctl.conf if it exists before editing\nif [ -f \"/etc/sysctl.conf\" ]; then\n  cp /etc/sysctl.conf /etc/sysctl.conf.bak\nfi\n\n# Add the setting to sysctl.d or directly to sysctl.conf\necho \"net.ipv4.conf.all.accept_redirects = 0\" > /etc/sysctl.d/10-accept-redirects.conf\n\n# Apply the new settings\nsysctl -p /etc/sysctl.d/10-accept-redirects.conf",
+      "exit_code": 0,
+      "stdout": "net.ipv4.conf.all.accept_redirects = 0\n",
+      "stderr": "grep: /run/sysctl.d/*.conf: No such file or directory\ngrep: /usr/local/lib/sysctl.d/*.conf: No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_log_martians": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Back up existing sysctl.d files before modifying\nfor f in /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  # Skip systemd-sysctl symlink (/etc/sysctl.d/99-sysctl.conf -> /etc/sysctl.conf)\n  if [[ \"$(readlink -f \"$f\")\" == \"/etc/sysctl.conf\" ]]; then continue; fi\n  # Back up file before editing\n  cp -f \"$f\" \"${f}.bak\"\ndone\n\n# Set sysctl config to enable logging of martian packets on all IPv4 interfaces\necho 'net.ipv4.conf.all.log_martians = 1' | tee -a /etc/sysctl.d/99-sysctl.conf > /dev/null\n\n# Apply changes immediately\nsysctl -p /etc/sysctl.d/99-sysctl.conf",
+      "exit_code": 0,
+      "stdout": "net.ipv4.conf.all.log_martians = 1\n",
+      "stderr": "cp: cannot stat '/run/sysctl.d/*.conf': No such file or directory\ncp: cannot stat '/usr/local/lib/sysctl.d/*.conf': No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_rp_filter": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Back up existing sysctl configuration files\nfor f in /etc/sysctl.d/*.conf; do\n  if [ -f \"$f\" ]; then\n    cp \"$f\" \"/etc/sysctl.d/${f##*/}.bak\"\n  fi\ndone\n\n# Comment out any occurrences of net.ipv4.conf.all.rp_filter from /etc/sysctl.d/*.conf files\nfor f in /etc/sysctl.d/*.conf; do\n  # skip systemd-sysctl symlink (/etc/sysctl.d/99-sysctl.conf -> /etc/sysctl.conf)\n  if [[ \"$(readlink -f \"$f\")\" == \"/etc/sysctl.conf\" ]]; then continue; fi\n\n  matching_list=$(grep -P '^(?!#).*[\\s]*net\\.ipv4\\.conf\\.all\\.rp_filter.*$' $f | uniq )\n  if ! test -z \"$matching_list\"; then\n    while IFS= read -r entry; do\n      escaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"$entry\")\n      # comment out \"net.ipv4.conf.all.rp_filter\" matches to preserve user data\n      sed -i --follow-symlinks \"s/^${escaped_entry}$/# &/g\" $f\n    done <<< \"$matching_list\"\n  fi\ndone\n\n# Set the desired value for net.ipv4.conf.all.rp_filter in /etc/sysctl.d/10-rp_filter.conf\necho 'net.ipv4.conf.all.rp_filter = 1' > /etc/sysctl.d/10-rp_filter.conf\n\n# Reload sysctl to apply changes\nsysctl -p /etc/sysctl.d/10-rp_filter.conf",
+      "exit_code": 0,
+      "stdout": "net.ipv4.conf.all.rp_filter = 1\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_tcp_syncookies": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup existing sysctl configuration files before making changes\nif [ -f /etc/sysctl.conf ]; then\n  cp /etc/sysctl.conf /etc/sysctl.conf.bak\nfi\n\nfor f in /etc/sysctl.d/*.conf; do\n  if [ -f \"$f\" ] && ! grep -q '# net.ipv4.tcp_syncookies' \"$f\"; then\n    echo \"# net.ipv4.tcp_syncookies = 1\" >> $f\n  fi\ndone\n\n# Set the sysctl parameter value in /etc/sysctl.conf\necho \"net.ipv4.tcp_syncookies = 1\" > /etc/sysctl.d/99-tcp_syncookies.conf\n\n# Apply the changes immediately\nsysctl -p /etc/sysctl.d/99-tcp_syncookies.conf",
+      "exit_code": 0,
+      "stdout": "net.ipv4.tcp_syncookies = 1\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_conf_all_send_redirects": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Back up existing sysctl.d files\nfor f in /etc/sysctl.d/*.conf; do\n  [ -e \"$f\" ] && cp \"$f\" \"/etc/sysctl.d/${f%.conf}.bak\"\ndone\n\nfor f in /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  [ -e \"$f\" ] && cp \"$f\" \"/etc/run/sysctl.d/${f%.conf}.bak\"\ndone\n\n# Set runtime for net.ipv4.conf.all.send_redirects\n/sbin/sysctl -q -n -w net.ipv4.conf.all.send_redirects=\"0\"\n\n# Back up sysctl.conf if it exists and is not a symlink to /etc/defaults/sysctl.conf\nif [ -f /etc/sysctl.conf ] && ! readlink -f /etc/sysctl.conf | grep -q '/etc/defaults/sysctl.conf$' ; then\n  cp /etc/sysctl.conf \"/etc/sysctl.conf.bak\"\nfi\n\n# Set desired value in sysctl.conf or add it if not present\nstripped_key=\"^net\\.ipv4\\.conf\\.all\\.send_redirects$\"\nescaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"net.ipv4.conf.all.send_redirects = 0\")\nmatching_line=$(grep -P \"$stripped_key\" /etc/sysctl.conf)\nif [ -z \"$matching_line\" ]; then\n    echo \"$escaped_entry\" >> /etc/sysctl.conf\nelse\n    sed -i --follow-symlinks \"/$stripped_key/s/.*/$escaped_entry/\" /etc/sysctl.conf\nfi\n\n# Reload sysctl to apply changes\n/sbin/sysctl -p",
+      "exit_code": 0,
+      "stdout": "net.ipv4.conf.all.log_martians = 1\nnet.ipv4.conf.all.rp_filter = 1\nnet.ipv4.conf.all.send_redirects = 0\n",
+      "stderr": "cp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-accept-redirects.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-console-messages.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-ipv6-privacy.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-kernel-hardening.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-magic-sysrq.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-network-security.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-ptrace.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-rp_filter.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/10-zeropage.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/99-disable-ipv6-forwarding.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/99-sysctl.bak': No such file or directory\ncp: cannot create regular file '/etc/sysctl.d//etc/sysctl.d/99-tcp_syncookies.bak': No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_net_ipv4_ip_forward": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup existing sysctl.conf file before editing\ncp /etc/sysctl.conf /etc/sysctl.conf.bak\n\n# Comment out any occurrences of net.ipv4.ip_forward from /etc/sysctl.d/*.conf files\n\nfor f in /etc/sysctl.d/*.conf; do\n  # skip systemd-sysctl symlink (/etc/sysctl.d/99-sysctl.conf -> /etc/sysctl.conf)\n  if [[ \"$(readlink -f \"$f\")\" == \"/etc/sysctl.conf\" ]]; then continue; fi\n\n  matching_list=$(grep -P '^(?!#).*[\\s]*net.ipv4.ip_forward.*$' $f | uniq )\n  if ! test -z \"$matching_list\"; then\n    while IFS= read -r entry; do\n      escaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"$entry\")\n      # comment out \"net.ipv4.ip_forward\" matches to preserve user data\n      sed -i --follow-symlinks \"s/^${escaped_entry}$/# &/g\" $f\n    done <<< \"$matching_list\"\n  fi\ndone\n\n#\n# Set runtime for net.ipv4.ip_forward\n#\n/sbin/sysctl -q -n -w net.ipv4.ip_forward=\"0\"\n\n#\n# If net.ipv4.ip_forward present in /etc/sysctl.conf, change value to \"0\"\n#\telse, add \"net.ipv4.ip_forward = 0\" to /etc/sysctl.conf\n#\n\nstripped_key=$(sed 's/[\\^=\\$,;+]*//g' <<< \"^net.ipv4.ip_forward\")\n\n# shellcheck disable=SC2059\nprintf -v formatted_output \"%s = %s\" \"$stripped_key\" \"0\"\n\n# If the key exists, change it. Otherwise, add it to the config_file.\nif LC_ALL=C grep -q -m 1 -i -e \"^net.ipv4.ip_forward\\\\>\" /etc/sysctl.conf; then\n    escaped_formatted_output=$(sed -e 's|/|\\\\/|g' <<< \"$formatted_output\")\n    LC_ALL=C sed -i --follow-symlinks \"s/^net.ipv4.ip_forward\\\\>.*/$escaped_formatted_output/gi\" /etc/sysctl.conf\nelse\n    if [[ -s /etc/sysctl.conf ]] && [[ -n \"$(tail -c 1 -- /etc/sysctl.conf || true)\" ]]; then\n        LC_ALL=C sed -i --follow-symlinks '$a'\\\\ /etc/sysctl.conf\n    fi\n    printf '%s\\n' \"$formatted_output\" >> /etc/sysctl.conf\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_service_nftables_enabled": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if dpkg-query --show --showformat='${db:Status-Status}\\n' 'nftables' 2>/dev/null | grep -q '^installed'; then\n    systemctl unmask nftables\n    systemctl enable nftables\n    systemctl start nftables\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Created symlink /etc/systemd/system/sysinit.target.wants/nftables.service \u2192 /lib/systemd/system/nftables.service.\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_backup_etc_gshadow": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "chgrp shadow /etc/gshadow-\nls -l /etc/gshadow-",
+      "exit_code": 0,
+      "stdout": "-rw-r----- 1 root shadow 876 Jul 21 15:47 /etc/gshadow-\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_fail"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_kernel_module_hfs_disabled": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Remediation is applicable only in certain platforms\nif [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\n    # Backup existing configuration file\n    cp /etc/modprobe.d/hfs.conf /etc/modprobe.d/hfs.conf.bak\n\n    # Ensure the necessary line exists and is correct\n    if LC_ALL=C grep -q -m 1 \"^install hfs\" /etc/modprobe.d/hfs.conf ; then\n        sed -i 's#^install hfs.*#install hfs /bin/false#g' /etc/modprobe.d/hfs.conf\n    else\n        echo -e \"\\n# Disable per security requirements\" >> /etc/modprobe.d/hfs.conf\n        echo \"install hfs /bin/false\" >> /etc/modprobe.d/hfs.conf\n    fi\n\n    # Ensure the blacklist line exists\n    if ! LC_ALL=C grep -q -m 1 \"^blacklist hfs$\" /etc/modprobe.d/hfs.conf ; then\n        echo -e \"\\n# Disable per security requirements\" >> /etc/modprobe.d/hfs.conf\n        echo \"blacklist hfs\" >> /etc/modprobe.d/hfs.conf\n    fi\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "error",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_error"
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "oscap_error"
+        },
+        {
+          "pass": 3,
+          "type": "clarify",
+          "question": "The rule checks for both `install hfs /bin/false` and `blacklist hfs`. How should I ensure that only one of these lines is present if they exist?",
+          "answer": "Both lines are required, not alternatives \u2014 don't remove either one. Just make sure each line is present exactly once: check with grep for each line individually before appending it, so re-running the script doesn't create duplicates"
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "oscap_error"
+        }
+      ],
+      "status": "unresolved_oscap_fail"
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nodev": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup /etc/fstab before editing\ncp -av /etc/fstab /etc/fstab.bak\n\nfunction perform_remediation {\n    mount_point_match_regexp=\"$(printf \"^[[:space:]]*[^#].*[[:space:]]%s[[:space:]]\" /dev/shm)\"\n\n    # If the mount point is not in /etc/fstab, get previous mount options from /etc/mtab\n    if ! grep -q \"$mount_point_match_regexp\" /etc/fstab; then\n        previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/mtab | head -1 |  awk '{print $4}' \\\n                    | sed -E \"s/(rw|defaults|seclabel)(,|$)//g;s/,$//\")\n        [ \"$previous_mount_opts\" ] && previous_mount_opts+=\",\"\n        fs_type=$(grep \"$mount_point_match_regexp\" /etc/mtab | awk '{print $2}')\n        if [  \"$fs_type\" == \"iso9660\" ]; then\n            previous_mount_opts=$(sed 's/blocksize=/block=/' <<< \"$previous_mount_opts\")\n        fi\n        echo \"tmpfs /dev/shm tmpfs defaults,${previous_mount_opts}nodev 0 0\" >> /etc/fstab\n    # If the mount_opt option is not already in the mount point's /etc/fstab entry, add it\n    elif ! grep \"$mount_point_match_regexp\" /etc/fstab | grep -q \"nodev\"; then\n        previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/fstab | awk '{print $4}')\n        sed -i \"/$mount_point_match_regexp/s|([^,]*,)*||;s|,.*||;a\\ \\ \\ \\ ,nodev\" /etc/fstab\n    fi\n\n    if mkdir -p \"/dev/shm\"; then\n        if mountpoint -q \"/dev/shm\"; then\n            mount -o remount --target \"/dev/shm\"\n        fi\n    fi\n}\n\nperform_remediation\n\nif ! grep -q \"nodev\" /etc/fstab; then\n    >&2 echo 'Remediation was not successful'\nfi",
+      "exit_code": 0,
+      "stdout": "'/etc/fstab' -> '/etc/fstab.bak'\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_noexec": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\nmount_point_match_regexp=\"$(printf \"^[[:space:]]*[^#].*[[:space:]]%s[[:space:]]\" /dev/shm)\"\n\nif [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n    # Backup fstab before editing\n    cp /etc/fstab /etc/fstab.bak\n\n    function perform_remediation {\n        # If the mount point is not in /etc/fstab, get previous mount options from /etc/mtab\n        if ! grep -q \"$mount_point_match_regexp\" /etc/fstab; then\n            # runtime opts without some automatic kernel/userspace-added defaults\n            previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/mtab | head -1 |  awk '{print $4}' \\\n                    | sed -E \"s/(rw|defaults|seclabel|noexec)(,|$)//g;s/,$//\")\n            [ \"$previous_mount_opts\" ] && previous_mount_opts+=\",\"\n            # In iso9660 filesystems mtab could describe a \"blocksize\" value, this should be reflected in\n            # fstab as \"block\".  The next variable is to satisfy shellcheck SC2050.\n            fs_type=\"tmpfs\"\n            if [  \"$fs_type\" == \"iso9660\" ] ; then\n                previous_mount_opts=$(sed 's/blocksize=/block=/' <<< \"$previous_mount_opts\")\n            fi\n            echo \"tmpfs /dev/shm tmpfs defaults,${previous_mount_opts}noexec 0 0\" >> /etc/fstab\n        # If the mount_opt option is not already in the mount point's /etc/fstab entry, add it\n        elif ! grep \"$mount_point_match_regexp\" /etc/fstab | grep -q \"noexec\"; then\n            previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/fstab | awk '{print $4}')\n            sed -i \"s|\\(${mount_point_match_regexp}.*${previous_mount_opts}\\)|\\1,noexec|\" /etc/fstab\n        fi\n\n        if mkdir -p \"/dev/shm\"; then\n            if mountpoint -q \"/dev/shm\"; then\n                mount -o remount --target \"/dev/shm\"\n            fi\n        fi\n    }\n\n    perform_remediation\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_mount_option_dev_shm_nosuid": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup fstab before editing\nif [ -f /etc/fstab ]; then\n    cp /etc/fstab /etc/fstab.bak\nfi\n\nmount_point_match_regexp=\"$(printf \"^[[:space:]]*[^#].*[[:space:]]%s[[:space:]]\" /dev/shm)\"\n\n# If the mount point is not in /etc/fstab, get previous mount options from /etc/mtab\nif ! grep -q \"$mount_point_match_regexp\" /etc/fstab; then\n    # runtime opts without some automatic kernel/userspace-added defaults\n    previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/mtab | head -1 | awk '{print $4}' \\\n        | sed -E \"s/(rw|defaults|seclabel)(,|$)//g;s/,$//\")\n    [ \"$previous_mount_opts\" ] && previous_mount_opts+=\",\"\n    # In iso9660 filesystems mtab could describe a \"blocksize\" value, this should be reflected in\n    # fstab as \"block\".  The next variable is to satisfy shellcheck SC2050.\n    fs_type=\"tmpfs\"\n    if [ \"$fs_type\" == \"iso9660\" ]; then\n        previous_mount_opts=$(sed 's/blocksize=/block=/' <<< \"$previous_mount_opts\")\n    fi\n    echo \"tmpfs /dev/shm tmpfs defaults,${previous_mount_opts}nosuid 0 0\" >> /etc/fstab\n# If the mount_opt option is not already in the mount point's /etc/fstab entry, add it\nelif ! grep \"$mount_point_match_regexp\" /etc/fstab | grep -q \"nosuid\"; then\n    previous_mount_opts=$(grep \"$mount_point_match_regexp\" /etc/fstab | awk '{print $4}')\n    sed -i \"s|\\(${mount_point_match_regexp}.*${previous_mount_opts}\\)|\\1,nosuid|\" /etc/fstab\nfi\n\nif mkdir -p \"/dev/shm\"; then\n    if mountpoint -q \"/dev/shm\"; then\n        mount -o remount --target \"/dev/shm\"\n    fi\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_disable_users_coredumps": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if dpkg-query --show --showformat='${db:Status-Status}\\n' 'libpam-runtime' 2>/dev/null | grep -q installed; then\n\nSECURITY_LIMITS_FILE=\"/etc/security/limits.conf\"\n\n# Backup the file before editing\ncp $SECURITY_LIMITS_FILE /etc/security/limits.conf.bak\n\nif grep -qE '^\\s*\\*\\s+hard\\s+core' $SECURITY_LIMITS_FILE; then\n    sed -ri 's/(hard\\s+core\\s+)[[:digit:]]+/\\1 0/' $SECURITY_LIMITS_FILE\nelse\n    echo \"*     hard   core    0\" >> $SECURITY_LIMITS_FILE\nfi\n\nif ls /etc/security/limits.d/*.conf > /dev/null; then\n    for FILE in /etc/security/limits.d/*.conf; do\n        if grep -qE '^\\s*\\*\\s+hard\\s+core' \"$FILE\"; then\n            sed -ri '/^\\s*\\*\\s+hard\\s+core/d' \"$FILE\"\n        fi\n    done\nfi\n\nelse\n    echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "ls: cannot access '/etc/security/limits.d/*.conf': No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_fs_suid_dumpable": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup existing sysctl.d files before making changes\nfor f in /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  [ -f \"$f\" ] && cp -p \"$f\" \"/etc/sysctl.d.$(date +%F_%T)_$$.bak\"\ndone\n\n# Backup sysctl.conf if it exists and is not a symlink to another file\nif [ -f /etc/sysctl.conf ]; then\n  if [[ \"$(readlink -f /etc/sysctl.conf)\" != \"/etc/sysctl.conf\" ]]; then\n    cp -p /etc/sysctl.conf \"/etc/sysctl.conf.$(date +%F_%T)_$$.bak\"\n  fi\nfi\n\n# Comment out any occurrences of fs.suid_dumpable from sysctl.d files\nfor f in /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  if [[ \"$(readlink -f \"$f\")\" == \"/etc/sysctl.conf\" ]]; then continue; fi\n  matching_list=$(grep -P '^(?!#).*[\\s]*fs.suid_dumpable.*$' $f | uniq)\n  if ! test -z \"$matching_list\"; then\n    while IFS= read -r entry; do\n      escaped_entry=$(sed -e 's|/|\\\\/|g' <<< \"$entry\")\n      sed -i --follow-symlinks \"s/^${escaped_entry}$/# &/g\" $f\n    done <<< \"$matching_list\"\n  fi\ndone\n\n# Set runtime for fs.suid_dumpable\n/sbin/sysctl -q -n -w fs.suid_dumpable=0\n\n# Ensure the key is in sysctl.conf and set to 0 if it exists, otherwise add it\nSYSCONFIG_FILE=\"/etc/sysctl.conf\"\nstripped_key=$(sed 's/[\\^=\\$,;+]*//g' <<< \"^fs.suid_dumpable\")\nformatted_output=\"${stripped_key} = 0\"\n\n# Check if the key exists and update or append as necessary\nif LC_ALL=C grep -q -i -e \"^fs.suid_dumpable\" \"$SYSCONFIG_FILE\"; then\n    escaped_formatted_output=$(sed -e 's|/|\\\\/|g' <<< \"$formatted_output\")\n    LC_ALL=C sed -i --follow-symlinks \"s/^fs.suid_dumpable\\\\>.*/$escaped_formatted_output/gi\" \"$SYSCONFIG_FILE\"\nelse\n  if [[ -s \"$SYSCONFIG_FILE\" ]] && [[ -n \"$(tail -c 1 -- \"$SYSCONFILE\")\" ]]; then\n    LC_ALL=C sed -i --follow-symlinks '$a\\' \"$SYSCONFIG_FILE\"\n  fi\n  echo \"$formatted_output\" >> \"$SYSCONFIG_FILE\"\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "grep: /run/sysctl.d/*.conf: No such file or directory\ngrep: /usr/local/lib/sysctl.d/*.conf: No such file or directory\ntail: cannot open '' for reading: No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_sysctl_kernel_randomize_va_space": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup existing sysctl.d files before making changes\nfor f in /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf; do\n  [ -f \"$f\" ] && cp \"$f\" \"${f}.bak\"\ndone\n\n# Set runtime for kernel.randomize_va_space\n/sbin/sysctl -q -n -w kernel.randomize_va_space=\"2\"\n\n# Backup sysctl.conf if it exists before making changes\nif [ -f /etc/sysctl.conf ]; then\n  cp /etc/sysctl.conf /etc/sysctl.conf.bak\nfi\n\n#\n# Set sysctl config file which to save the desired value\n#\n\nSYSCONFIG_FILE=\"/etc/sysctl.conf\"\n\n#\n# Strip any search characters in the key arg so that the key can be replaced without\n# adding any search characters to the config file.\nstripped_key=$(sed 's/[\\^=\\$,;+]*//g' <<< \"^kernel.randomize_va_space\")\n\n# shellcheck disable=SC2059\nprintf -v formatted_output \"%s = %s\" \"$stripped_key\" \"2\"\n\n# If the key exists, change it. Otherwise, add it to the config_file.\n# We search for the key string followed by a word boundary (matched by \\>),\n# so if we search for 'setting', 'setting2' won't match.\nif LC_ALL=C grep -q -m 1 -i -e \"^kernel.randomize_va_space\\\\>\" \"${SYSCONFIG_FILE}\"; then\n    escaped_formatted_output=$(sed -e 's|/|\\\\/|g' <<< \"$formatted_output\")\n    LC_ALL=C sed -i --follow-symlinks \"s/^kernel.randomize_va_space\\\\>.*/$escaped_formatted_output/gi\" \"${SYSCONFIG_FILE}\"\nelse\n    if [[ -s \"${SYSCONFIG_FILE}\" ]] && [[ -n \"$(tail -c 1 -- \"${SYSCONFIG_FILE}\" || true)\" ]]; then\n        LC_ALL=C sed -i --follow-symlinks '$a'\\\\ \"${SYSCONFIG_FILE}\"\n    fi\n    printf '%s\\n' \"$formatted_output\" >> \"${SYSCONFIG_FILE}\"\nfi\n\n# Ensure the setting persists across reboots by running sysctl\n/sbin/sysctl -p",
+      "exit_code": 0,
+      "stdout": "net.ipv4.conf.all.log_martians = 1\nnet.ipv4.conf.all.rp_filter = 1\nnet.ipv4.conf.all.send_redirects = 0\nnet.ipv4.ip_forward = 0\nfs.suid_dumpable = 0\nkernel.randomize_va_space = 2\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_file_groupowner_cron_allow": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Remediation is applicable only in certain platforms\nif [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\n    # Backup the original file if it exists\n    if [ -e /etc/cron.allow ]; then\n        cp /etc/cron.allow /etc/cron.allow.bak\n    fi\n\n    # Change the group ownership of /etc/cron.allow to crontab\n    chgrp -L crontab /etc/cron.allow\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "chgrp: cannot access '/etc/cron.allow': No such file or directory\n",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        }
+      ],
+      "status": "unresolved_script_error"
+    },
+    "xccdf_org.ssgproject.content_rule_file_owner_cron_allow": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Remediation is applicable only in certain platforms\nif [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\n    # Backup the original file if it exists\n    if [ -f /etc/cron.allow ]; then\n        cp -p /etc/cron.allow /etc/cron.allow.bak\n    fi\n\n    # Set the correct ownership and permissions\n    chown root /etc/cron.allow\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "chown: cannot access '/etc/cron.allow': No such file or directory\n",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        }
+      ],
+      "status": "unresolved_script_error"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_allow": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Back up /etc/cron.allow before modifying it if it exists\nif [ -f /etc/cron.allow ]; then\n    sudo cp /etc/cron.allow /etc/cron.allow.bak\nfi\n\n# Set permissions to 0640 for /etc/cron.allow\nchmod u-xs,g-xws,o-xwrt /etc/cron.allow",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "chmod: cannot access '/etc/cron.allow': No such file or directory\n",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 2,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        },
+        {
+          "pass": 3,
+          "type": "script",
+          "status": "script_error",
+          "exit_code": 1
+        }
+      ],
+      "status": "unresolved_script_error"
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_d": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup the cron.d directory before modifying it\nif [ -d /etc/cron.d ]; then\n    sudo mv /etc/cron.d /etc/cron.d.bak\nfi\n\n# Set the correct permissions for cron.d\nsudo chmod 0700 /etc/cron.d\n\n# Ensure any existing files in cron.d have the correct permissions\nif [ -d /etc/cron.d ]; then\n    find -H /etc/cron.d/ -maxdepth 1 -type d -exec sudo chmod u-s,g-xwrs,o-xwrt {} \\;\nfi",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "chmod: cannot access '/etc/cron.d': No such file or directory\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_cron_daily": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup existing cron.daily directory permissions\nif [ -d /etc/cron.daily ]; then\n    chmod 0700 /etc/cron.daily\n    chown root:root /etc/cron.daily\n    find -H /etc/cron.daily/ -maxdepth 1 -type d ! -perm 0700 -exec chmod u-s,g-xwrs,o-xwrt {} \\;\n    if [ $? -ne 0 ]; then\n        echo 'Failed to set correct permissions for /etc/cron.daily'\n    fi\nfi\n\n# Ensure cron.daily directory has proper ownership and permissions\nchown root:root /etc/cron.daily\nchmod 0700 /etc/cron.daily",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_file_permissions_crontab": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# Backup the original crontab file before modifying permissions\nif [ ! -f /etc/crontab.bak ]; then\n    cp /etc/crontab /etc/crontab.bak\nfi\n\n# Set the appropriate permissions on /etc/crontab\nchmod u-xs,g-xwrs,o-xwrt /etc/crontab",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_nis_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup the package list before making changes\ncp /var/lib/dpkg/status /var/lib/dpkg/status.backup\n\n# Remove the nis package\napt-get remove -y \"nis\"\napt-get autoremove -y --purge\n\n# Update package lists to ensure all dependencies are satisfied\napt-get update\n\n# Reconfigure any packages that were automatically deconfigured due to dependency removal\ndpkg-divert --local --rename /var/lib/dpkg/status\nmv /var/lib/dpkg/status.backup /var/lib/dpkg/status\ndpkg-divert --remove /var/lib/dpkg/status\n\n# Clean up package cache\napt-get clean",
+      "exit_code": 0,
+      "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nPackage 'nis' is not installed, so not removed\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\nReading package lists...\nBuilding dependency tree...\nReading state information...\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\nHit:1 http://security.ubuntu.com/ubuntu jammy-security InRelease\nHit:2 http://gb.archive.ubuntu.com/ubuntu jammy InRelease\nHit:3 http://gb.archive.ubuntu.com/ubuntu jammy-updates InRelease\nHit:4 http://gb.archive.ubuntu.com/ubuntu jammy-backports InRelease\nReading package lists...\nAdding 'local diversion of /var/lib/dpkg/status to /var/lib/dpkg/status.distrib'\nRemoving 'local diversion of /var/lib/dpkg/status to /var/lib/dpkg/status.distrib'\n",
+      "stderr": "dpkg-divert: warning: please specify --no-rename explicitly, the default will change to --rename in 1.20.x\n",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_vsftpd_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# CAUTION: This remediation script will remove vsftpd while keeping dependent packages.\n# It is safe to re-run and does not affect Docker's bridge networking, IP forwarding, or already-listening local server/API ports.\n\napt-get remove -y --purge vsftpd\napt-get autoremove -y",
+      "exit_code": 0,
+      "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nPackage 'vsftpd' is not installed, so not removed\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\nReading package lists...\nBuilding dependency tree...\nReading state information...\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "clarify",
+          "question": "How should I handle potential dependencies of vsftpd that might be required by other services or applications?",
+          "answer": "Keep dependent packages but ensure no conflicts with current services."
+        },
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_openldap-clients_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# CAUTION: This remediation script will remove ldap-utils from the system, and may remove any packages\n# that depend on ldap-utils. Execute this remediation AFTER testing on a non-production\n# system!\n\napt-get remove -y \"ldap-utils\"",
+      "exit_code": 0,
+      "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nPackage 'ldap-utils' is not installed, so not removed\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_rpcbind_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "if [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then\n\n    # Backup rpcbind package configuration file\n    if [ -e /etc/apt/sources.list.d/rpcbind.list ]; then\n        cp /etc/apt/sources.list.d/rpcbind.list /etc/apt/sources.list.d/rpcbind.list.bak\n    fi\n\n    # Remove rpcbind package\n    DEBIAN_FRONTEND=noninteractive apt-get remove -y \"rpcbind\"\n\nelse\n    >&2 echo 'Remediation is not applicable, nothing was done'\nfi",
+      "exit_code": 0,
+      "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nPackage 'rpcbind' is not installed, so not removed\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_telnet_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "#!/bin/bash\n\n# Backup existing package list before making changes\ncp /etc/apt/sources.list /etc/apt/sources.list.bak\n\n# Remove telnet client and any packages that depend on it\nDEBIAN_FRONTEND=noninteractive apt-get remove -y \"telnet\" --purge\n\n# Update package lists to ensure no broken dependencies remain\napt-get update\n\n# Clean up unnecessary files to free up space\napt-get autoremove -y\n\n# Ensure all changes are applied and the system is in a clean state\napt-get clean",
+      "exit_code": 0,
+      "stdout": "eading state information...\nThe following packages will be REMOVED:\n  telnet*\n0 upgraded, 0 newly installed, 1 to remove and 446 not upgraded.\nAfter this operation, 158 kB disk space will be freed.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 173823 files and directories currently installed.)\nRemoving telnet (0.17-44build1) ...\nProcessing triggers for man-db (2.10.2-1) ...\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 173814 files and directories currently installed.)\nPurging configuration files for telnet (0.17-44build1) ...\nHit:1 http://security.ubuntu.com/ubuntu jammy-security InRelease\nHit:2 http://gb.archive.ubuntu.com/ubuntu jammy InRelease\nHit:3 http://gb.archive.ubuntu.com/ubuntu jammy-updates InRelease\nHit:4 http://gb.archive.ubuntu.com/ubuntu jammy-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\n0 upgraded, 0 newly installed, 0 to remove and 446 not upgraded.\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    },
+    "xccdf_org.ssgproject.content_rule_package_rsync_removed": {
+      "matched_in_scan": true,
+      "approved": true,
+      "script": "# CAUTION: This remediation script will remove rsync\n#\t   from the system, and may remove any packages\n#\t   that depend on rsync. Execute this\n#\t   remediation AFTER testing on a non-production\n#\t   system!\n\nDEBIAN_FRONTEND=noninteractive apt-get remove -y \"rsync\"\n\n# Backup config files if they exist\nif [ -f /etc/rsyncd.conf ]; then\n    mv /etc/rsyncd.conf /etc/rsyncd.conf.bak\nfi\n\nif [ -f /etc/default/rsync ]; then\n    mv /etc/default/rsync /etc/default/rsync.bak\nfi\n\n# Ensure the package is fully removed and not just marked for removal\napt-get autoremove --purge -y \"rsync\"",
+      "exit_code": 0,
+      "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following packages will be REMOVED:\n  rsync ubuntu-standard\n0 upgraded, 0 newly installed, 2 to remove and 444 not upgraded.\nAfter this operation, 867 kB disk space will be freed.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 173814 files and directories currently installed.)\nRemoving ubuntu-standard (1.481.3) ...\nRemoving rsync (3.2.7-0ubuntu0.22.04.2) ...\nProcessing triggers for man-db (2.10.2-1) ...\nReading package lists...\nBuilding dependency tree...\nReading state information...\nThe following packages will be REMOVED:\n  rsync*\n0 upgraded, 0 newly installed, 1 to remove and 444 not upgraded.\nAfter this operation, 0 B of additional disk space will be used.\n(Reading database ... \n(Reading database ... 5%\n(Reading database ... 10%\n(Reading database ... 15%\n(Reading database ... 20%\n(Reading database ... 25%\n(Reading database ... 30%\n(Reading database ... 35%\n(Reading database ... 40%\n(Reading database ... 45%\n(Reading database ... 50%\n(Reading database ... 55%\n(Reading database ... 60%\n(Reading database ... 65%\n(Reading database ... 70%\n(Reading database ... 75%\n(Reading database ... 80%\n(Reading database ... 85%\n(Reading database ... 90%\n(Reading database ... 95%\n(Reading database ... 100%\n(Reading database ... 173779 files and directories currently installed.)\nPurging configuration files for rsync (3.2.7-0ubuntu0.22.04.2) ...\n",
+      "stderr": "",
+      "oscap_result": "pass",
+      "status": "oscap_pass",
+      "passes": [
+        {
+          "pass": 1,
+          "type": "script",
+          "status": "oscap_pass"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "attempted": 44,
+    "approved": 44,
+    "script_ok": 40,
+    "oscap_pass": 33,
+    "oscap_fail": 7,
+    "query_error": 2,
+    "script_error": 3,
+    "rejected": 0,
+    "clarifications_asked": 3,
+    "sudoers_rollback": 0,
+    "permission_denied": 0,
+    "passes_exhausted": 10
+  },
+  "finished": "2026-07-22T11:15:01.420444"
+}

@@ -1,0 +1,20 @@
+{
+  "timestamp": "20260722_111501",
+  "models": [
+    {
+      "model": "qwen2.5:7b",
+      "attempted": 44,
+      "approved": 44,
+      "script_ok": 40,
+      "oscap_pass": 33,
+      "oscap_fail": 7,
+      "query_error": 2,
+      "script_error": 3,
+      "rejected": 0,
+      "clarifications_asked": 3,
+      "sudoers_rollback": 0,
+      "permission_denied": 0,
+      "passes_exhausted": 10
+    }
+  ]
+}
