@@ -80,6 +80,15 @@ MODELS = [
     # "granite4.1:8b",
 ]
 
+def resolve_path(p):
+    if not p or os.path.isabs(p): return p
+    if os.path.exists(p): return os.path.abspath(p)
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    for base in [s_dir, os.path.join(s_dir, ".."), os.path.join(s_dir, "..", "..")]:
+        cand = os.path.abspath(os.path.join(base, p))
+        if os.path.exists(cand): return cand
+    return os.path.abspath(os.path.join(s_dir, "..", "..", p))
+
 SCAN_RESULT_XML = "agent-test-22.xml"
 RESULTS_DIR     = "remediation_results"
 
@@ -223,16 +232,49 @@ export TMOUT
 EOF
 chmod 644 /etc/profile.d/tmout.sh""",
     "accounts_passwords_pam_faillock_deny": """\
-if grep -qE '^deny[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then
-    sed -i -E 's/^deny[[:space:]]*=.*/deny = 4/' /etc/security/faillock.conf
+AUTH_FILE=/etc/pam.d/common-auth
+ACCOUNT_FILE=/etc/pam.d/common-account
+
+if ! grep -qE '^\\s*auth\\s+required\\s+pam_faillock\\.so\\s+preauth' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^# here are the per-package modules/i auth        required      pam_faillock.so preauth' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*auth\\s+\\[default=die\\]\\s+pam_faillock\\.so\\s+authfail' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^auth.*pam_unix\\.so.*/a auth        [default=die]      pam_faillock.so authfail' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*auth\\s+sufficient\\s+pam_faillock\\.so\\s+authsucc' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^auth.*pam_faillock\\.so.*authfail.*/a auth        sufficient      pam_faillock.so authsucc' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*account\\s+required\\s+pam_faillock\\.so' "$ACCOUNT_FILE"; then
+    echo 'account   required     pam_faillock.so' >> "$ACCOUNT_FILE"
+fi
+
+if grep -qE '^\\s*deny\\s*=' /etc/security/faillock.conf 2>/dev/null; then
+    sed -i -E 's/^\\s*deny\\s*=.*/deny = 4/' /etc/security/faillock.conf
 else
     echo 'deny = 4' >> /etc/security/faillock.conf
 fi""",
     "accounts_passwords_pam_faillock_unlock_time": """\
-if grep -qE '^unlock_time[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then
-    sed -i -E 's/^unlock_time[[:space:]]*=.*/unlock_time = 900/' /etc/security/faillock.conf
+AUTH_FILE=/etc/pam.d/common-auth
+ACCOUNT_FILE=/etc/pam.d/common-account
+
+if ! grep -qE '^\\s*auth\\s+required\\s+pam_faillock\\.so\\s+preauth' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^# here are the per-package modules/i auth        required      pam_faillock.so preauth' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*auth\\s+\\[default=die\\]\\s+pam_faillock\\.so\\s+authfail' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^auth.*pam_unix\\.so.*/a auth        [default=die]      pam_faillock.so authfail' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*auth\\s+sufficient\\s+pam_faillock\\.so\\s+authsucc' "$AUTH_FILE"; then
+    sed -i --follow-symlinks '/^auth.*pam_faillock\\.so.*authfail.*/a auth        sufficient      pam_faillock.so authsucc' "$AUTH_FILE"
+fi
+if ! grep -qE '^\\s*account\\s+required\\s+pam_faillock\\.so' "$ACCOUNT_FILE"; then
+    echo 'account   required     pam_faillock.so' >> "$ACCOUNT_FILE"
+fi
+
+# CIS Ubuntu 22.04 level1-server profile requires 600, not 900
+if grep -qE '^\\s*unlock_time\\s*=' /etc/security/faillock.conf 2>/dev/null; then
+    sed -i -E 's/^\\s*unlock_time\\s*=.*/unlock_time = 600/' /etc/security/faillock.conf
 else
-    echo 'unlock_time = 900' >> /etc/security/faillock.conf
+    echo 'unlock_time = 600' >> /etc/security/faillock.conf
 fi""",
     "accounts_password_pam_minlen": """\
 if grep -qE '^[[:space:]]*minlen[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then
@@ -245,6 +287,55 @@ if grep -qE '^[[:space:]]*ucredit[[:space:]]*=' /etc/security/pwquality.conf 2>/
     sed -i -E 's/^[[:space:]]*ucredit[[:space:]]*=.*/ucredit = -1/' /etc/security/pwquality.conf
 else
     echo 'ucredit = -1' >> /etc/security/pwquality.conf
+fi""",
+    "accounts_umask_etc_bashrc": """\
+cp /etc/bash.bashrc /etc/bash.bashrc.bak 2>/dev/null || true
+if grep -qE '^[^#]*\\bumask' /etc/bash.bashrc 2>/dev/null; then
+    sed -i -E 's/^([^#]*\\bumask).*/\\1 027/' /etc/bash.bashrc
+else
+    echo 'umask 027' >> /etc/bash.bashrc
+fi""",
+    "accounts_umask_etc_login_defs": """\
+cp -p /etc/login.defs /etc/login.defs.bak 2>/dev/null || true
+if grep -qi -E '^UMASK\\b' /etc/login.defs; then
+    sed -i --follow-symlinks -E 's/^UMASK\\b.*/UMASK 027/I' /etc/login.defs
+else
+    echo 'UMASK 027' >> /etc/login.defs
+fi
+chown root:root /etc/login.defs
+chmod 644 /etc/login.defs""",
+    "set_password_hashing_algorithm_systemauth": """\
+PAM_FILE=/etc/pam.d/common-password
+cp "$PAM_FILE" "$PAM_FILE.bak"
+
+# CIS Ubuntu 22.04 level1-server profile wants yescrypt (Ubuntu's own
+# default since 22.04), not sha512 -- remove any other algorithm token
+# from the pam_unix.so line first, then ensure yescrypt is present exactly once.
+for alg in sha512 gost_yescrypt blowfish sha256 md5 bigcrypt; do
+    if grep -qP "^\\s*password\\s+.*\\s+pam_unix.so\\s+.*\\b$alg\\b" "$PAM_FILE"; then
+        sed -i -E --follow-symlinks "s/(.*password.*pam_unix\\.so.*)\\s$alg\\b(.*)/\\1\\2/g" "$PAM_FILE"
+    fi
+done
+if ! grep -qP '^\\s*password\\s+.*\\s+pam_unix.so\\s+.*\\byescrypt\\b' "$PAM_FILE"; then
+    sed -i -E --follow-symlinks '/\\s*password\\s+.*\\s+pam_unix.so.*/ s/$/ yescrypt/' "$PAM_FILE"
+fi""",
+    "file_groupowner_cron_allow": """\
+if [ -e /etc/cron.allow ]; then
+    chgrp -L crontab /etc/cron.allow
+else
+    echo "/etc/cron.allow doesn't exist on this system -- nothing to change." >&2
+fi""",
+    "file_owner_cron_allow": """\
+if [ -e /etc/cron.allow ]; then
+    chown -L 0 /etc/cron.allow
+else
+    echo "/etc/cron.allow doesn't exist on this system -- nothing to change." >&2
+fi""",
+    "file_permissions_cron_allow": """\
+if [ -e /etc/cron.allow ]; then
+    chmod u-xs,g-xws,o-xwrt /etc/cron.allow
+else
+    echo "/etc/cron.allow doesn't exist on this system -- nothing to change." >&2
 fi""",
     "accounts_password_pam_dcredit": """\
 if grep -qE '^dcredit[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then
@@ -351,12 +442,78 @@ RULE_HINTS = {
         "After `chgrp`, print `ls -l /etc/gshadow-` to confirm the change "
         "persisted and wasn't reset by another process.",
     "accounts_passwords_pam_faillock_deny":
-        "Use `deny = 4` unless the benchmark on this host says otherwise. "
-        "Append to /etc/security/faillock.conf with `>>`, not overwrite "
-        "with `>` -- other faillock rules write to this same file.",
+        "Setting `deny = 4` in /etc/security/faillock.conf alone is NOT enough "
+        "-- the check also requires pam_faillock.so to actually be wired into "
+        "/etc/pam.d/common-auth (preauth/authfail/authsucc lines) and "
+        "/etc/pam.d/common-account (`account required pam_faillock.so`). "
+        "Editing faillock.conf without that wiring passes the script but "
+        "oscap still reports FAIL. Value 4 is correct for cis_level1_server -- don't change it.",
     "accounts_passwords_pam_faillock_unlock_time":
-        "Use `unlock_time = 900` unless the benchmark on this host says "
-        "otherwise. Append with `>>`, not overwrite with `>`.",
+        "Use `unlock_time = 600` (10 minutes), NOT 900 -- 900 is what an "
+        "earlier attempt used and it's wrong for the cis_level1_server "
+        "profile actually selected on this scan (confirmed from the "
+        "profile's refine-value in the datastream). Also requires the same "
+        "pam_faillock.so wiring in common-auth/common-account as the deny rule above.",
+    "set_password_hashing_algorithm_systemauth":
+        "The cis_level1_server profile wants **yescrypt**, not sha512 -- "
+        "Ubuntu 22.04's own default is already yescrypt, so blindly "
+        "appending ` sha512` onto the pam_unix.so line in "
+        "/etc/pam.d/common-password creates a line with BOTH tokens present, "
+        "which is why oscap's OVAL check comes back `error` rather than a "
+        "clean pass/fail. Strip any non-yescrypt hashing token first, then "
+        "add `yescrypt` only if it's not already there.",
+    "accounts_umask_etc_bashrc":
+        "Ubuntu doesn't have /etc/bashrc -- the real file is "
+        "**/etc/bash.bashrc**. The correct umask value for this profile is "
+        "**027**, not a bare `umask` with no value (a value-less `umask` "
+        "line does nothing and won't satisfy the check).",
+    "accounts_umask_etc_login_defs":
+        "Ubuntu 22.04 ships with `UMASK 022` in /etc/login.defs by default -- "
+        "the check wants **027**. If your script only adds a UMASK line "
+        "'when missing', it will silently do nothing on this host since a "
+        "line already exists with the wrong value. Always REPLACE the "
+        "existing UMASK line's value (via sed), don't just append when absent.",
+    "grub2_enable_apparmor":
+        "This is tagged reboot_required upstream: editing /etc/default/grub "
+        "and running update-grub only changes the config for the NEXT boot "
+        "-- the OVAL check almost certainly reads the CURRENTLY RUNNING "
+        "kernel's /proc/cmdline, which won't show apparmor=1/security=apparmor "
+        "until the VM actually reboots. If /etc/default/grub already has "
+        "both tokens after your script runs, this is very likely a "
+        "'needs reboot, not a broken script' situation -- don't keep "
+        "rewriting the script, flag it back to the user with a CLARIFY "
+        "or a note that a reboot is required before re-verifying.",
+    "kernel_module_hfs_disabled":
+        "Also tagged reboot_required upstream. Separately: if this kernel "
+        "build doesn't ship an hfs.ko module at all (common on cloud/VM "
+        "kernels), oscap's own OVAL evaluation of the modprobe check can "
+        "come back as `error` rather than pass/fail purely because there's "
+        "no module to probe -- that's a scan-tool quirk, not evidence the "
+        "config file is wrong. If /etc/modprobe.d/hfs.conf already has both "
+        "`install hfs /bin/false` and `blacklist hfs` after the script "
+        "runs, treat this as effectively resolved rather than retrying "
+        "with a different script.",
+    "grub2_uefi_password":
+        "If oscap reports `notapplicable` for this rule, that's expected "
+        "and correct on a VirtualBox VM booting legacy BIOS rather than "
+        "UEFI (there's no firmware password mechanism to configure) -- "
+        "nothing to fix, don't keep retrying it.",
+    "file_groupowner_cron_allow":
+        "/etc/cron.allow does not exist by default on a minimal Ubuntu "
+        "22.04 install. The official Ansible remediation explicitly skips "
+        "this rule when the file is absent (`when: file_exists.stat.exists`) "
+        "-- don't run chgrp on a path that might not exist; guard with "
+        "`if [ -e /etc/cron.allow ]` and do nothing (exit 0) otherwise.",
+    "file_owner_cron_allow":
+        "Same as file_groupowner_cron_allow -- guard with `[ -e /etc/cron.allow ]` "
+        "before chown, since the official remediation only acts when the file exists.",
+    "file_permissions_cron_allow":
+        "Same as file_groupowner_cron_allow -- guard with `[ -e /etc/cron.allow ]` "
+        "before chmod, since the official remediation only acts when the file exists.",
+    "sudo_remove_no_authenticate":
+        "If this rule comes back as a query_error rather than an oscap "
+        "fail/pass, that's a lab-server connection timeout, not a script "
+        "problem -- just retry it (e.g. `--only-rules sudo_remove_no_authenticate --auto`).",
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -364,6 +521,7 @@ RULE_HINTS = {
 # ─────────────────────────────────────────────────────────────────────────────
 
 def parse_scan_xml(path):
+    path = resolve_path(path)
     rules = {}
     if not os.path.exists(path):
         print(f"  [WARN] Scan XML '{path}' not found -- rules will run with "
@@ -475,7 +633,7 @@ def filter_to_retry_failed(rule_set, json_path):
         prior = json.load(f)
     prior_rules = prior.get("rules", {})
     needs_retry = {rid for rid, rec in prior_rules.items()
-                   if rec.get("status") != "oscap_pass"}
+                   if rec.get("status") not in ("oscap_pass", "oscap_notapplicable")}
     filtered = [item for item in rule_set if item["rule_id"] in needs_retry]
     def short_of(rid):
         return rid[len(PREFIX):] if rid.startswith(PREFIX) else rid
@@ -1118,6 +1276,15 @@ def remediate_rule(model, rule_id, rule_info, auto_approve, matched):
             counters["oscap_pass"] = 1
             return rule_record, counters
 
+        if verdict == "notapplicable":
+            print("    NOTAPPLICABLE — nothing to fix here (e.g. no UEFI on this VM); "
+                  "treating as resolved rather than retrying.")
+            rule_record["status"] = "oscap_notapplicable"
+            rule_record["passes"] = passes_log
+            counters["script_ok"] = 1
+            counters["oscap_notapplicable"] = 1
+            return rule_record, counters
+
         print(f"    {verdict.upper()}")
         attempt_history.append({
             "script": script, "failure_reason": "oscap_fail",
@@ -1227,7 +1394,7 @@ def prompt_reset(prev_model, next_model, break_script, use_snapshot):
 
 def save_results(all_results):
     ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = os.path.join(RESULTS_DIR, f"remediation_2204_devprofile_{ts}")
+    run_dir = os.path.join(resolve_path(RESULTS_DIR), f"remediation_2204_devprofile_{ts}")
     os.makedirs(run_dir, exist_ok=True)
 
     for r in all_results:
@@ -1352,7 +1519,7 @@ def main():
         print(f"[ERROR] '{single_model}' not in MODELS list.")
         sys.exit(1)
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
+    os.makedirs(resolve_path(RESULTS_DIR), exist_ok=True)
     all_results = []
 
     print(f"\n  Running {len(models_to_run)} model(s) sequentially, {len(rule_set)} rule(s) each.")
@@ -1367,7 +1534,7 @@ def main():
         all_results.append(result)
 
         ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        fname = os.path.join(RESULTS_DIR, f"{model.replace(':','_').replace('/','_')}_{ts}.json")
+        fname = os.path.join(resolve_path(RESULTS_DIR), f"{model.replace(':','_').replace('/','_')}_{ts}.json")
         with open(fname, "w") as f:
             json.dump(result, f, indent=2)
         print(f"  Saved: {fname}")

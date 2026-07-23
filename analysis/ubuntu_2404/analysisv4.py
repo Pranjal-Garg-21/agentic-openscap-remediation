@@ -128,26 +128,26 @@ LAB_PASS = os.environ.get("LAB_PASS", "H72j8n19sna")
 # All entries are mapped to the 'lab' backend to query your Ollama server.
 MODELS = [
     {"backend": "lab", "name": "qwen2.5:7b"},
-    # {"backend": "lab", "name": "gpt-oss:latest"},
-    # {"backend": "lab", "name": "granite4.1:8b"},
-    # {"backend": "lab", "name": "phi3:latest"},
-    # {"backend": "lab", "name": "gemma2:latest"},
-    # {"backend": "lab", "name": "mistral:latest"},
-    # {"backend": "lab", "name": "llama3.2:latest"},
-    # {"backend": "lab", "name": "deepseek-r1:7b"},
+    {"backend": "lab", "name": "gpt-oss:latest"},
+    {"backend": "lab", "name": "granite4.1:8b"},
+    {"backend": "lab", "name": "phi3:latest"},
+    {"backend": "lab", "name": "gemma2:latest"},
+    {"backend": "lab", "name": "mistral:latest"},
+    {"backend": "lab", "name": "llama3.2:latest"},
+    {"backend": "lab", "name": "deepseek-r1:7b"},
     # {"backend": "lab", "name": "mistral-small:latest"},  # Added this from the available list
 ]
 
-# 1. Point to your 22.04 scan file
-SCAN_RESULT_XML = "agent-test-22.xml"  
+def resolve_path(p):
+    if not p or os.path.isabs(p): return p
+    if os.path.exists(p): return os.path.abspath(p)
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    for base in [s_dir, os.path.join(s_dir, ".."), os.path.join(s_dir, "..", "..")]:
+        cand = os.path.abspath(os.path.join(base, p))
+        if os.path.exists(cand): return cand
+    return os.path.abspath(os.path.join(s_dir, "..", "..", p))
 
-# 2. Reflect the target OS being evaluated
-SYSTEM_INFO = {
-    "hostname": "ubuntu2204-scap-test",
-    "kernel": "5.15.0-generic",
-    "os": "Ubuntu 22.04 LTS (Jammy Jellyfish)",
-    "arch": "x86_64",
-}
+SCAN_RESULT_XML = "agent-test.xml"
 RESULTS_DIR = "results"
 
 # Max chars for rule descriptions to optimize cloud payload context footprint
@@ -256,6 +256,16 @@ TARGET_RULE_IDS = [
     "xccdf_org.ssgproject.content_rule_service_rsyncd_disabled"
 ]
 
+# ─────────────────────────────────────────────
+# HOST SYSTEM INFO
+# ─────────────────────────────────────────────
+
+SYSTEM_INFO = {
+    "hostname": "pranjal-garg-IdeaPad-Slim-5-14IRL8",
+    "kernel": "6.17.0-29-generic #29~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon May 11 10:30:58 UTC 2",
+    "os": "Ubuntu 24.04 LTS (Noble Numbat)",
+    "arch": "x86_64",
+}
 
 # ─────────────────────────────────────────────
 # ROLES
@@ -376,6 +386,7 @@ def parse_scan_results(xml_path):
     touched here at all. We just need title/description/severity for the
     LLM KEEP/SKIP judgment call, not the scan verdict.
     """
+    xml_path = resolve_path(xml_path)
     if not os.path.exists(xml_path):
         print(f"[ERROR] Scan file not found: {xml_path}")
         sys.exit(1)
@@ -956,7 +967,7 @@ def run_all_models(rules, role, profile):
 def save_results(results, role, profile, total_rules_available):
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     role_slug = role.lower().replace(" ", "_").replace("/", "_")
-    run_dir = os.path.join(RESULTS_DIR, f"{role_slug}_{timestamp}")
+    run_dir = os.path.join(resolve_path(RESULTS_DIR), f"{role_slug}_{timestamp}")
     os.makedirs(run_dir, exist_ok=True)
 
     for r in results:

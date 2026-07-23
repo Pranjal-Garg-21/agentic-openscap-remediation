@@ -130,6 +130,15 @@ MODELS = [
     "gpt-oss:latest",
 ]
 
+def resolve_path(p):
+    if not p or os.path.isabs(p): return p
+    if os.path.exists(p): return os.path.abspath(p)
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    for base in [s_dir, os.path.join(s_dir, ".."), os.path.join(s_dir, "..", "..")]:
+        cand = os.path.abspath(os.path.join(base, p))
+        if os.path.exists(cand): return cand
+    return os.path.abspath(os.path.join(s_dir, "..", "..", p))
+
 SCAN_RESULT_XML   = "agent-test.xml"
 GROUND_TRUTH_XLSX = "CIS_Ground_Truth_FULL_MAX_MIN.xlsx"
 GROUND_TRUTH_SHEET_CANDIDATES = ["Ground Truth", "Ground Truth Grid"]
@@ -160,6 +169,97 @@ RULE_TIMEOUTS = {
     "aide_build_database": 900,   # aideinit walks the whole filesystem
 }
 
+# Pre-verified, known-correct scripts for rules that kept failing even with
+# a text hint -- for these, a description of the bug isn't enough anymore,
+# the model needs a concrete correct script to anchor to instead of writing
+# one from scratch each pass. Keyed by SHORT rule name. Injected into the
+# prompt as "use this exact script" rather than "here's what went wrong."
+KNOWN_FIXES = {
+    "sudo_require_reauthentication": """\
+if dpkg-query --show --showformat='${db:Status-Status}\\n' 'sudo' 2>/dev/null | grep -q '^installed'; then
+    echo 'Defaults timestamp_timeout=0' > /etc/sudoers.d/reauthenticate_sudo
+    chmod 0440 /etc/sudoers.d/reauthenticate_sudo
+fi""",
+    "sudo_custom_logfile": """\
+if dpkg-query --show --showformat='${db:Status-Status}\\n' 'sudo' 2>/dev/null | grep -q '^installed'; then
+    mkdir -p /var/log/sudo
+    touch /var/log/sudo.log
+    chmod 640 /var/log/sudo.log
+    chown root:adm /var/log/sudo.log
+    echo 'Defaults logfile="/var/log/sudo.log"' > /etc/sudoers.d/01-cis-sudo-logfile
+    chmod 0440 /etc/sudoers.d/01-cis-sudo-logfile
+fi""",
+    "service_nftables_enabled": """\
+if dpkg-query --show --showformat='${db:Status-Status}\\n' 'nftables' 2>/dev/null | grep -q '^installed'; then
+    systemctl unmask nftables
+    systemctl enable nftables
+    systemctl start nftables
+fi""",
+    "accounts_tmout": """\
+cat > /etc/profile.d/tmout.sh << 'EOF'
+TMOUT=600
+readonly TMOUT
+export TMOUT
+EOF
+chmod 644 /etc/profile.d/tmout.sh""",
+    "accounts_passwords_pam_faillock_deny": """\
+if grep -qE '^deny[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then
+    sed -i -E 's/^deny[[:space:]]*=.*/deny = 4/' /etc/security/faillock.conf
+else
+    echo 'deny = 4' >> /etc/security/faillock.conf
+fi""",
+    "accounts_passwords_pam_faillock_unlock_time": """\
+if grep -qE '^unlock_time[[:space:]]*=' /etc/security/faillock.conf 2>/dev/null; then
+    sed -i -E 's/^unlock_time[[:space:]]*=.*/unlock_time = 900/' /etc/security/faillock.conf
+else
+    echo 'unlock_time = 900' >> /etc/security/faillock.conf
+fi""",
+    "accounts_passwords_pam_faillock_enabled": """\
+conf_name=cac_faillock
+if [ ! -f /usr/share/pam-configs/"$conf_name" ]; then
+cat << 'EOF' > /usr/share/pam-configs/cac_faillock
+Name: Enable pam_faillock to deny access
+Default: yes
+Priority: 0
+Auth-Type: Primary
+Auth:
+        [default=die] pam_faillock.so authfail
+EOF
+fi
+if [ ! -f /usr/share/pam-configs/"$conf_name"_notify ]; then
+cat << 'EOF' > /usr/share/pam-configs/cac_faillock_notify
+Name: Notify of failed login attempts and reset count upon success
+Default: yes
+Priority: 1025
+Auth-Type: Primary
+Auth:
+        requisite pam_faillock.so preauth
+Account-Type: Primary
+Account:
+        required pam_faillock.so
+EOF
+fi
+DEBIAN_FRONTEND=noninteractive pam-auth-update --enable cac_faillock --enable cac_faillock_notify""",
+    "accounts_password_pam_minlen": """\
+if grep -qE '^minlen[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then
+    sed -i -E 's/^minlen[[:space:]]*=.*/minlen = 12/' /etc/security/pwquality.conf
+else
+    echo 'minlen = 12' >> /etc/security/pwquality.conf
+fi""",
+    "accounts_password_pam_ucredit": """\
+if grep -qE '^ucredit[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then
+    sed -i -E 's/^ucredit[[:space:]]*=.*/ucredit = -1/' /etc/security/pwquality.conf
+else
+    echo 'ucredit = -1' >> /etc/security/pwquality.conf
+fi""",
+    "accounts_password_pam_dcredit": """\
+if grep -qE '^dcredit[[:space:]]*=' /etc/security/pwquality.conf 2>/dev/null; then
+    sed -i -E 's/^dcredit[[:space:]]*=.*/dcredit = -1/' /etc/security/pwquality.conf
+else
+    echo 'dcredit = -1' >> /etc/security/pwquality.conf
+fi""",
+}
+
 # Per-rule hints for known persistent failures. Generic error feedback alone
 # often isn't enough for a 7B model to fix these -- it just reproduces the
 # same broken script on every retry (confirmed: aide_build_database returned
@@ -177,12 +277,21 @@ RULE_HINTS = {
         "A NEGATIVE value like -1 means the exact opposite -- per the sudo "
         "manual, a value less than 0 makes the cached credential NEVER "
         "expire, so the user is never asked to reauthenticate again. Do "
-        "NOT use -1 for this rule.",
+        "NOT use -1 for this rule. ALSO: any file you create under "
+        "/etc/sudoers.d/ must be mode 0440 (owner and group read-only, no "
+        "write, no world access) -- `visudo -c` rejects any sudoers.d file "
+        "with different permissions. Always `chmod 0440` the file you "
+        "write, in the same script that creates it.",
     "sudo_custom_logfile":
         "Any line written into /etc/sudoers or /etc/sudoers.d/* MUST start "
         "with the `Defaults` keyword, e.g. `Defaults logfile=\"/var/log/sudo.log\"`. "
         "A bare `logfile /var/log/sudo.log` line is invalid syntax and "
-        "breaks sudo for the entire system, not just this rule.",
+        "breaks sudo for the entire system, not just this rule. ALSO: any "
+        "file you create under /etc/sudoers.d/ must be mode 0440 (owner "
+        "and group read-only, no write, no world access) -- `visudo -c` "
+        "rejects any sudoers.d file with different permissions. Always "
+        "`chmod 0440` the file you write, in the same script that creates "
+        "it -- don't wait to be told this failed, do it up front.",
     "aide_build_database":
         "If `aideinit` returns a non-zero exit code, don't just retry the "
         "same command -- first check for and remove any stale "
@@ -270,15 +379,28 @@ RULE_HINTS = {
         "group change actually persisted and wasn't reset by another "
         "process (e.g. a password-change tool regenerating the backup).",
     "accounts_passwords_pam_faillock_deny":
-        "Use the exact numeric value this profile's policy requires (check "
-        "for a variable/expected value rather than inventing a round "
-        "number), and append to /etc/security/faillock.conf with `>>`, not "
+        "IMPORTANT: do NOT ask the human what number to use here (via "
+        "CLARIFY) -- this is a site-tunable policy variable "
+        "(var_accounts_passwords_pam_faillock_deny), not a fixed constant, "
+        "and the human running this pipeline doesn't know the 'correct' "
+        "number any better than you do unless it's written in a tailoring "
+        "file you don't have access to. If the reference fix text given to "
+        "you doesn't show an already-resolved number, just use `deny = 4` "
+        "(Ubuntu's own documented CIS example default) and add a comment "
+        "noting this should be confirmed against the real policy value "
+        "later. Append to /etc/security/faillock.conf with `>>`, not "
         "overwrite with `>` -- other faillock rules write to this same "
         "file.",
     "accounts_passwords_pam_faillock_unlock_time":
-        "Use the exact numeric value this profile's policy requires rather "
-        "than an arbitrary round number, and append to "
-        "/etc/security/faillock.conf with `>>`, not overwrite with `>`.",
+        "IMPORTANT: do NOT ask the human what number to use here (via "
+        "CLARIFY) -- this is a site-tunable policy variable, not a fixed "
+        "constant, and the human doesn't know the 'correct' number any "
+        "better than you do without a tailoring file neither of you has. "
+        "If the reference fix text doesn't show an already-resolved "
+        "number, just use `unlock_time=900` (15 minutes, a commonly used "
+        "default) and add a comment noting this should be confirmed later. "
+        "Append to /etc/security/faillock.conf with `>>`, not overwrite "
+        "with `>`.",
     "accounts_passwords_pam_faillock_enabled":
         "After creating the new pam-configs profile files, you must "
         "explicitly enable the profile, e.g. `DEBIAN_FRONTEND=noninteractive "
@@ -348,6 +470,7 @@ def load_ground_truth(path):
     Reads the header row dynamically (looks for '#' in col A) instead of
     hardcoding row numbers, so minor formatting shifts don't break it.
     """
+    path = resolve_path(path)
     wb = load_workbook(path, data_only=True)
 
     ws = None
@@ -405,6 +528,7 @@ def gt_decision_for_profile(gt_row, profile_key):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def parse_scan_xml(path):
+    path = resolve_path(path)
     rules = {}
     if not os.path.exists(path):
         print(f"  [WARN] Scan XML '{path}' not found -- rules will run with "
@@ -803,6 +927,17 @@ def build_prompt(rule_id, rule_info, profile_key, gt_row):
         if hint else ""
     )
 
+    known_fix = KNOWN_FIXES.get(short_id)
+    known_fix_block = (
+        f"\nVERIFIED WORKING SCRIPT FOR THIS EXACT RULE ON THIS EXACT HOST "
+        f"-- this has already been tested and confirmed correct on this "
+        f"system. Use it AS-IS. Only deviate if you can see a concrete, "
+        f"specific reason it won't work (e.g. it references a package that "
+        f"genuinely isn't installed here) -- do not rewrite it from scratch "
+        f"or 'improve' it without a real reason:\n```bash\n{known_fix}\n```\n"
+        if known_fix else ""
+    )
+
     return f"""You are a Linux system hardening expert. Write a remediation script for
 the following CIS/OpenSCAP rule on this specific host.
 
@@ -826,6 +961,7 @@ Reference fix from benchmark (format: {rule_info.get('fix_system', 'none')}):
 If the reference fix is bash (sh), adapt it directly.
 If it is Ansible/Puppet/blueprint or missing, translate the intent into plain bash.
 {hint_block}
+{known_fix_block}
 The script will be executed with `sudo bash -c "<script>"`, so:
   - Do NOT prefix every individual line with `sudo` (it's redundant and can
     break heredocs/pipes) -- the whole script already runs as root.
@@ -1554,7 +1690,7 @@ def prompt_reset(prev_model, next_model, break_script, use_snapshot):
 
 def save_results(all_results, profile_key):
     ts       = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir  = os.path.join(RESULTS_DIR, f"remediation_{profile_key}_{ts}")
+    run_dir  = os.path.join(resolve_path(RESULTS_DIR), f"remediation_{profile_key}_{ts}")
     os.makedirs(run_dir, exist_ok=True)
 
     for r in all_results:
@@ -1686,7 +1822,7 @@ def main():
               "passwordless (NOPASSWD) sudo configured, or `sudo` will hang "
               "on a password prompt on the first KEEP rule.")
 
-    if not os.path.exists(GROUND_TRUTH_XLSX):
+    if not os.path.exists(resolve_path(GROUND_TRUTH_XLSX)):
         print(f"\n[ERROR] Missing: {GROUND_TRUTH_XLSX}")
         sys.exit(1)
 
@@ -1710,7 +1846,7 @@ def main():
         rule_set = filter_to_only_rules(rule_set, only_rules_wanted)
 
     if retry_failed_path:
-        if not os.path.exists(retry_failed_path):
+        if not os.path.exists(resolve_path(retry_failed_path)):
             print(f"\n[ERROR] --retry-failed file not found: {retry_failed_path}")
             sys.exit(1)
         rule_set = filter_to_retry_failed(rule_set, retry_failed_path, profile_key)
@@ -1731,7 +1867,7 @@ def main():
         print(f"[ERROR] '{single_model}' not in MODELS list.")
         sys.exit(1)
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
+    os.makedirs(resolve_path(RESULTS_DIR), exist_ok=True)
     all_results = []
 
     print(f"\n  Running {len(models_to_run)} model(s) sequentially, "
@@ -1757,7 +1893,7 @@ def main():
 
         ts    = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         fname = os.path.join(
-            RESULTS_DIR,
+            resolve_path(RESULTS_DIR),
             f"{model.replace(':','_').replace('/','_')}_{profile_key}_{ts}.json"
         )
         with open(fname, "w") as f:

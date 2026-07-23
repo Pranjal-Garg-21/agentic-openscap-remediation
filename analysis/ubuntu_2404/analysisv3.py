@@ -41,6 +41,15 @@ MODELS = [
 # "microsoft/phi-4-mini-instruct",
 ]
 
+def resolve_path(p):
+    if not p or os.path.isabs(p): return p
+    if os.path.exists(p): return os.path.abspath(p)
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    for base in [s_dir, os.path.join(s_dir, ".."), os.path.join(s_dir, "..", "..")]:
+        cand = os.path.abspath(os.path.join(base, p))
+        if os.path.exists(cand): return cand
+    return os.path.abspath(os.path.join(s_dir, "..", "..", p))
+
 SCAN_RESULT_XML = "agent-test.xml"
 RESULTS_DIR = "results"
 
@@ -246,6 +255,7 @@ def parse_scan_results(xml_path):
     touched here at all. We just need title/description/severity for the
     LLM KEEP/SKIP judgment call, not the scan verdict.
     """
+    xml_path = resolve_path(xml_path)
     if not os.path.exists(xml_path):
         print(f"[ERROR] Scan file not found: {xml_path}")
         sys.exit(1)
@@ -646,7 +656,7 @@ def run_all_models(rules, role, profile):
 def save_results(results, role, profile, total_rules_available):
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     role_slug = role.lower().replace(" ", "_").replace("/", "_")
-    run_dir = os.path.join(RESULTS_DIR, f"{role_slug}_{timestamp}")
+    run_dir = os.path.join(resolve_path(RESULTS_DIR), f"{role_slug}_{timestamp}")
     os.makedirs(run_dir, exist_ok=True)
 
     for r in results:

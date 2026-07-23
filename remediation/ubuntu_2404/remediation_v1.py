@@ -19,11 +19,20 @@ import re
 from datetime import datetime
 
 # ── Configuration ──────────────────────────────────────────────
+def resolve_path(p):
+    if not p or os.path.isabs(p) and os.path.exists(p): return p
+    if os.path.exists(p): return os.path.abspath(p)
+    s_dir = os.path.dirname(os.path.abspath(__file__))
+    for base in [s_dir, os.path.join(s_dir, ".."), os.path.join(s_dir, "..", "..")]:
+        cand = os.path.abspath(os.path.join(base, p))
+        if os.path.exists(cand): return cand
+    return p
+
 OLLAMA_URL   = "http://10.0.2.2:11434/api/generate"
 OLLAMA_MODEL = "llama3.2"
-RESULTS_FILE = "/home/pranjal-garg/agent-test.xml"
+RESULTS_FILE = resolve_path("agent-test.xml")
 BENCHMARK    = "/home/pranjal-garg/Downloads/scap-security-guide-0.1.76/ssg-ubuntu2404-ds.xml"
-LOG_FILE     = "/home/pranjal-garg/agentic-openscap-remediation/agent-run.log"
+LOG_FILE     = resolve_path("agent-run.log")
 MAX_RETRIES  = 2
 # ───────────────────────────────────────────────────────────────
 
