@@ -32,9 +32,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # CONFIG
 # ─────────────────────────────────────────────────────────────────────────────
 
-LAB_URL  = os.environ.get("LAB_URL",  "https://10.1.96.96:8443")
-LAB_USER = os.environ.get("LAB_USER", "user")
-LAB_PASS = os.environ.get("LAB_PASS", "H72j8n19sna")
+LAB_URL  = os.environ.get("LAB_URL")
+LAB_USER = os.environ.get("LAB_USER")
+LAB_PASS = os.environ.get("LAB_PASS")
 
 MODELS = [
     "qwen2.5:7b",

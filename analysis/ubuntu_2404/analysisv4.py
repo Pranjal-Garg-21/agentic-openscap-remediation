@@ -117,9 +117,9 @@ NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 # Same rotation advice as the NVIDIA key above: prefer env vars over hardcoding
 # once this is off your local machine, since this password is now in your
 # chat history and this file. export LAB_URL / LAB_USER / LAB_PASS to override.
-LAB_URL = os.environ.get("LAB_URL", "https://10.1.96.96:8443")
-LAB_USER = os.environ.get("LAB_USER", "user")
-LAB_PASS = os.environ.get("LAB_PASS", "H72j8n19sna")
+LAB_URL = os.environ.get("LAB_URL")
+LAB_USER = os.environ.get("LAB_USER")
+LAB_PASS = os.environ.get("LAB_PASS")
 
 # Exact model strings straight from the NVIDIA NIM catalog pages, plus
 # whatever's pulled on the lab Ollama box. Each entry is tagged with which

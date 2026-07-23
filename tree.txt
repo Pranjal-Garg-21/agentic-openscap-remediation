@@ -1,0 +1,44 @@
+.
+├── agent-test-22.xml
+├── agent-test.xml
+├── analysis
+│   ├── ubuntu_2204
+│   │   └── analysis_2204.py
+│   └── ubuntu_2404
+│       ├── analysis.py
+│       ├── analysisv2.py
+│       ├── analysisv3.py
+│       └── analysisv4.py
+├── break_rules.sh
+├── CIS_Ground_Truth_FINAL.xlsx
+├── CIS_Ground_Truth_FULL_MAX_MIN.xlsx
+├── personal_laptop_models.md
+├── README.md
+├── remediation
+│   ├── ubuntu_2204
+│   │   ├── remediation_2204_v1.py
+│   │   └── remediation_2204_v2.py
+│   ├── ubuntu_2404
+│   │   ├── remediation_final.py
+│   │   ├── remediation_v1.py
+│   │   ├── remediation_v2.py
+│   │   ├── remediation_v3.py
+│   │   └── remediation_v4.py
+│   └── version2
+│       ├── remediationv2.py
+│       └── remediationv8.py
+├── results.xml
+├── scan_results.xml
+├── software_developer_models.md
+├── software_developer_models_raw.md
+├── student_models.md
+├── summer_project_report-4.pdf
+├── system_admin_models.md
+├── tree.txt
+└── version2
+    ├── agent-test.xml
+    ├── break_rules.sh
+    ├── CIS_Ground_Truth_FINAL.xlsx
+    └── CIS_Ground_Truth_FULL_MAX_MIN.xlsx
+
+9 directories, 33 files
